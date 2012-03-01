@@ -1,0 +1,133 @@
+
+html,body{
+	font-family : "ËÎÌו", serif, sans-serif ;
+	font-size : 13px;
+	text-align : center;
+	background-color : #ffffff;
+	color : #000000;
+	margin : 3px;
+}
+#div {
+	border-width : 1px;
+	border-color : red;
+	border-style : solid;
+}
+img {
+	border-style : none;
+}
+
+input#q{
+	font-size : 18px;
+}
+A:link {
+	color : #0000cc;
+	background-color : transparent;
+}
+
+A:visited {
+	color : #551a8b;
+	background-color : transparent;
+}
+
+A:active {
+	color : #ff0000;
+	background-color : transparent;
+}
+h4 {
+	font-size : 16px;
+}
+pre {
+	text-align : left;
+	margin-left : 15px;
+}
+#LoginForm{
+	width : 100%;
+	text-align : right;
+	padding-top : 5px;
+	line-height : 100%;
+}
+#form-noindent {
+	width : 200px;
+	border-width : 0px;
+	color : Black;
+	background-color : #ffffff;
+	border : #C3D9FF 1px solid;
+	margin-left : auto;
+	font-size : 13px;
+}
+#form-noindent td{
+	padding : 6px;
+	margin : 3px;
+}
+div.errormsg {
+	color : red;
+	background-color : transparent;
+}
+DIV.HeadLine {
+	border-top : #3366cc 1px solid;
+	color : black;
+	background-color : #e5ecf9;
+	padding : 4px;
+	width : auto;
+	height : auto;
+	overflow : hidden;
+	text-align : left;
+	font-size : 13px;
+	font-weight : normal;
+	clear : right;
+}
+DIV.ShowTips {
+	clear : none;
+	float : left;
+	padding-left : 5px;
+	padding-top : 5px;
+	text-align : left;
+	margin-top : 0px;
+}
+DIV.ShowTips p {
+	text-indent:2em;
+}
+DIV.footer {
+	padding : 5px;
+	border-top: #ffffff 1px solid;
+	border-bottom: #ffffff 1px solid;
+	background: #e5ecf9;
+	text-align: center;
+	font-family: "ËÎÌו",arial,sans-serif;
+	font-size : 13px;
+}
+DIV.underline {
+	border-bottom : #e5ecf9 1px solid;
+	padding-bottom : 5px;
+}
+Div#Right_Content {
+width:100%;
+width:expression(document.body.offsetWidth > 800? document.body.offsetWidth - 190: "auto" );
+}
+table {
+border:1px solid #e5eff8;
+margin:1em auto;
+border-collapse:collapse;
+}
+th {
+border:1px solid #e5eff8;
+padding:0.5em;
+vertical-align:middle;
+background:#ffffff;
+font-size : 13px;
+}
+td {
+border:1px solid #e5eff8;
+padding:0.3em 0.3em;
+vertical-align:top;
+font-size : 13px;
+}
+tr#Data:hover {
+background:#F3F781;
+}
+tr.odd {
+background:#e5ecf9;
+}
+tr.odd:hover {
+background:#F3F781;
+}

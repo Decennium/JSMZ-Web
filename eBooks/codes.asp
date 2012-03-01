@@ -1,0 +1,149 @@
+<%
+Response.Charset = "gb2312"
+Response.Buffer = True
+
+StartTime=Timer()
+
+q=request("q")
+PageSize=20
+Currentpage=request("page")
+
+Set MyConn=Server.CreateObject("ADODB.Connection")
+MyConn.Open "PROVIDER=Microsoft.Jet.OLEDB.4.0;" & _
+"DATA SOURCE=" & server.mappath("data/codes.mdb")
+'MyConn.Open "Driver={Microsoft Access Driver (*.mdb)};DBQ="& _
+'server.mappath("data/codes.mdb") 
+
+MySQL="SELECT COUNT(*) As ResultCount FROM codes WHERE codes.code = '" & q & "' "
+Set MyRs=MyConn.Execute(MySQL)
+ResultCount=MyRs("ResultCount")
+
+MySQL="SELECT * FROM codes WHERE codes.code = '" & q & "' "
+
+'response.write MySQL
+Set MyRs=MyConn.Execute(MySQL)
+%>
+<!--#include file="result_top.asp"-->
+<%If ResultCount>0 then%>
+<table style="border-style:solid; border-width:1px;" align="left" >
+<thead>
+<% 'Put Headings On The Table of Field Names
+howmanyfields=MyRs.fields.count -1 %>
+<% for i=0 to howmanyfields %>
+	<td style="border-style:solid; border-width:1px; "><b><font color=""><%=MyRs(i).name %></font> </b></td>
+<% next %>
+</thead>
+<tbody>
+<% ' Get all the records
+do while not MyRs.eof %>
+<tr id='Data'>
+<%
+for i = 0 to howmanyfields
+	ThisRecord = MyRs(I)
+	If IsNull(ThisRecord) Then
+		ThisRecord = "&nbsp;"
+	end if
+%>
+	<td valign=top style="border-style:solid; border-width:1px; "><font color=""><%=Thisrecord%></font></td>
+<% next %>
+</tr>
+<% MyRs.movenext
+loop %>
+</tbody>
+</table>
+<br clear=both>
+<div id="navbar" align="left">
+
+<div>
+<%Else%>
+<pre>
+主板报警声音全攻略 
+
+不同的主板报警声不同,最好是参考说明书,当然也可以参考下面通用的。
+
+Award BIOS: 
+
+1短：系统正常启动 
+2短：常规错误。解决方法：重设BIOS 
+1长1短：RAM或主板出错 
+1长2短：显示器或显示卡错误 
+1长3短：键盘控制器错误 
+1长9短：主板FLASH RAM 或EPROM错误，BIOS损坏 
+不停地响（长声）：内存条未插紧或损坏 
+不听地响：电源、显示器未和显卡连接好 
+重复短响：电源有问题 
+无声音无显示：电源有问题 
+
+AWI BIOS： 
+
+1短：内存刷新失败。解决方法，更换内存条 
+2短：内存ECC效验错误。解决方法：进入CMOS设置，将ECC效验关闭 
+3短：系统基本内存（第一个64KB）检查失败 
+4短：系统时钟出错 
+5短：CPU错误 
+6短：键盘控制器错误 
+7短：系统实模式错误，不能切换到保护模式 
+8短：显存错误 
+9短：ROM BIOS检验和错误 
+1长3短：内存错误 
+1长8短：显示测试错误 
+
+Phoenix BIOS 
+
+1短：系统启动正常 
+1短1短1短：系统加点自检初始化失败 
+1短1短2短：主板错误 
+1短1短3短：CMOS或电池错误 
+1短1短4短：ROM BIOS效验失败 
+1短2短1短：系统时钟错误 
+1短2短2短：DMA初始化失败 
+1短2短3短：DMA页寄存器错误 
+1短3短1短：RAM刷新错误 
+1短3短2短：基本内存错误 
+1短4短1短：基本内存地址线错误 
+1短4短2短：基本内存效验错误 
+1短4短3短：EISA时序器错误 
+1短4短4短：EASA NMI口错误 
+2短1短2短到2短4短4短（即所有开始为2短的声音的组合）：基本内存错误 
+3短1短1短：从DMA寄存器错误 
+3短1短2短：主DMA寄存器错误 
+3短1短3短：主中断处理寄存器错误 
+3短1短4短：从中断处理寄存器错误 
+3短2短4短：键盘控制器错误 
+3短3短4短：显示卡内存错误 
+3短4短2短：显示错误 
+3短4短3短：未发现显示只读存储器 
+4短2短1短：时钟错误 
+4短2短2短：关机错误 
+4短2短3短：A20门错误 
+4短2短4短：保护模式中断错误 
+4短3短1短：内存错误 
+4短3短3短：时钟2错误 
+4短3短4短：实时钟错误 
+4短4短1短：串行口错误 
+4短4短2短：并行口错误 
+4短4短3短：数字协处理器错误 
+
+兼容BIOS： 
+
+1短：系统正常 
+2短：系统加电自检（POST）失败 
+1长：电源错误，如果无显示，则为显示卡错误 
+
+1长1短：主板错误 
+1长2短：显卡错误 
+1短1短1短：电源错误 
+3长1短：键盘错误
+</pre>
+<%End If%>
+
+<!--#include file="result_bottom.asp"-->
+<%
+MyRs.close
+Set MyRs= Nothing
+MyConn.Close
+set MyConn=nothing
+%>
+	</body>
+</html>
+
