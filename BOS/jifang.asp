@@ -52,7 +52,7 @@ function My_IsDate(mystring) {
 		return true; 
 	}
 function My_IsInt(val) {
-	if ((parseInt(val) == val) && (parseInt(val) > 0)) {
+	if ((parseInt(val) == val) && (parseInt(val) >= 0)) {
 		return true;
 	}
 		return false;

@@ -15,12 +15,19 @@
 </div>
 <br clear="both"/>
 <div style="clear:left;float:left" width="150px">
-	<p><a href="/Resources/ClassWare/" target='Neirong'>校内课件资源</a></p>
-	<p><a href="/yuanjiao/" target='Neirong'>初中远教资源</a></p>
-	<p><a href="/Resources/ZheDa/" target='Neirong'>浙江大学课件资源</a></p>
-	<p><%Response.Write "<a href=" & Chr(34) & "http://" & Request.ServerVariables("Local_Addr") & ":8080/" & Chr(34) & " target='Neirong'>内部共享资源</a>"%></p>
+	<p><a href="/Resources/ClassWare/" target='Neirong' onclick="javascript:document.getElementById('area').value='Classware';">校内课件资源</a></p>
+	<p><a href="/yuanjiao/" target='Neirong' onclick="javascript:document.getElementById('area').value='Yuanjiao';">初中远教资源</a></p>
+	<p><a href="/Resources/ZheDa/" target='Neirong' onclick="javascript:document.getElementById('area').value='ZheDa';">浙江大学课件资源</a></p>
+	<p><%Response.Write "<a href=" & Chr(34) & "http://" & Request.ServerVariables("Local_Addr") & ":8080/" & Chr(34) & " target='Neirong' onclick='javascript:document.getElementById(" & Chr(34) & "area" & Chr(34) & ").value=Intranet;'>内部共享资源</a>"%></p>
 </div>
 </div>
+<form action="searchresources.asp" id="sr" name="sr" method="post" target="Neirong">
+<div id="SearchBar" name="Searchbar" align="left">
+<input type="hidden" value="Classware" id="area" name="area">
+<input maxlength="250" id="q" name="q" size="55" value="" onmouseover="this.select()">
+<input name="btnS" type="submit" value="开始搜索">
+</div>
+</form>
 <iframe src="/Resources/ClassWare/"name="Neirong" id="Neirong" style="border:10px" width="90%" height="90%">
 </iframe>
 <!--#include file="../include/bottom.asp"-->
