@@ -16,9 +16,10 @@
 <br clear="both"/>
 <div style="clear:left;float:left" width="150px">
 	<p><a href="/Resources/ClassWare/" target='Neirong' onclick="javascript:document.getElementById('area').value='Classware';">校内课件资源</a></p>
+	<p><%Response.Write "<a href=" & Chr(34) & "http://" & Request.ServerVariables("Local_Addr") & ":8080/" & Chr(34) & " target='Neirong' onclick='javascript:document.getElementById(" & Chr(34) & "area" & Chr(34) & ").value=" & Chr(34) & "Intranet" & Chr(34) & ";'>内部共享资源</a>"%></p>
+<hr>
 	<p><a href="/yuanjiao/" target='Neirong' onclick="javascript:document.getElementById('area').value='Yuanjiao';">初中远教资源</a></p>
 	<p><a href="/Resources/ZheDa/" target='Neirong' onclick="javascript:document.getElementById('area').value='ZheDa';">浙江大学课件资源</a></p>
-	<p><%Response.Write "<a href=" & Chr(34) & "http://" & Request.ServerVariables("Local_Addr") & ":8080/" & Chr(34) & " target='Neirong' onclick='javascript:document.getElementById(" & Chr(34) & "area" & Chr(34) & ").value=Intranet;'>内部共享资源</a>"%></p>
 </div>
 </div>
 <form action="searchresources.asp" id="sr" name="sr" method="post" target="Neirong">
