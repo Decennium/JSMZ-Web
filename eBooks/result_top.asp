@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=gb2312">
@@ -33,7 +35,7 @@ document.getElementById("q").focus();
 <div>
 <input type="radio" id="ebooks" name="stype" value="ebooks" <%if request("stype")="ebooks" then response.write "checked=true"%>><label for="ebooks">电子图书</label>
 <input type="radio" id="slib" name="stype" value="slib" <%if request("stype")="slib" then response.write "checked=true"%>><label for="slib">学校图书室</label>
-<input type="radio" id="zheda" name="stype" value="zheda" <%if request("stype")="zheda" then response.write "checked=true"%>><label for="zheda">浙大资源库</label>
+<input type="radio" id="res" name="stype" value="res" <%if request("stype")="res" then response.write "checked=true"%>><label for="res">学校资源库</label>
 <input type="radio" id="scodes" name="stype" value="codes" <%if request("stype")="codes" then response.write "checked=true"%>><label for="scodes">诊断卡代码</label>
 </div>
 <div>

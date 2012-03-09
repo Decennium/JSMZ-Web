@@ -57,7 +57,7 @@ if(self.frameElement.tagName=="IFRAME"){
 <div nowrap>
 <input type="radio" id="ebooks" name="stype" value="ebooks" checked="true" onclick="ShowElement('elib')"><label for="ebooks">电子图书</label>
 <input type="radio" id="slib" name="stype" value="slib" onclick="HideElement('elib')"><label for="slib">学校图书室</label>
-<input type="radio" id="zheda" name="stype" value="zheda" onclick="HideElement('elib')"><label for="zheda">浙大资源库</label>
+<input type="radio" id="res" name="stype" value="res" onclick="HideElement('elib')"><label for="res">学校资源库</label>
 <input type="radio" id="scodes" name="stype" value="codes" onclick="HideElement('elib')"><label for="scodes">诊断卡代码</label>
 </div>
 <br clear=all>

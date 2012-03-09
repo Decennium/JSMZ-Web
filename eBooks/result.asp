@@ -9,8 +9,10 @@ case "ebooks"
 	TargetPage = "ebooks.asp"
 case "codes"
 	TargetPage = "codes.asp"
-case "zheda"
-	TargetPage = "zheda.asp"
+'case "zheda"
+'	TargetPage = "zheda.asp"
+case "res"
+	TargetPage = "res.asp"
 case else
 	TargetPage = "index.asp"
 end select

@@ -22,13 +22,6 @@
 	<p><a href="/Resources/ZheDa/" target='Neirong' onclick="javascript:document.getElementById('area').value='ZheDa';">浙江大学课件资源</a></p>
 </div>
 </div>
-<form action="searchresources.asp" id="sr" name="sr" method="post" target="Neirong">
-<div id="SearchBar" name="Searchbar" align="left">
-<input type="hidden" value="Classware" id="area" name="area">
-<input maxlength="250" id="q" name="q" size="55" value="" onmouseover="this.select()">
-<input name="btnS" type="submit" value="开始搜索">
-</div>
-</form>
 <iframe src="/Resources/ClassWare/"name="Neirong" id="Neirong" style="border:10px" width="90%" height="90%">
 </iframe>
 <!--#include file="../include/bottom.asp"-->
