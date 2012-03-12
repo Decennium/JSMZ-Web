@@ -7,28 +7,35 @@ if len(Request("q")) > 0 then
 PageSize=20
 Currentpage = 0 + request("page")
 If Currentpage < 1 Then Currentpage = 1
-	sq=split(Request("q"))
-	q=""""
-	for i =lbound(sq) to ubound(sq)
-		q = q & sq(i) & """ OR """
-	next
-	if right(q,5)=" OR """ then q =left(q,len(q)-5)
-	Dim strSearch
-	Set MyRs = Server.CreateObject("ADODB.Recordset")
+sq=split(Request("q"))
+q=""""
+for i =lbound(sq) to ubound(sq)
+	q = q & sq(i) & """ OR """
+next
+if right(q,5)=" OR """ then q =left(q,len(q)-5)
+Dim strSearch
+Set MyRs = Server.CreateObject("ADODB.Recordset")
 
-	strConn = "Provider=MSIDXS; Data Source=web"
+strConn = "Provider=MSIDXS; Data Source=web"
 
+strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
+	" WHERE CONTAINS (DocTitle, '" & q & "') Order By Rank DESC"
+MyRs.cursorlocation=3 
+MyRs.Open strSearch,strConn,3,2
+if MyRs.RecordCount < 1 then
+	MyRs.Close
 	strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
-		" WHERE CONTAINS (DocTitle, '" & q & "') Order By Rank DESC"
-MyRs.cursorlocation=3 
+		" WHERE CONTAINS (Characterization, '" & q & "') Order By Rank DESC"
+	MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
-	if MyRs.RecordCount < 1 then
-		MyRs.Close
-		strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
-			" WHERE FREETEXT (Characterization, '" & q & "') Order By Rank DESC"
-MyRs.cursorlocation=3 
-		MyRs.Open strSearch,strConn,3,2
-	end if
+end if
+if MyRs.RecordCount < 1 then
+	MyRs.Close
+	strSearch = "SELECT DocTitle, vPath, FileName, Size, Contents, Characterization,Rank FROM SCOPE()" & _
+		" WHERE CONTAINS (Contents, '" & q & "') Order By Rank DESC"
+	MyRs.cursorlocation=3 
+	MyRs.Open strSearch,strConn,3,2
+end if
 MyRs.PageSize=PageSize
 ResultCount=MyRs.RecordCount
 If ResultCount > MyRs.PageSize Then
@@ -67,9 +74,13 @@ For i = 1 to ShowPage
 	else
 		URL = MyRs("FileName") & MyRs("DocTitle")
 	end if
-	URL ="<td width='300px'><A HREF='" & MyRs("vPath") & "'>" & URL & " </A></td>" _
-	& "<td>" & MyRs("Characterization") & "</td>" _
-	& "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
+	URL ="<td nowrap='nowrap'><A HREF='" & MyRs("vPath") & "'>" & URL & " </A></td>"
+	If Len(MyRs("Characterization"))>0 then
+		URL = URL & "<td>" & MyRs("Characterization") & "</td>"
+	else
+		URL = URL & "<td>" & MyRs("FileName") & "</td>"
+	End If
+	URL = URL & "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
 	Response.Write URL
 	response.write("</tr>")
 	MyRs.movenext
