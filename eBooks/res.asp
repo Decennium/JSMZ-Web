@@ -22,7 +22,7 @@ If Currentpage < 1 Then Currentpage = 1
 		" WHERE CONTAINS (DocTitle, '" & q & "') Order By Rank DESC"
 MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
-	if MyRs.recordcount < 1 then
+	if MyRs.RecordCount < 1 then
 		MyRs.Close
 		strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
 			" WHERE FREETEXT (Characterization, '" & q & "') Order By Rank DESC"
@@ -30,13 +30,15 @@ MyRs.cursorlocation=3
 		MyRs.Open strSearch,strConn,3,2
 	end if
 MyRs.PageSize=PageSize
-ResultCount=MyRs.recordcount
+ResultCount=MyRs.RecordCount
 If ResultCount > MyRs.PageSize Then
 	ShowPage = MyRs.PageSize
 Else
 	ShowPage = ResultCount
 End If
-MyRs.absolutepage = Currentpage
+If MyRs.RecordCount > 0 Then
+	MyRs.absolutepage = Currentpage
+End If
 %>
 <!--#include file="result_top.asp"-->
 <table align="left" width="80%">
