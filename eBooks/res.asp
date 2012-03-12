@@ -41,35 +41,44 @@ If MyRs.RecordCount > 0 Then
 End If
 %>
 <!--#include file="result_top.asp"-->
-<table align="left" width="80%">
+<table align="left" width="100%">
+<thead>
+<tr class="odd">
+<% 'Put Headings On The Table of Field Names
+howmanyfields=MyRs.fields.count -1 %>
+<%
+response.Write "<th><b>" & "标题" & "</b></th>"
+response.Write "<th><b>" & "摘要" & "</b></th>"
+response.Write "<th><b>" & "大小" & "</b></th>"
+%>
+<tr>
+</thead>
+<tbody>
 <%
 For i = 1 to ShowPage
 	If MyRs.EOF Then Exit For
 	if 1 = i mod 2 then
-		response.write("<tr class="& chr(34) & "odd"& chr(34) &">")
+		response.write("<tr id='Data' class="& chr(34) & "odd"& chr(34) &">")
 	else
-		response.write("<tr>")
+		response.write("<tr id='Data'>")
 	end if
-		if len(MyRs("FileName"))>0 And Len(MyRs("DocTitle"))>0 then
-			URL = MyRs("DocTitle")
-		else
-			URL = MyRs("FileName") & MyRs("DocTitle")
-		end if
-		URL = "<td><A HREF='" & MyRs("vPath") & "'>" & URL & " </A><span style='margin-left:10px'>" _
-		& "Size:" & round(clng(MyRs("Size"))/1024,2) & "KB</span><BR>" & MyRs("Characterization") & "<td>"
-'		if lcase(right(MyRs("FileName"),3))="mp3" then
-'			URL= URL & "<object type='audio/mpeg' data='" & MyRs("vPath") & "'><PARAM NAME='autoplay' VALUE='false'><PARAM NAME='autostart' VALUE='false'></object>"
-'		end if
-		Response.Write URL
+	if len(MyRs("FileName"))>0 And Len(MyRs("DocTitle"))>0 then
+		URL = MyRs("DocTitle")
+	else
+		URL = MyRs("FileName") & MyRs("DocTitle")
+	end if
+	URL ="<td width='300px'><A HREF='" & MyRs("vPath") & "'>" & URL & " </A></td>" _
+	& "<td>" & MyRs("Characterization") & "</td>" _
+	& "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
+	Response.Write URL
 	response.write("</tr>")
 	MyRs.movenext
 Next
 %>
+</tbody>
 </table>
 <br clear=all>
 <%
-	response.write "<hr><p>共用 " & (Timer() - StartTime)*1000 & "毫秒.</p>"
-
 	MyRs.Close
 	Set MyRs = Nothing
 end if
