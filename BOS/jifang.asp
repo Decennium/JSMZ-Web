@@ -16,6 +16,22 @@ If not isnull(fString) then
 End If
 End Function
 
+Function getIP() 
+Dim strIPAddr 
+
+If Request.ServerVariables("HTTP_X_FORWARDED_FOR") = "" OR InStr(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), "unknown") > 0 Then 
+	strIPAddr = Request.ServerVariables("REMOTE_ADDR") 
+ElseIf InStr(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), ",") > 0 Then 
+	strIPAddr = Mid(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), 1, InStr(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), ",")-1) 
+ElseIf InStr(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), ";") > 0 Then 
+	strIPAddr = Mid(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), 1, InStr(Request.ServerVariables("HTTP_X_FORWARDED_FOR"), ";")-1) 
+Else 
+	strIPAddr = Request.ServerVariables("HTTP_X_FORWARDED_FOR") 
+End If 
+
+getIP = Trim(Mid(strIPAddr, 1, 30)) 
+End Function 
+
 Response.Charset = "gb2312"
 Response.Buffer = True
 
@@ -221,8 +237,14 @@ Case Else
 <td><input type="text" name="Banji" value="" id="Banji" size="10" onblur="return My_CheckField(this);"></td>
 <td>
 <select name="Jifang" id="Jifang">
-	<option value="1机房">1机房</option>
-	<option value="4机房" Selected="Selected">4机房</option>
+<%
+if getip="192.168.4.250" then
+	response.write("	<option value=""1机房"" selected=""selected"">1机房</option>" & vbcrlf & "	<option value=""4机房"">4机房</option>")
+else
+'getip="192.168.4.252"
+	response.write("	<option value=""1机房"">1机房</option>" & vbcrlf & "	<option value=""4机房"" selected=""selected"">4机房</option>")
+end if
+%>
 	<option value="教室">教室</option>
 </select>
 </td>
