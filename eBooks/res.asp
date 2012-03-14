@@ -89,37 +89,12 @@ Next
 </tbody>
 </table>
 <br clear=all>
-<%
-	MyRs.Close
-	Set MyRs = Nothing
-end if
-
-response.write "结果页码："
-PageCount=cint(ResultCount/PageSize)+1
-
-if CurrentPage > 4 then
-	StartPage=CurrentPage-4
-Else
-	StartPage=1
-end if
-
-if PageCount <= 1 then
-	EndPage=1
-Else
-	if pageCount > CurrentPage + 4 then
-		EndPage = CurrentPage + 4
-	else
-		EndPage = pageCount
-	end if
-end if
-
-response.write "<a href=""result.asp?stype=res&q=" & Request("q") & "&page=1"">第一页</a> "
-for i=StartPage to EndPage
-	response.write "<a href=""result.asp?stype=res&q=" & Request("q") & "&page=" & i & """>" & i & "</a> "
-next 'i
-response.write "<a href=""result.asp?stype=res&q=" & Request("q") & "&page=" & PageCount & """>最后页</a> "
-%>
 <!--#include file="result_bottom.asp"-->
-
+<%
+MyRs.close
+Set MyRs= Nothing
+MyConn.Close
+set MyConn=nothing
+%>
 </BODY>
 </HTML>

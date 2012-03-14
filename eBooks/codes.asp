@@ -135,8 +135,10 @@ Phoenix BIOS
 1短1短1短：电源错误 
 3长1短：键盘错误
 </pre>
-<%End If%>
-
+<%
+End If
+If 1=2 Then '避免result_bottom.asp中的代码
+%>
 <!--#include file="result_bottom.asp"-->
 <%
 MyRs.close
