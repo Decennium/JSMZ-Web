@@ -93,8 +93,6 @@ Next
 <%
 MyRs.close
 Set MyRs= Nothing
-MyConn.Close
-set MyConn=nothing
 %>
 </BODY>
 </HTML>
