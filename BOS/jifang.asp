@@ -192,30 +192,13 @@ Case Else
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加机房使用记录</strong></div>
+<div id="Tips2" style="float:left;color:red"></div>
+<br clear="all"/>
+<div align="left" clear="all" id="Add_Area">
 <form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddJieci" onSubmit="return My_CheckFields(this);">
-<table align="left" style="margin-top:0px" width="100%">
-<thead>
-<tr>
-<th colspan="4">添加机房使用记录</th>
-<th colspan="6"><div id="Tips" Name="Tips" style="color:red"></div></th>
-</tr>
-<tr class="odd">
-<th><b>日期</b></th>
-<th><b>节次</b></th>
-<th><b>班级</b></th>
-<th><b>机房</b></th>
-<th><b>内容</b></th>
-<th><b>应到人数</b></th>
-<th><b>实到人数</b></th>
-<th><b>授课教师</b></th>
-<th><b>备注</b></th>
-<th> </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><input type="text" name="Riqi" id="Riqi" size="6" readonly="readonly" onclick="choose_date_czw('Riqi')"/></td>
-<td>
+<span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
+<span style="white-space: nowrap"><label for="Jieci">节次：</label>
 <select name="Jieci" id="Jieci">
 	<option value="早读">早读</option>
 	<option value="第一节">第一节</option>
@@ -232,10 +215,9 @@ Case Else
 	<option value="晚自习第一节">晚自习第一节</option>
 	<option value="晚自习第二节">晚自习第二节</option>
 	<option value="晚自习第三节">晚自习第三节</option>
-</select>
-</td>
-<td><input type="text" name="Banji" value="" id="Banji" size="10" onblur="return My_CheckField(this);"></td>
-<td>
+</select></span>
+<span style="white-space: nowrap"><label for="Banji">班级：</label><input type="text" name="Banji" value="" id="Banji" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="Jifang">机房：</label>
 <select name="Jifang" id="Jifang">
 <%
 if getip="192.168.4.250" then
@@ -246,19 +228,15 @@ else
 end if
 %>
 	<option value="教室">教室</option>
-</select>
-</td>
-<td><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></td>
-<td><input type="text" name="Yingdao" value="" id="Yingdao" size="5" onblur="return My_CheckField(this);"/></td>
-<td><input type="text" name="Shidao" value="" id="Shidao" size="5" onblur="return My_CheckField(this);"/></td>
-<td><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="10" onblur="return My_CheckField(this);"/></td>
-<td><input type="text" name="Beizhu" value="" id="Beizhu" size="30"/></td>
-<td><input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
-</td>
-</tr>
-</tbody>
-</table>
+</select></span>
+<span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Yingdao">应到人数：</label><input type="text" name="Yingdao" value="" id="Yingdao" size="5" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Shidao">实到人数：</label><input type="text" name="Shidao" value="" id="Shidao" size="5" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="30"/></span>
+<input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
+</div>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
@@ -275,8 +253,8 @@ document.getElementById("Jieci").options[i].selected = true;
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchJieci" name="SearchJieci" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
-<label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="6" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="6" readonly="readonly" onclick="choose_date_czw(this.id)"/>
-<label for="S_Jieci">节次：</label>
+<span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
+<span style="white-space: nowrap"><label for="S_Jieci">节次：</label>
 <select name="S_Jieci" id="S_Jieci">
 	<option value="%" Selected="Selected">不限</option>
 	<option value="早读">早读</option>
@@ -294,23 +272,23 @@ document.getElementById("Jieci").options[i].selected = true;
 	<option value="晚自习第一节">晚自习第一节</option>
 	<option value="晚自习第二节">晚自习第二节</option>
 	<option value="晚自习第三节">晚自习第三节</option>
-</select>
-<label for="S_Banji">班级：</label><input name="S_Banji" id="S_Banji" type="text" value="" size="5"/>
-<label for="S_Jifang">机房：</label>
+</select></span>
+<span style="white-space: nowrap"><label for="S_Banji">班级：</label><input name="S_Banji" id="S_Banji" type="text" value="" size="5"/></span>
+<span style="white-space: nowrap"><label for="S_Jifang">机房：</label>
 <select name="S_Jifang" id="S_Jifang">
 	<option value="%" Selected="Selected">全部</option>
 	<option value="1机房">1机房</option>
 	<option value="4机房">4机房</option>
 	<option value="教室">教室</option>
-</select>
-<label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/>
-<label for="S_Chuqin">出勤：</label>
+</select></span>
+<span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/></span>
+<span style="white-space: nowrap"><label for="S_Chuqin">出勤：</label>
 <select name="S_Chuqin" id="S_Chuqin">
 	<option value="" Selected="Selected">无所谓</option>
 	<option value="Yingdao = Shidao">满勤</option>
 	<option value="Yingdao > Shidao">未满勤</option>
-</select>
-<label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/>
+</select></span>
+<span style="white-space: nowrap"><label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
 </div>
