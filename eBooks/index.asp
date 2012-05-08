@@ -11,7 +11,7 @@ Response.Buffer = True
 Set MyRs = Server.CreateObject("ADODB.RecordSet")
 Set MyConn=Server.CreateObject("ADODB.Connection")
 
-My_conn_STRING = "Provider=SQLOLEDB;server=C3Server;database=Resources;uid=sa;pwd="
+My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=Resources;uid=sa;pwd="
 MyConn.Open My_conn_STRING
 
 MySQL="SELECT Author, FileName, BookName FROM eBooks WHERE ID=" & BookID

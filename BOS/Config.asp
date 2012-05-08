@@ -33,7 +33,7 @@ on error resume next
 Set mRs = Server.CreateObject("ADODB.RecordSet")
 Set Conn=Server.CreateObject("ADODB.Connection")
 
-My_conn_STRING = "Provider=SQLOLEDB;server=C3Server;database=BOS;uid=sa;pwd="
+My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 Conn.Open My_conn_STRING
 
 '过滤字符(如果需要增加直接复制fString = Replace(fString, "日你妈", "*")然后修改文字便可以)

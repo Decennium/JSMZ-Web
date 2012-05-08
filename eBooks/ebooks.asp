@@ -12,7 +12,7 @@ Set MyRs = Server.CreateObject("ADODB.RecordSet")
 Set MyConn=Server.CreateObject("ADODB.Connection")
 
 'My_conn_STRING =  "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & server.mappath("data/ebooks.mdb")
-My_conn_STRING = "Provider=SQLOLEDB;server=C3Server;database=Resources;uid=sa;pwd="
+My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=Resources;uid=sa;pwd="
 MyConn.Open My_conn_STRING
 
 MySQL_Head="SELECT Author, FileName, BookName FROM eBooks WHERE "'MySQL="(InStr(1,LCase(eBooks.FileName),LCase('quarystring'),0)<>0) "

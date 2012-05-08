@@ -45,7 +45,7 @@ If Currentpage < 1 Then Currentpage = 1
 Set MyRs = Server.CreateObject("ADODB.RecordSet")
 Set Conn=Server.CreateObject("ADODB.Connection")
 
-My_conn_STRING = "Provider=SQLOLEDB;server=C3Server;database=BOS;uid=sa;pwd="
+My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 Conn.Open My_conn_STRING
 %>
 <html>
@@ -172,7 +172,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
-			My_conn_STRING = "Provider=SQLOLEDB;server=C3Server;database=BOS;uid=sa;pwd="
+			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
 		Sql="Select * from Jifang where Riqi='" & Riqi & "' and Jieci ='" & Jieci& "' And Banji='" & Banji & "'"
