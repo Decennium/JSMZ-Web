@@ -20,12 +20,14 @@ strConn = "Provider=MSIDXS; Data Source=web"
 
 strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Characterization,Rank FROM SCOPE()" & _
 	" WHERE CONTAINS (DocTitle, '" & q & "') Order By Rank DESC"
+MyRs.MaxRecords=100
 MyRs.cursorlocation=3 
 MyRs.Open strSearch,strConn,3,2
 if MyRs.RecordCount < 1 then
 	MyRs.Close
 	strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Characterization,Rank FROM SCOPE()" & _
 		" WHERE CONTAINS (Characterization, '" & q & "') Order By Rank DESC"
+	MyRs.MaxRecords=100
 	MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
 end if
@@ -33,6 +35,7 @@ if MyRs.RecordCount < 1 then
 	MyRs.Close
 	strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Contents, Characterization,Rank FROM SCOPE()" & _
 		" WHERE CONTAINS (Contents, '" & q & "') Order By Rank DESC"
+	MyRs.MaxRecords=100
 	MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
 end if
