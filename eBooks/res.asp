@@ -18,20 +18,20 @@ Set MyRs = Server.CreateObject("ADODB.Recordset")
 
 strConn = "Provider=MSIDXS; Data Source=web"
 
-strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
+strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Characterization,Rank FROM SCOPE()" & _
 	" WHERE CONTAINS (DocTitle, '" & q & "') Order By Rank DESC"
 MyRs.cursorlocation=3 
 MyRs.Open strSearch,strConn,3,2
 if MyRs.RecordCount < 1 then
 	MyRs.Close
-	strSearch = "SELECT DocTitle, vPath, FileName, Size, Characterization,Rank FROM SCOPE()" & _
+	strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Characterization,Rank FROM SCOPE()" & _
 		" WHERE CONTAINS (Characterization, '" & q & "') Order By Rank DESC"
 	MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
 end if
 if MyRs.RecordCount < 1 then
 	MyRs.Close
-	strSearch = "SELECT DocTitle, vPath, FileName, Size, Contents, Characterization,Rank FROM SCOPE()" & _
+	strSearch = "SELECT DocTitle, vPath, FileName, Size, DocAppName, Contents, Characterization,Rank FROM SCOPE()" & _
 		" WHERE CONTAINS (Contents, '" & q & "') Order By Rank DESC"
 	MyRs.cursorlocation=3 
 	MyRs.Open strSearch,strConn,3,2
@@ -57,6 +57,7 @@ howmanyfields=MyRs.fields.count -1 %>
 response.Write "<th><b>" & "标题" & "</b></th>"
 response.Write "<th><b>" & "摘要" & "</b></th>"
 response.Write "<th><b>" & "大小" & "</b></th>"
+response.Write "<th><b>" & "FileType" & "</b></th>"
 %>
 <tr>
 </thead>
@@ -69,11 +70,17 @@ For i = 1 to ShowPage
 	else
 		response.write("<tr id='Data'>")
 	end if
-	if len(MyRs("FileName"))>0 And Len(MyRs("DocTitle"))>0 then
-		URL = MyRs("DocTitle")
+'	if Len(MyRs("FileName"))>0 And Len(MyRs("DocTitle"))>0 then
+'		URL = MyRs("DocTitle")
+'	else
+'		URL = MyRs("FileName") & MyRs("DocTitle")
+'	end if
+	if Len(MyRs("FileName"))>0 And Len(MyRs("DocTitle")) > 40 then
+		URL = MyRs("FileName")
 	else
-		URL = MyRs("FileName") & MyRs("DocTitle")
+		URL = MyRs("DocTitle")
 	end if
+
 	URL ="<td nowrap='nowrap'><A HREF='" & MyRs("vPath") & "'>" & URL & " </A></td>"
 	If Len(MyRs("Characterization"))>0 then
 		URL = URL & "<td>" & MyRs("Characterization") & "</td>"
@@ -82,6 +89,7 @@ For i = 1 to ShowPage
 	End If
 	URL = URL & "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
 	Response.Write URL
+	Response.Write "<td>" &MyRs("DocAppName") & "</td>"
 	response.write("</tr>")
 	MyRs.movenext
 Next

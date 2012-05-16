@@ -34,6 +34,7 @@ Else
 	End If
 End If
 %>
+<!--
 <br clear=both>
 <form method="POST" action="result.asp">
 <div class="footer">
@@ -45,4 +46,5 @@ End If
 
 </div>
 </form>
+-->
 <!--#include file="../include/bottom.asp"-->
