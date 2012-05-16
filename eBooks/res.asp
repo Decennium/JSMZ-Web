@@ -70,16 +70,16 @@ For i = 1 to ShowPage
 	else
 		response.write("<tr id='Data'>")
 	end if
-'	if Len(MyRs("FileName"))>0 And Len(MyRs("DocTitle"))>0 then
-'		URL = MyRs("DocTitle")
-'	else
-'		URL = MyRs("FileName") & MyRs("DocTitle")
-'	end if
-	if Len(MyRs("FileName"))>0 And Len(MyRs("DocTitle")) > 40 then
+	
+	If Len(MyRs("DocTitle")) > 40 then
 		URL = MyRs("FileName")
-	else
-		URL = MyRs("DocTitle")
-	end if
+	Else
+		If Len(MyRs("DocTitle")) > 0 then
+			URL = MyRs("DocTitle")
+		Else
+			URL = MyRs("FileName")
+		End If
+	End If
 
 	URL ="<td nowrap='nowrap'><A HREF='" & MyRs("vPath") & "'>" & URL & " </A></td>"
 	If Len(MyRs("Characterization"))>0 then
