@@ -57,7 +57,7 @@ howmanyfields=MyRs.fields.count -1 %>
 response.Write "<th><b>" & "标题" & "</b></th>"
 response.Write "<th><b>" & "摘要" & "</b></th>"
 response.Write "<th><b>" & "大小" & "</b></th>"
-response.Write "<th><b>" & "FileType" & "</b></th>"
+response.Write "<th><b>" & "类型" & "</b></th>"
 %>
 <tr>
 </thead>
@@ -89,7 +89,11 @@ For i = 1 to ShowPage
 	End If
 	URL = URL & "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
 	Response.Write URL
-	Response.Write "<td>" &MyRs("DocAppName") & "</td>"
+	If Len(MyRs("DocAppName"))>0 Then
+		Response.Write "<td>" &MyRs("DocAppName") & "</td>"
+	Else
+		Response.Write "<td>文件类型不明</td>"
+	End If
 	response.write("</tr>")
 	MyRs.movenext
 Next
