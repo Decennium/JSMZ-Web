@@ -89,11 +89,20 @@ For i = 1 to ShowPage
 	End If
 	URL = URL & "<td>" & round(clng(MyRs("Size"))/1024,2) & "KB</td>"
 	Response.Write URL
-	If Len(MyRs("DocAppName"))>0 Then
-		Response.Write "<td>" &MyRs("DocAppName") & "</td>"
-	Else
-		Response.Write "<td>文件类型不明</td>"
-	End If
+	Dim ExtentName, FileType
+	FileType = "未知文档"
+	ExtentName=LCase(Mid(MyRs("FileName"),InstrRev(MyRs("FileName"),".")+1))
+	If instr("doc dot docx dotx rtf wps wpt",ExtentName) Then FileType = "文字文档"
+	If instr("xls csv xlsx et",ExtentName) Then FileType = "电子表格"
+	If instr("ppt pps pptx wpp",ExtentName) Then FileType = "演示文稿"
+	If instr("htm html php asp shtm shtml",ExtentName) Then FileType = "网页文件"
+	If instr("txt log",ExtentName) Then FileType = "纯文本文件"
+	If instr("pdf epub chm",ExtentName) Then FileType = "电子书"
+	If instr("zip rar 7z",ExtentName) Then FileType = "压缩文件"
+	If instr("jpg jpeg png gif bmp",ExtentName) Then FileType = "图片文件"
+	If instr("wav mp3 wma mpc flc ogg",ExtentName) Then FileType = "音频文件"
+	If instr("mp4 mpg mpeg avi flv f4v rmvb asx",ExtentName) Then FileType = "视频文件"
+	Response.Write "<td nowrap='nowrap'>" & FileType & "</td>"
 	response.write("</tr>")
 	MyRs.movenext
 Next
