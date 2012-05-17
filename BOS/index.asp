@@ -39,33 +39,12 @@ End Select
 <div style="width="100%";float:left">
 <div class="HeadLine">科技馆日常工作管理系统</div>
 <div class="ShowTips">
-	<h4>登录账户，可以管理用户资料以及机房使用资料。</h4>
-	<p>这些账户不能通过在线注册的方式获得。</p>
+	<p>您可以随时浏览科技馆特别是信息技术组的工作情况。</p>
+	<h4>但是，如果您想管理或添加信息技术组的工作情况，您需要先登录。</h4>
+	<p>登录帐户不能通过在线注册的方式获得。</p>
 	<p>只有信息技术组的老师才能手工建立账户。</p>
 	<p>如果您需要账户，请联系信息技术组，为您手工建立账户。</p>
-	<p>您可以在右侧登录。</p>
-</div>
-<div id="LoginForm">
-	<form method="post" Action="?Action=logincheck">
-<%If Len(Session("Admin")) = 0 Then%>
-	<table id="form-noindent" align="right" style="visibility:visible">
-<%Else%>
-	<table id="form-noindent" align="right" style="visibility:hidden">
-<%End If%>
-		<tr>
-			<td bgcolor="#e8eefa">
-			<h4>帐户登录</h4>
-			<div align="center">
-			帐号：<input type="text" name="Admin_User" value="" id="Admin_User" size="15">
-			</div>
-			<div align="center">
-			密码：<input type="password" name="Admin_Pass" id="Admin_Pass" size="15">
-			</div>
-			<input type="submit" name="null" value="登录">
-			</td>
-		</tr>
-	</table>
-	</form>
+	<p>您可以在左侧登录。</p>
 </div>
 </div>
 <br clear="all"><br><br><br><br><br><br><br><br><br>

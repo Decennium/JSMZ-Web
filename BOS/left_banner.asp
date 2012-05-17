@@ -5,7 +5,6 @@
 	</a>
 </div>
 <br clear="all">
-<br clear="all">
 <div align="left" style="width:150px;max-width:150px;clear:left;float:left">
 <%
 If instr(Request.ServerVariables("SCRIPT_NAME"),"BOS")>0 Then
@@ -13,7 +12,27 @@ If instr(Request.ServerVariables("SCRIPT_NAME"),"BOS")>0 Then
 %>
 <p><a href="/BOS/index.asp?action=logout">µÇ³ö <%=Session("ShowName")%></a></p>
 <%Else%>
-<p><a href="/BOS/index.asp?action=login">µÇÂ¼</a></p>
+<div id="LoginForm">
+	<form method="post" Action="/BOS/index.asp?Action=logincheck">
+<%If Len(Session("Admin")) = 0 Then%>
+	<table id="form-noindent" align="right" style="visibility:visible">
+<%Else%>
+	<table id="form-noindent" align="right" style="visibility:hidden">
+<%End If%>
+		<tr>
+			<td>
+			<div align="center">
+			ÕÊºÅ£º<input type="text" name="Admin_User" value="" id="Admin_User" size="10">
+			</div>
+			<div align="center">
+			ÃÜÂë£º<input type="password" name="Admin_Pass" id="Admin_Pass" size="10">
+			</div>
+			<input type="submit" name="null" value="µÇÂ¼">
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
 <%
 End If
 End If

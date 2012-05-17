@@ -43,21 +43,18 @@ pre {
 #LoginForm{
 	width : 100%;
 	text-align : right;
-	padding-top : 5px;
+	padding-top : 0px;
 	line-height : 100%;
 }
 #form-noindent {
-	width : 200px;
+	width : 150px;
 	border-width : 0px;
-	color : Black;
-	background-color : #ffffff;
-	border : #C3D9FF 1px solid;
 	margin-left : auto;
 	font-size : 13px;
 }
 #form-noindent td{
-	padding : 6px;
-	margin : 3px;
+	padding : 1px;
+	margin : 1px;
 }
 div.errormsg {
 	color : red;
