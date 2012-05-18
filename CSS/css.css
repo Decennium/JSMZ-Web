@@ -87,14 +87,14 @@ DIV.ShowTips p {
 DIV#Tips {
 float:left;
 color:red;
-margin:0px;
 border:1px solid #e5eff8;
-text-indent:2em;
-padding : 10px;
+padding : 0px 10px 10px 25px;
 text-align : justify;
-width : 120px;
+width : 110px;
+min-height : 22px;
 background-image : url(../images/warning.png);
 background-repeat : no-repeat;
+background-position : left top;
 }
 DIV.footer {
 	padding : 5px;
