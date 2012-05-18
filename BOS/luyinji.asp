@@ -51,7 +51,7 @@ Conn.Open My_conn_STRING
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=gb2312">
-<title>设备使用管理系统</title>
+<title>领取录音机管理系统</title>
 <link href="../css/css.css" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 <script language="javascript" src="DateTime.js"></script>
@@ -84,19 +84,19 @@ function My_CheckFields(the){
 		the.Riqi.focus();
 		return false;
 	}
-	if (the.ShiChang.value=="") {
-		document.getElementById('Tips').innerHTML = '时长不能为空';
-		the.ShiChang.focus();
+	if (the.JiaoShi.value=="") {
+		document.getElementById('Tips').innerHTML = '领取录音机的教师不能为空';
+		the.JiaoShi.focus();
 		return false;
 	}
-	if (the.YongTu.value=="") {
-		document.getElementById('Tips').innerHTML = '用途不能为空';
-		the.YongTu.focus();
+	if (the.XueKe.value=="") {
+		document.getElementById('Tips').innerHTML = '教师所在学科不能为空';
+		the.XueKe.focus();
 		return false;
 	}
-	if (the.ShiYongRen.value=="") {
-		document.getElementById('Tips').innerHTML = '使用人不能为空';
-		the.ShiYongRen.focus();
+	if (the.FaFangRen.value=="") {
+		document.getElementById('Tips').innerHTML = '录音机发放人不能为空';
+		the.FaFangRen.focus();
 		return false;
 	}
 	document.getElementById('Tips').innerHTML = '';
@@ -120,58 +120,70 @@ function My_CheckField(the){
 Action=Request.Querystring("Action")
 Select Case Action
 '添加记录
-Case "AddShiYong"
+Case "AddLingQu"
 	'判断是否登陆
 	If Session("Admin")="" then
-		Response.Redirect "shiyong.asp"
+		Response.Redirect "luyinji.asp"
 		Response.End
 	End If
 
-SheBei=htmlencode(Request.form("SheBei"))
-ShiYongRen=htmlencode(Request.form("ShiYongRen"))
 RiQi=htmlencode(Request.form("RiQi"))
-ShiChang=htmlencode(Request.form("ShiChang"))
-YongTu=htmlencode(Request.form("YongTu"))
+JiaoShi=htmlencode(Request.form("JiaoShi"))
+XueKe=htmlencode(Request.form("XueKe"))
+FaFangRen=htmlencode(Request.form("FaFangRen"))
 Beizhu=htmlencode(Request.form("Beizhu"))
 
-	If (Len(SheBei)>0 And Len(ShiYongRen)>0 And Len(RiQi)>0 And Len(ShiChang)>0 And Len(YongTu)>0) Then
+	If (Len(RiQi)>0 And Len(JiaoShi)>0 And Len(XueKe)>0 And Len(FaFangRen)>0) Then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="INSERT INTO [ShiYong]([SheBei],[ShiYongRen],[RiQi],[ShiChang],[YongTu],[beiZhu]) VALUES ('"& SheBei &"','"& ShiYongRen &"','"& RiQi &"','"& ShiChang &"','"& YongTu &"','" & Beizhu &"')"
-		conn.execute(Sql)
-		Response.Redirect "?Action=ShowSheBei"
+		Sql="Select top 1 * from LuYinJi where JiaoShi='" & JiaoShi & "' Order By RiQi DESC"
+		MyRs.open Sql,Conn,3,2
+		If MyRs.recordcount>0 then
+			If abs(DateDiff("m",MyRs(1).Value,Now()))<35 Then
+				Response.Write "<script language='JavaScript'>document.getElementById('Tips').innerHTML = '这位老师上一台录音机还没用够三年。';</SCRIPT>"
+			Else
+				Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
+					"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
+				conn.execute(Sql)
+				'Response.Redirect "?Action=ShowSheBei"
+			End If
+'			MyRs.close
+		Else
+			Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
+				"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
+			conn.execute(Sql)
+			'Response.Redirect "?Action=ShowSheBei"
 '			Response.End
+		End If
 	End If
-'	response.write "<p>" & SQL & "</p>"
-Case Else
+
+	MyRs.Close
+End Select
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
-<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加设备使用记录</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加领取录音机记录</strong></div>
+<div id="Tips" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
-<form name="AddNewShiYong" id="AddNewShiYong" method="post" Action="?Action=AddShiYong" onSubmit="return My_CheckFields(this);">
-<span style="white-space: nowrap"><label for="Shebei">设备：</label>
-<select name="Shebei" id="Shebei">
-	<option value="刻录机">刻录机</option>
-	<option value="照相机">照相机</option>
-	<option value="小摄像机">小摄像机</option>
-	<option value="大摄像机">大摄像机</option>
-	<option value="音响功放">音响功放</option>
-	<option value="高音喇叭功放">高音喇叭功放</option>
-	<option value="其他设备">其他设备</option>
-</select></span>
+<form name="AddNewLingQu" id="AddNewLingQu" method="post" Action="?Action=AddLingQu" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
-<span style="white-space: nowrap"><label for="ShiChang">时长：</label><input type="text" name="ShiChang" value="" id="ShiChang" size="10" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="YongTu">用途：</label><input type="text" name="YongTu" value="" id="YongTu" size="40" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="ShiYongRen">使用人：</label><input type="text" name="ShiYongRen" value=<%=Session("ShowName")%> id="ShiYongRen" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="JiaoShi">教师：</label><input type="text" name="JiaoShi" value="" id="JiaoShi" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="XueKe">学科：</label>
+<select name="XueKe" id="XueKe">
+	<option value="英语">英语</option>
+	<option value="音乐">音乐</option>
+	<option value="舞蹈">舞蹈</option>
+	<option value="语文">语文</option>
+	<option value="其他学科">其他学科</option>
+</select></span>
+<span style="white-space: nowrap"><label for="FaFangRen">发放人：</label><input type="text" name="FaFangRen" value='<%=Session("ShowName")%>' id="FaFangRen" size="10" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="30"/></span>
-<input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
+<input type="submit" value="添加"/>
 </form>
 </div>
 <hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
@@ -186,25 +198,23 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 //document.getElementById("Jieci").options[i].selected = true;
 </script>
 <%End If%>
-<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>设备使用情况一览表</strong></div>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>领取录音机情况一览表</strong></div>
 <div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchSheBei" name="SearchSheBei" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
 <span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
-<span style="white-space: nowrap"><label for="S_Shebei">设备：</label>
-<select name="S_Shebei" id="S_Shebei">
-	<option value="%">所有设备</option>
-	<option value="刻录机">刻录机</option>
-	<option value="照相机">照相机</option>
-	<option value="小摄像机">小摄像机</option>
-	<option value="大摄像机">大摄像机</option>
-	<option value="音响功放">音响功放</option>
-	<option value="高音喇叭功放">高音喇叭功放</option>
-	<option value="其他设备">其他设备</option>
+<span style="white-space: nowrap"><label for="S_JiaoShi">教师：</label><input type="text" name="S_JiaoShi" value="" id="S_JiaoShi" size="40" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_XueKe">学科：</label>
+<select name="S_XueKe" id="S_XueKe">
+	<option value="%">所有学科</option>
+	<option value="英语">英语</option>
+	<option value="音乐">音乐</option>
+	<option value="舞蹈">舞蹈</option>
+	<option value="语文">语文</option>
+	<option value="其他学科">其他学科</option>
 </select></span>
-<span style="white-space: nowrap"><label for="S_YongTu">用途：</label><input type="text" name="S_YongTu" value="" id="S_YongTu" size="40" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="S_ShiYongRen">使用人：</label><input type="text" name="S_ShiYongRen" value="" id="S_ShiYongRen" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_FaFangRen">发放人：</label><input type="text" name="S_FaFangRen" value="" id="S_FaFangRen" size="10" onblur="return My_CheckField(this);"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
 </div>
@@ -213,17 +223,17 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 
 S_Riqi=htmlencode(Request.form("S_Riqi"))
 S_Riqi_2=htmlencode(Request.form("S_Riqi_2"))
-S_SheBei=htmlencode(Request.form("S_SheBei"))
-S_ShiYongRen=htmlencode(Request.form("S_ShiYongRen"))
-S_YongTu=htmlencode(Request.form("S_YongTu"))
+S_JiaoShi=htmlencode(Request.form("S_JiaoShi"))
+S_XueKe=htmlencode(Request.form("S_XueKe"))
+S_FaFangRen=htmlencode(Request.form("S_FaFangRen"))
 
-SQL="select * from ShiYong where 1=1"
+SQL="select * from LuYinJi where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
-If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_Jieci &"'"
-If Len(S_ShiYongRen)<>0 Then SQL = SQL & " and ShiYongRen Like '" & S_Banji &"'"
-If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_Jiaoshi &"%'"
-SQL = SQL & " order by SheBei desc, Riqi desc, ShiYongRen desc"
+If Len(S_JiaoShi)<>0 Then SQL = SQL & " and JiaoShi Like '" & S_JiaoShi &"'"
+If Len(S_XueKe)<>0 Then SQL = SQL & " and XueKe Like '" & S_XueKe &"'"
+If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen Like '" & S_FaFangRen &"'"
+SQL = SQL & " order by Riqi desc, JiaoShi desc"
 
 PageSize=20
 MyRs.open Sql,Conn,3,2
@@ -241,16 +251,14 @@ howmanyfields=MyRs.fields.count -1
 
 for i=0 to howmanyfields
 	Select Case UCase(MyRs(i).Name)
-		Case "SHEBEI":
-			response.Write "<th><b>" & "设备" & "</b></th>"
 		Case "RIQI":
 			response.Write "<th><b>" & "日期" & "</b></th>"
-		Case "SHICHANG":
-			response.Write "<th><b>" & "时长" & "</b></th>"
-		Case "SHIYONGREN":
-			response.Write "<th><b>" & "使用人" & "</b></th>"
-		Case "YONGTU":
-			response.Write "<th width='300px'><b>" & "用途" & "</b></th>"
+		Case "JIAOSHI":
+			response.Write "<th><b>" & "教师" & "</b></th>"
+		Case "XUEKE":
+			response.Write "<th><b>" & "学科" & "</b></th>"
+		Case "FAFANGREN":
+			response.Write "<th><b>" & "发放人" & "</b></th>"
 		Case "BEIZHU":
 			response.Write "<th width='300px'><b>" & "备注" & "</b></th>"
 		Case Else
@@ -320,9 +328,7 @@ response.write "<a href=""jifang.asp?page=" & PageCount & """>最后页</a> "
 Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
-End Select
-'MyRs.close
-'Set MyRs= Nothing
+'End Select
 Conn.Close
 set Conn=nothing
 %>

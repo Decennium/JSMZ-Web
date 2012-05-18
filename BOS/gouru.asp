@@ -68,10 +68,10 @@ function My_IsDate(mystring) {
 		return true; 
 	}
 function My_IsNature(val) {
-	if ((parseInt(val) == val) && (parseInt(val) > 0)) {
-		return true;
-	}
-		return false;
+	return /^[1-9][0-9]*$/.test(val);
+}
+function My_IsFloat(val) {
+	return /^\d+(\.\d+)?$/.test(val);
 }
 function My_CheckFields(the){
 	if (the.Riqi.value=="") {
@@ -109,8 +109,8 @@ function My_CheckFields(the){
 		the.DanJia.focus();
 		return false;
 	}
-	if (!My_IsNature(the.DanJia.value)){
-		document.getElementById('Tips').innerHTML = '单价必须为自然数';
+	if (!My_IsFloat(the.DanJia.value)){
+		document.getElementById('Tips').innerHTML = '单价必须为正数';
 		the.DanJia.focus();
 		return false;
 	}
@@ -173,10 +173,23 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cint(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
-		conn.execute(Sql)
-		Response.Redirect "?Action=ShowGouRu"
-'			Response.End
+		If (Len(XuLieHao)>2 Or Len(OSXuLieHao)>2) Then
+			Sql="Select * from GouRu where XuLieHao='" & XuLieHao & "' Or OSXuLieHao ='" & OSXuLieHao & "'"
+			MyRs.open Sql,Conn,3,2
+			If MyRs.recordcount>0 then
+				Response.Write "<script>document.getElementById('Tips').innerHTML = '这款设备的购买情况已经登记。';</SCRIPT>"
+	'			MyRs.close
+			Else
+				Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
+				conn.execute(Sql)
+				Response.Redirect "?Action=ShowGouRu"
+		'		Response.End
+			End If
+		Else
+			Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
+			conn.execute(Sql)
+			Response.Redirect "?Action=ShowGouRu"
+		End If
 	End If
 '	response.write "<p>" & SQL & "</p>"
 Case Else
@@ -288,7 +301,7 @@ howmanyfields=MyRs.fields.count -1
 for i=0 to howmanyfields
 	Select Case UCase(MyRs(i).Name)
 		Case "RIQI":
-			response.Write "<th><b>" & "日期" & "</b></th>"
+			response.Write "<th width='70px'><b>" & "日期" & "</b></th>"
 		Case "SHEBEI":
 			response.Write "<th><b>" & "设备" & "</b></th>"
 		Case "PINPAI":
@@ -296,14 +309,14 @@ for i=0 to howmanyfields
 		Case "XULIEHAO":
 			response.Write "<th><b>" & "序列号" & "</b></th>"
 		Case "DANWEI":
-			response.Write "<th><b>" & "单位" & "</b></th>"
+			response.Write "<th width='30px'><b>" & "单位" & "</b></th>"
 		Case "SHULIANG":
 			response.Write "<th><b>" & "数量" & "</b></th>"
 		Case "DANJIA":
 			response.Write "<th><b>" & "单价" & "</b></th>"
 			response.Write "<th><b>" & "总价" & "</b></th>"
 		Case "JINGSHOUREN":
-			response.Write "<th><b>" & "经手人" & "</b></th>"
+			response.Write "<th width='50px'><b>" & "经手人" & "</b></th>"
 		Case "YONGTU":
 			response.Write "<th><b>" & "用途" & "</b></th>"
 		Case "OS":
@@ -326,9 +339,7 @@ Else
 	ShowPage = ResultCount
 End If
 MyRs.absolutepage = Currentpage
-'If MyRs.EOF Then MyRs.MoveFirst
-'MyRs.Move MyRs.PageSize * (MyRs.AbsolutePage - 1)
-'response.write MyRs.EOF
+
 For i_s = 1 to ShowPage
 	If MyRs.EOF Then Exit For
 	if 1 = i_s mod 2 then
@@ -347,9 +358,9 @@ For i_s = 1 to ShowPage
 			Response.write("<td>" & ThisRecord & "</td>")
 			iShuLiang=ThisRecord
 		ElseIf Ucase(MyRs(i_c).Name)="DANJIA" Then
-			Response.write("<td>" & ThisRecord & "</td>")
+			Response.write("<td>" & FormatCurrency(ThisRecord) & "</td>")
 			iDanJia=ThisRecord
-			Response.write("<td>" & 1*iShuLiang*iDanJia & "</td>")
+			Response.write("<td>" & FormatCurrency(1*iShuLiang*iDanJia) & "</td>")
 		ElseIf Ucase(MyRs(i_c).Name)="XULIEHAO" And Len(Trim(MyRs(i_c).Value)) > 2 Then
 			Response.write("<td> ******** </td>")
 		ElseIf Ucase(MyRs(i_c).Name)="OSXULIEHAO" And Len(Trim(MyRs(i_c).Value)) > 2 Then
