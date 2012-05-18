@@ -40,9 +40,9 @@ End If
 <p><a href="manage.asp">用户管理</a></p>
 <p><a href="jifang.asp">机房使用管理</a></p>
 <p><a href="shiyong.asp">设备使用管理</a></p>
+<p><a href="gouru.asp">设备购入管理</a></p>
 <hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
 <p><a href="#">设备外借管理</a></p>
-<p><a href="#">设备购入管理</a></p>
 <p><a href="#">领取录音机管理</a></p>
 <p><a href="#">多媒体教室使用管理</a></p>
 <p><a href="#">监控设备使用管理</a></p>
