@@ -143,7 +143,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		End If
 		Sql="INSERT INTO [ShiYong]([SheBei],[ShiYongRen],[RiQi],[ShiChang],[YongTu],[beiZhu]) VALUES ('"& SheBei &"','"& ShiYongRen &"','"& RiQi &"','"& ShiChang &"','"& YongTu &"','" & Beizhu &"')"
 		conn.execute(Sql)
-		Response.Redirect "?Action=ShowJieci"
+		Response.Redirect "?Action=ShowSheBei"
 '			Response.End
 	End If
 '	response.write "<p>" & SQL & "</p>"
@@ -155,7 +155,7 @@ Case Else
 <div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
-<form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddJieci" onSubmit="return My_CheckFields(this);">
+<form name="AddNewShiYong" id="AddNewShiYong" method="post" Action="?Action=AddShiYong" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Shebei">设备：</label>
 <select name="Shebei" id="Shebei">
 	<option value="刻录机">刻录机</option>
@@ -180,77 +180,50 @@ var currentTime = new Date()
 var month = currentTime.getMonth() + 1
 var day = currentTime.getDate()
 var year = currentTime.getFullYear()
-var i = currentTime.getHours() -7
+//var i = currentTime.getHours() -7
 
 document.getElementById('Riqi').value = year + "-" + month + "-" + day;
-document.getElementById("Jieci").options[i].selected = true;
+//document.getElementById("Jieci").options[i].selected = true;
 </script>
 <%End If%>
-<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>机房使用情况一览表</strong></div>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>设备使用情况一览表</strong></div>
 <div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
-<form id="SearchJieci" name="SearchJieci" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
+<form id="SearchSheBei" name="SearchSheBei" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
 <span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
-<span style="white-space: nowrap"><label for="S_Jieci">节次：</label>
-<select name="S_Jieci" id="S_Jieci">
-	<option value="%" Selected="Selected">不限</option>
-	<option value="早读">早读</option>
-	<option value="第一节">第一节</option>
-	<option value="第二节">第二节</option>
-	<option value="第三节">第三节</option>
-	<option value="第四节">第四节</option>
-	<option value="午餐时间">午餐时间</option>
-	<option value="午休时间">午休时间</option>
-	<option value="第五节">第五节</option>
-	<option value="第六节">第六节</option>
-	<option value="第七节">第七节</option>
-	<option value="第八节">第八节</option>
-	<option value="晚饭后休息时间">晚饭后休息时间</option>
-	<option value="晚自习第一节">晚自习第一节</option>
-	<option value="晚自习第二节">晚自习第二节</option>
-	<option value="晚自习第三节">晚自习第三节</option>
+<span style="white-space: nowrap"><label for="S_Shebei">设备：</label>
+<select name="S_Shebei" id="S_Shebei">
+	<option value="%">所有设备</option>
+	<option value="刻录机">刻录机</option>
+	<option value="照相机">照相机</option>
+	<option value="小摄像机">小摄像机</option>
+	<option value="大摄像机">大摄像机</option>
+	<option value="音响功放">音响功放</option>
+	<option value="高音喇叭功放">高音喇叭功放</option>
+	<option value="其他设备">其他设备</option>
 </select></span>
-<span style="white-space: nowrap"><label for="S_Banji">班级：</label><input name="S_Banji" id="S_Banji" type="text" value="" size="5"/></span>
-<span style="white-space: nowrap"><label for="S_Jifang">机房：</label>
-<select name="S_Jifang" id="S_Jifang">
-	<option value="%" Selected="Selected">全部</option>
-	<option value="1机房">1机房</option>
-	<option value="4机房">4机房</option>
-	<option value="教室">教室</option>
-</select></span>
-<span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/></span>
-<span style="white-space: nowrap"><label for="S_Chuqin">出勤：</label>
-<select name="S_Chuqin" id="S_Chuqin">
-	<option value="" Selected="Selected">无所谓</option>
-	<option value="Yingdao = Shidao">满勤</option>
-	<option value="Yingdao > Shidao">未满勤</option>
-</select></span>
-<span style="white-space: nowrap"><label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/></span>
+<span style="white-space: nowrap"><label for="S_YongTu">用途：</label><input type="text" name="S_YongTu" value="" id="S_YongTu" size="40" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_ShiYongRen">使用人：</label><input type="text" name="S_ShiYongRen" value="" id="S_ShiYongRen" size="10" onblur="return My_CheckField(this);"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
 </div>
 <%
 '搜索记录
+
 S_Riqi=htmlencode(Request.form("S_Riqi"))
 S_Riqi_2=htmlencode(Request.form("S_Riqi_2"))
-S_Jieci=htmlencode(Request.form("S_Jieci"))
-S_Banji=htmlencode(Request.form("S_Banji"))
-S_Jifang=htmlencode(Request.form("S_Jifang"))
-S_Neirong=htmlencode(Request.form("S_Neirong"))
-S_Chuqin=Request.form("S_Chuqin")
-S_Jiaoshi=htmlencode(Request.form("S_Jiaoshi"))
+S_SheBei=htmlencode(Request.form("S_SheBei"))
+S_ShiYongRen=htmlencode(Request.form("S_ShiYongRen"))
+S_YongTu=htmlencode(Request.form("S_YongTu"))
 
-SQL="select * from Jifang where 1=1"
+SQL="select * from ShiYong where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
-If Len(S_Jieci)<>0 Then SQL = SQL & " and Jieci Like '" & S_Jieci &"'"
-If Len(S_Banji)<>0 Then SQL = SQL & " and Banji Like '" & S_Banji &"'"
-If Len(S_Jifang)<>0 Then SQL = SQL & " and Jifang Like '" & S_Jifang &"'"
-If Len(S_Neirong)<>0 Then SQL = SQL & " and Neirong='" & S_Neirong &"'"
-If Len(S_Chuqin)<>0 Then SQL = SQL & " and " & S_Chuqin &""
-If Len(S_Jiaoshi)<>0 Then SQL = SQL & " and Jiaoshi='" & S_Jiaoshi &"'"
-SQL = SQL & " order by Riqi desc,Jieci desc,Jifang desc"
+If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_Jieci &"'"
+If Len(S_ShiYongRen)<>0 Then SQL = SQL & " and ShiYongRen Like '" & S_Banji &"'"
+If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_Jiaoshi &"%'"
+SQL = SQL & " order by SheBei desc, Riqi desc, ShiYongRen desc"
 
 PageSize=20
 MyRs.open Sql,Conn,3,2
@@ -268,22 +241,16 @@ howmanyfields=MyRs.fields.count -1
 
 for i=0 to howmanyfields
 	Select Case UCase(MyRs(i).Name)
+		Case "SHEBEI":
+			response.Write "<th><b>" & "设备" & "</b></th>"
 		Case "RIQI":
 			response.Write "<th><b>" & "日期" & "</b></th>"
-		Case "JIECI":
-			response.Write "<th><b>" & "节次" & "</b></th>"
-		Case "BANJI":
-			response.Write "<th><b>" & "班级" & "</b></th>"
-		Case "JIFANG":
-			response.Write "<th width='30px'><b>" & "机房" & "</b></th>"
-		Case "NEIRONG":
-			response.Write "<th width='300px'><b>" & "内容" & "</b></th>"
-		Case "YINGDAO":
-			response.Write "<th width='60px'><b>" & "应到人数" & "</b></th>"
-		Case "SHIDAO":
-			response.Write "<th width='60px'><b>" & "实到人数" & "</b></th>"
-		Case "JIAOSHI":
-			response.Write "<th width='60px'><b>" & "授课教师" & "</b></th>"
+		Case "SHICHANG":
+			response.Write "<th><b>" & "时长" & "</b></th>"
+		Case "SHIYONGREN":
+			response.Write "<th><b>" & "使用人" & "</b></th>"
+		Case "YONGTU":
+			response.Write "<th width='300px'><b>" & "用途" & "</b></th>"
 		Case "BEIZHU":
 			response.Write "<th width='300px'><b>" & "备注" & "</b></th>"
 		Case Else
@@ -324,29 +291,6 @@ For i_s = 1 to ShowPage
 	response.write("</tr>")
 	MyRs.movenext
 Next
-'j=0
-'do while not MyRs.eof
-'j=j+1
-'if 1 = j mod 2 then
-'	Response.write("<tr id='Data' class='odd'>")
-'else
-'	Response.write("<tr id='Data'>")
-'end if
-
-'for i = 1 to howmanyfields '不显示Id字段
-'	ThisRecord = MyRs(i)
-'	If IsNull(ThisRecord) Then
-'		ThisRecord = "&nbsp;"
-'	end if
-'	If Ucase(MyRs(i).Name)="BEIZHU" Then
-'		Response.write("<td style='max-width:300px;word-wrap: break-word;'>" & ThisRecord & "</td>")
-'	Else
-'		Response.write("<td>" & ThisRecord & "</td>")
-'	End If
-'next
-'Response.write("</tr>")
-'MyRs.movenext
-'loop
 %>
 </tbody>
 </table>
