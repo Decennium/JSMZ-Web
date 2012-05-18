@@ -143,11 +143,10 @@ function My_CheckField(the){
 <!--#include file="left_banner.asp"-->
 <%
 Action=Request.Querystring("Action")
-Select Case Action
+If Action = "AddRecord" Then
 '添加记录
-Case "AddGouRu"
-	'判断是否登陆
 	If Session("Admin")="" then
+	'判断是否登陆
 		Response.Redirect "gouru.asp"
 		Response.End
 	End If
@@ -191,16 +190,16 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			Response.Redirect "?Action=ShowGouRu"
 		End If
 	End If
-'	response.write "<p>" & SQL & "</p>"
-Case Else
+
+	MyRs.Close
+End If
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加设备购入记录</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
-<form name="AddNewGouRu" id="AddNewGouRu" method="post" Action="?Action=AddGouRu" onSubmit="return My_CheckFields(this);">
+<form name="AddNewGouRu" id="AddNewGouRu" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="PinPai">品牌：</label><input type="text" name="PinPai" value="" id="PinPai" size="10" onblur="return My_CheckField(this);"></span>
@@ -243,7 +242,6 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 </script>
 <%End If%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>设备购入情况一览表</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchSheBei" name="SearchSheBei" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
@@ -404,7 +402,7 @@ response.write "<a href=""jifang.asp?page=" & PageCount & """>最后页</a> "
 Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
-End Select
+'End Select
 'MyRs.close
 'Set MyRs= Nothing
 Conn.Close

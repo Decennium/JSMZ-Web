@@ -42,10 +42,14 @@ End If
 <p><a href="shiyong.asp">设备使用管理</a></p>
 <p><a href="gouru.asp">设备购入管理</a></p>
 <p><a href="luyinji.asp">领取录音机管理</a></p>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <p><a href="#">多媒体教室使用管理</a></p>
 <p><a href="#">监控设备使用管理</a></p>
 <p><a href="#">设备维修记录</a></p>
 <p><a href="#">设备外借管理</a></p>
 </div>
+<br clear="all">
+<hr>
+<div id="Tips" width="100%" align="center">小提示</div>
+
 </div>

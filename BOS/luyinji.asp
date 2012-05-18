@@ -118,11 +118,10 @@ function My_CheckField(the){
 <!--#include file="left_banner.asp"-->
 <%
 Action=Request.Querystring("Action")
-Select Case Action
+If Action = "AddRecord" Then
 '添加记录
-Case "AddLingQu"
-	'判断是否登陆
 	If Session("Admin")="" then
+	'判断是否登陆
 		Response.Redirect "luyinji.asp"
 		Response.End
 	End If
@@ -144,33 +143,31 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		MyRs.open Sql,Conn,3,2
 		If MyRs.recordcount>0 then
 			If abs(DateDiff("m",MyRs(1).Value,Now()))<35 Then
-				Response.Write "<script language='JavaScript'>document.getElementById('Tips').innerHTML = '这位老师上一台录音机还没用够三年。';</SCRIPT>"
+				Response.Write "<script language='javascript'>document.getElementById(""Tips"").innerHTML = ""这位老师上一台录音机还没用够三年。"";</script>"
+				'Response.Write "<script language='javascript'>alert('这位老师上一台录音机还没用够三年。');</script>"
 			Else
 				Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
 					"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
 				conn.execute(Sql)
 				'Response.Redirect "?Action=ShowSheBei"
 			End If
-'			MyRs.close
 		Else
 			Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
 				"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
 			conn.execute(Sql)
 			'Response.Redirect "?Action=ShowSheBei"
-'			Response.End
 		End If
 	End If
 
 	MyRs.Close
-End Select
+End If
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加领取录音机记录</strong></div>
-<div id="Tips" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
-<form name="AddNewLingQu" id="AddNewLingQu" method="post" Action="?Action=AddLingQu" onSubmit="return My_CheckFields(this);">
+<form name="AddNewLingQu" id="AddNewLingQu" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="JiaoShi">教师：</label><input type="text" name="JiaoShi" value="" id="JiaoShi" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="XueKe">学科：</label>
@@ -199,7 +196,6 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 </script>
 <%End If%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>领取录音机情况一览表</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchSheBei" name="SearchSheBei" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">

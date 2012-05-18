@@ -148,11 +148,10 @@ function My_CheckField(the){
 <!--#include file="left_banner.asp"-->
 <%
 Action=Request.Querystring("Action")
-Select Case Action
+If Action = "AddRecord" Then
 '添加记录
-Case "AddJieci"
-	'判断是否登陆
 	If Session("Admin")="" then
+	'判断是否登陆
 		Response.Redirect "jifang.asp"
 		Response.End
 	End If
@@ -187,16 +186,16 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 '			Response.End
 		End If
 	End If
-'			response.write "<p>" & SQL & "</p>"
-Case Else
+
+	MyRs.Close
+End If
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加机房使用记录</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
-<form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddJieci" onSubmit="return My_CheckFields(this);">
+<form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="Jieci">节次：</label>
 <select name="Jieci" id="Jieci">
@@ -250,7 +249,6 @@ document.getElementById("Jieci").options[i].selected = true;
 </script>
 <%End If%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>机房使用情况一览表</strong></div>
-<div id="Tips2" style="float:left;color:red"></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchJieci" name="SearchJieci" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
@@ -442,7 +440,7 @@ response.write "<a href=""jifang.asp?page=" & PageCount & """>最后页</a> "
 Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
-End Select
+'End Select
 'MyRs.close
 'Set MyRs= Nothing
 Conn.Close
