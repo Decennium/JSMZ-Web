@@ -309,7 +309,7 @@ for i=0 to howmanyfields
 		Case "DANWEI":
 			response.Write "<th width='30px'><b>" & "单位" & "</b></th>"
 		Case "SHULIANG":
-			response.Write "<th><b>" & "数量" & "</b></th>"
+			response.Write "<th width='30px'><b>" & "数量" & "</b></th>"
 		Case "DANJIA":
 			response.Write "<th><b>" & "单价" & "</b></th>"
 			response.Write "<th><b>" & "总价" & "</b></th>"
@@ -318,11 +318,11 @@ for i=0 to howmanyfields
 		Case "YONGTU":
 			response.Write "<th><b>" & "用途" & "</b></th>"
 		Case "OS":
-			response.Write "<th><b>" & "操作系统" & "</b></th>"
+			response.Write "<th width='60px'><b>" & "操作系统" & "</b></th>"
 		Case "OSXULIEHAO":
-			response.Write "<th><b>" & "系统序列号" & "</b></th>"
+			response.Write "<th width='80px'><b>" & "系统序列号" & "</b></th>"
 		Case "BEIZHU":
-			response.Write "<th><b>" & "备注" & "</b></th>"
+			response.Write "<th class='BeiZhu'><b>" & "备注" & "</b></th>"
 		Case Else
 			
 	End Select
@@ -351,7 +351,7 @@ For i_s = 1 to ShowPage
 			ThisRecord = "&nbsp;"
 		end if
 		If Ucase(MyRs(i_c).Name)="BEIZHU" Then
-			Response.write("<td style='max-width:300px;word-wrap: break-word;'>" & ThisRecord & "</td>")
+			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
 		ElseIf Ucase(MyRs(i_c).Name)="SHULIANG" Then
 			Response.write("<td>" & ThisRecord & "</td>")
 			iShuLiang=ThisRecord

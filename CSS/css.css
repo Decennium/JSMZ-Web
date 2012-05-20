@@ -88,7 +88,7 @@ DIV#Tips {
 float:left;
 color:red;
 border:1px solid #e5eff8;
-padding : 0px 10px 10px 25px;
+padding : 5px 10px 10px 25px;
 text-align : justify;
 width : 110px;
 min-height : 22px;
@@ -131,6 +131,14 @@ padding:0.3em 0.3em;
 vertical-align:top;
 font-size : 13px;
 text-align:left;
+}
+td.BeiZhu{
+max-width:100px;
+word-wrap: break-word;
+}
+hr.NeiRong,td.NeiRong{
+max-width:100px;
+word-wrap: break-word;
 }
 tr#Data:hover {
 background:#F3F781;

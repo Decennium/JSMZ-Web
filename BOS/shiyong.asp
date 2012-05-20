@@ -163,6 +163,7 @@ End If
 	<option value="大摄像机">大摄像机</option>
 	<option value="音响功放">音响功放</option>
 	<option value="高音喇叭功放">高音喇叭功放</option>
+	<option value="无线话筒">无线话筒</option>
 	<option value="其他设备">其他设备</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
@@ -199,6 +200,7 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 	<option value="大摄像机">大摄像机</option>
 	<option value="音响功放">音响功放</option>
 	<option value="高音喇叭功放">高音喇叭功放</option>
+	<option value="无线话筒">无线话筒</option>
 	<option value="其他设备">其他设备</option>
 </select></span>
 <span style="white-space: nowrap"><label for="S_YongTu">用途：</label><input type="text" name="S_YongTu" value="" id="S_YongTu" size="40" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
@@ -218,9 +220,9 @@ S_YongTu=htmlencode(Request.form("S_YongTu"))
 SQL="select * from ShiYong where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
-If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_Jieci &"'"
-If Len(S_ShiYongRen)<>0 Then SQL = SQL & " and ShiYongRen Like '" & S_Banji &"'"
-If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_Jiaoshi &"%'"
+If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_SheBei &"'"
+If Len(S_ShiYongRen)<>0 Then SQL = SQL & " and ShiYongRen Like '" & S_ShiYongRen &"'"
+If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_YongTu &"%'"
 SQL = SQL & " order by SheBei desc, Riqi desc, ShiYongRen desc"
 
 PageSize=20
@@ -248,9 +250,9 @@ for i=0 to howmanyfields
 		Case "SHIYONGREN":
 			response.Write "<th><b>" & "使用人" & "</b></th>"
 		Case "YONGTU":
-			response.Write "<th width='300px'><b>" & "用途" & "</b></th>"
+			response.Write "<th class='NeiRong'><b>" & "用途" & "</b></th>"
 		Case "BEIZHU":
-			response.Write "<th width='300px'><b>" & "备注" & "</b></th>"
+			response.Write "<th class='BeiZhu'><b>" & "备注" & "</b></th>"
 		Case Else
 			
 	End Select
@@ -278,7 +280,7 @@ For i_s = 1 to ShowPage
 			ThisRecord = "&nbsp;"
 		end if
 		If Ucase(MyRs(i_c).Name)="BEIZHU" Then
-			Response.write("<td style='max-width:300px;word-wrap: break-word;'>" & ThisRecord & "</td>")
+			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
 		Else
 			Response.write("<td>" & ThisRecord & "</td>")
 		End If

@@ -42,11 +42,11 @@ End If
 <p><a href="shiyong.asp">设备使用管理</a></p>
 <p><a href="gouru.asp">设备购入管理</a></p>
 <p><a href="luyinji.asp">领取录音机管理</a></p>
+<p><a href="MMC.asp">多媒体教室使用管理</a></p>
+<p><a href="jiankong.asp">监控设备使用管理</a></p>
 <hr>
-<p><a href="#">多媒体教室使用管理</a></p>
-<p><a href="#">监控设备使用管理</a></p>
-<p><a href="#">设备维修记录</a></p>
-<p><a href="#">设备外借管理</a></p>
+<p><a href="index.asp">设备维修记录</a></p>
+<p><a href="index.asp">设备外借管理</a></p>
 </div>
 <br clear="all">
 <hr>

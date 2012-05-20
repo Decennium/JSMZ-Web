@@ -231,7 +231,6 @@ End Select
 conn.close
 Set conn=nothing
 %>
-<div id="Tips" Name="Tips"></div>
 </div>
 <br clear="all">
 <!--#include file="../include/bottom.asp"-->
