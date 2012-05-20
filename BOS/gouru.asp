@@ -394,11 +394,11 @@ Else
 	end if
 end if
 
-response.write "<a href=""jifang.asp?page=1"">第一页</a> "
+response.write "<a href=""gouru.asp?page=1"">第一页</a> "
 for i=StartPage to EndPage
-	response.write "<a href=""jifang.asp?page=" & i & """>" & i & "</a> "
+	response.write "<a href=""gouru.asp?page=" & i & """>" & i & "</a> "
 next 'i
-response.write "<a href=""jifang.asp?page=" & PageCount & """>最后页</a> "
+response.write "<a href=""gouru.asp?page=" & PageCount & """>最后页</a> "
 Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
