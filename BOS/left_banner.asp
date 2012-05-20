@@ -45,8 +45,8 @@ End If
 <p><a href="MMC.asp">多媒体教室使用管理</a></p>
 <p><a href="jiankong.asp">监控设备使用管理</a></p>
 <p><a href="weixiu.asp">设备维修管理</a></p>
-<hr>
-<p><a href="index.asp">设备外借管理</a></p>
+<p><a href="waijie.asp">设备外借管理</a></p>
+<!-- <hr> -->
 </div>
 <br clear="all">
 <hr>

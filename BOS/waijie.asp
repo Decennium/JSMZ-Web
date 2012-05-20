@@ -51,7 +51,7 @@ Conn.Open My_conn_STRING
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=gb2312">
-<title>多媒体教室使用管理系统</title>
+<title>设备外借管理系统</title>
 <link href="../css/css.css" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 <script language="javascript" src="DateTime.js"></script>
@@ -84,49 +84,14 @@ function My_CheckFields(the){
 		the.Riqi.focus();
 		return false;
 	}
-	if (the.Banji.value=="") {
-		document.getElementById('Tips').innerHTML = '班级不能为空';
-		the.Banji.focus();
+	if (the.JieQi.value=="") {
+		document.getElementById('Tips').innerHTML = '借期不能为空';
+		the.JieQi.focus();
 		return false;
 	}
-	if (the.Jifang.value=="") {
-		document.getElementById('Tips').innerHTML = '机房不能为空';
-		the.Jifang.focus();
-		return false;
-	}
-	if (the.Neirong.value=="") {
-		document.getElementById('Tips').innerHTML = '内容不能为空';
-		the.Neirong.focus();
-		return false;
-	}
-	if (the.Yingdao.value=="") {
-		document.getElementById('Tips').innerHTML = '应到人数不能为空';
-		the.Yingdao.focus();
-		return false;
-	}
-	if (!My_IsInt(the.Yingdao.value)){
-		document.getElementById('Tips').innerHTML = '应到人数必须为自然数';
-		the.Yingdao.focus();
-		return false;
-	}
-	if (the.Shidao.value=="") {
-		document.getElementById('Tips').innerHTML = '实到人数不能为空';
-		the.Shidao.focus();
-		return false;
-	}
-	if (!My_IsInt(the.Shidao.value)){
-		document.getElementById('Tips').innerHTML = '实到人数必须为自然数';
-		the.Shidao.focus();
-		return false;
-	}
-	if (parseInt(the.Shidao.value) > parseInt(the.Yingdao.value)) {
-		document.getElementById('Tips').innerHTML = '实到人数不能多于应到人数';
-		the.Shidao.focus();
-		return false;
-	}
-	if (the.Jiaoshi.value=="") {
-		document.getElementById('Tips').innerHTML = '授课教师不能为空';
-		the.Jiaoshi.focus();
+	if (!My_IsInt(the.JieQi.value)){
+		document.getElementById('Tips').innerHTML = '借期必须为自然数';
+		the.JieQi.focus();
 		return false;
 	}
 	document.getElementById('Tips').innerHTML = '';
@@ -152,33 +117,33 @@ If Action = "AddRecord" Then
 '添加记录
 	If Session("Admin")="" then
 	'判断是否登陆
-		Response.Redirect "MMC.asp"
+		Response.Redirect "waijie.asp"
 		Response.End
 	End If
 
 Riqi=htmlencode(Request.form("Riqi"))
-Jieci=htmlencode(Request.form("Jieci"))
-Banji=htmlencode(Request.form("Banji"))
-XueKe=htmlencode(Request.form("XueKe"))
-Neirong=htmlencode(Request.form("Neirong"))
-Jiaoshi=htmlencode(Request.form("Jiaoshi"))
+ShenQingRen=htmlencode(Request.form("ShenQingRen"))
+SheBei=htmlencode(Request.form("SheBei"))
+JieQi=htmlencode(Request.form("JieQi"))
+MiaoShu=htmlencode(Request.form("MiaoShu"))
+FaFangRen=htmlencode(Request.form("FaFangRen"))
 Beizhu=htmlencode(Request.form("Beizhu"))
 
-	If (Len(Riqi)>0 And Len(Jieci)>0 And Len(Banji)>0 And Len(XueKe)>0 And Len(Neirong)>0 And Len(Jiaoshi)>0) then
+	If (Len(Riqi)>0 And Len(ShenQingRen)>0 And Len(SheBei)>0 And Len(JieQi)>0 And Len(MiaoShu)>0 And Len(FaFangRen)>0) then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="Select * from MMC where Riqi='" & Riqi & "' and Jieci ='" & Jieci & "'"
+		Sql="Select * from WaiJie where SheBei='" & SheBei & "' and GuiHuan = 0"
 		MyRs.open Sql,Conn,3,2
 		If MyRs.recordcount>0 then
-			Response.Write "<script>document.getElementById('Tips').innerHTML = '这堂课已经有人用了。';</SCRIPT>"
+			Response.Write "<script>document.getElementById('Tips').innerHTML = '设备" & MyRs(3).value & "已经被" & MyRs(2).Value & "借出，尚未归还。';</SCRIPT>"
 '			MyRs.close
 		Else
-			Sql="INSERT INTO [MMC] ([RiQi],[JieCi],[BanJi],[XueKe],[NeiRong],[JiaoShi],[BeiZhu]) VALUES ('"& Riqi &"','"& Jieci &"','"& Banji &"','"& XueKe &"','"& Neirong &"','" & Jiaoshi &"','" & Beizhu &"')"
-		   conn.execute(Sql)
+			Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"',0,'" & Beizhu &"')"
+			conn.execute(Sql)
 			Response.Redirect "?Action=ShowJieci"
 '			Response.End
 		End If
@@ -190,20 +155,21 @@ If Action = "AddCheck" Then
 '添加检查
 	If Session("Admin")="" then
 	'判断是否登陆
-		Response.Redirect "MMC.asp"
+		Response.Redirect "waijie.asp"
 		Response.End
 	End If
 ID=htmlencode(Request.form("id"))
-JianCha=htmlencode(Request.form("JianCha"))
-JianChaRen=htmlencode(Request.form("JianChaRen"))
-	If (Len(ID)>0 And Len(JianCha)>0 And Len(JianChaRen)>0) then
+GuiHuanRiQi=htmlencode(Request.form("GuiHuanRiQi"))
+ZhuangKuang=htmlencode(Request.form("ZhuangKuang"))
+QianShouRen=htmlencode(Request.form("QianShouRen"))
+	If (Len(ID)>0 And Len(GuiHuanRiQi)>0 And Len(QianShouRen)>0) then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-			Sql="UPDATE [MMC] SET [JianCha] = '"& JianCha &"',[JianChaRen] ='"& JianChaRen &"' WHERE [id] ='"& ID &"'"
+			Sql="UPDATE [WaiJie] SET [GuiHuan] = 1,[GuiHuanRiQi] ='"& GuiHuanRiQi &"',[QianShouRen] ='"& QianShouRen &"',[ZhuangKuang] ='"& ZhuangKuang &"' WHERE [id] ='"& ID &"'"
 			conn.execute(Sql)
 			Response.Redirect "?Action=ShowJieci"
 	End If
@@ -211,50 +177,16 @@ End If
 %>
 <div id="Right_Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
-<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加多媒体教室使用记录</strong></div>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加设备外借记录</strong></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Add_Area">
 <form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
-<span style="white-space: nowrap"><label for="Jieci">节次：</label>
-<select name="Jieci" id="Jieci">
-	<option value="早读">早读</option>
-	<option value="第一节">第一节</option>
-	<option value="第二节">第二节</option>
-	<option value="第三节">第三节</option>
-	<option value="第四节">第四节</option>
-	<option value="午餐时间">午餐时间</option>
-	<option value="午休时间">午休时间</option>
-	<option value="第五节">第五节</option>
-	<option value="第六节">第六节</option>
-	<option value="第七节">第七节</option>
-	<option value="第八节">第八节</option>
-	<option value="晚饭后休息时间">晚饭后休息时间</option>
-	<option value="晚自习第一节">晚自习第一节</option>
-	<option value="晚自习第二节">晚自习第二节</option>
-	<option value="晚自习第三节">晚自习第三节</option>
-</select></span>
-<span style="white-space: nowrap"><label for="Banji">班级：</label><input type="text" name="Banji" value="" id="Banji" size="5" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="XueKe">学科：</label>
-<select name="XueKe" id="XueKe">
-	<option value="语文">语文</option>
-	<option value="数学">数学</option>
-	<option value="物理">物理</option>
-	<option value="化学">化学</option>
-	<option value="外语">外语</option>
-	<option value="历史">历史</option>
-	<option value="政治">政治</option>
-	<option value="生物">生物</option>
-	<option value="地理">地理</option>
-	<option value="音乐">音乐</option>
-	<option value="美术">美术</option>
-	<option value="体育">体育</option>
-	<option value="舞蹈">舞蹈</option>
-	<option value="班会">班会</option>
-	<option value="其他">其他</option>
-</select></span>
-<span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="30" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value="" id="Jiaoshi" size="5" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="ShenQingRen">申请人：</label><input type="text" name="ShenQingRen" value="" id="ShenQingRen" size="5" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="JieQi">借期：</label><input type="text" name="JieQi" value="" id="JieQi" size="5" onblur="return My_CheckField(this);"/><label for="JieQi">天，</label></span>
+<span style="white-space: nowrap"><label for="MiaoShu">设备描述：</label><input type="text" name="MiaoShu" value="一切正常" id="MiaoShu" size="30" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="FaFangRen">发放人：</label><input type="text" name="FaFangRen" value='<%=Session("ShowName")%>' id="FaFangRen" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
@@ -265,58 +197,26 @@ var currentTime = new Date()
 var month = currentTime.getMonth() + 1
 var day = currentTime.getDate()
 var year = currentTime.getFullYear()
-var i = currentTime.getHours() -7
+//var i = currentTime.getHours() -7
 
 document.getElementById('Riqi').value = year + "-" + month + "-" + day;
-document.getElementById("Jieci").options[i].selected = true;
+//document.getElementById("Jieci").options[i].selected = true;
 </script>
 <%End If%>
-<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>多媒体教室使用情况一览表</strong></div>
+<div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>设备外借情况一览表</strong></div>
 <br clear="all"/>
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchJieci" name="SearchJieci" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
 <span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
-<span style="white-space: nowrap"><label for="S_Jieci">节次：</label>
-<select name="S_Jieci" id="S_Jieci">
-	<option value="%" Selected="Selected">不限</option>
-	<option value="早读">早读</option>
-	<option value="第一节">第一节</option>
-	<option value="第二节">第二节</option>
-	<option value="第三节">第三节</option>
-	<option value="第四节">第四节</option>
-	<option value="午餐时间">午餐时间</option>
-	<option value="午休时间">午休时间</option>
-	<option value="第五节">第五节</option>
-	<option value="第六节">第六节</option>
-	<option value="第七节">第七节</option>
-	<option value="第八节">第八节</option>
-	<option value="晚饭后休息时间">晚饭后休息时间</option>
-	<option value="晚自习第一节">晚自习第一节</option>
-	<option value="晚自习第二节">晚自习第二节</option>
-	<option value="晚自习第三节">晚自习第三节</option>
+<span style="white-space: nowrap"><label for="S_ShenQingRen">申请人：</label><input name="S_ShenQingRen" id="S_ShenQingRen" type="text" value="" size="5"/></span>
+<span style="white-space: nowrap"><label for="S_SheBei">设备：</label><input name="S_SheBei" id="S_SheBei" type="text" value="" size="10"/></span>
+<span style="white-space: nowrap"><label for="S_GuiHuan">是否归还：</label>
+<select name="S_GuiHuan" id="S_GuiHuan">
+	<option value="%">不论</option>
+	<option value="0" Selected="Selected">未归还</option>
+	<option value="1">已归还</option>
 </select></span>
-<span style="white-space: nowrap"><label for="S_Banji">班级：</label><input name="S_Banji" id="S_Banji" type="text" value="" size="5"/></span>
-<span style="white-space: nowrap"><label for="S_XueKe">学科：</label>
-<select name="S_XueKe" id="S_XueKe">
-	<option value="%" Selected="Selected">全部</option>
-	<option value="语文">语文</option>
-	<option value="数学">数学</option>
-	<option value="物理">物理</option>
-	<option value="化学">化学</option>
-	<option value="外语">外语</option>
-	<option value="历史">历史</option>
-	<option value="政治">政治</option>
-	<option value="生物">生物</option>
-	<option value="地理">地理</option>
-	<option value="音乐">音乐</option>
-	<option value="美术">美术</option>
-	<option value="体育">体育</option>
-	<option value="舞蹈">舞蹈</option>
-	<option value="班会">班会</option>
-	<option value="其他">其他</option>
-</select></span>
-<span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/></span>
-<span style="white-space: nowrap"><label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/></span>
+<span style="white-space: nowrap"><label for="S_FaFangRen">发放人：</label><input name="S_FaFangRen" id="S_FaFangRen" type="text" value="" size="5"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
 </div>
@@ -324,21 +224,19 @@ document.getElementById("Jieci").options[i].selected = true;
 '搜索记录
 S_Riqi=htmlencode(Request.form("S_Riqi"))
 S_Riqi_2=htmlencode(Request.form("S_Riqi_2"))
-S_Jieci=htmlencode(Request.form("S_Jieci"))
-S_Banji=htmlencode(Request.form("S_Banji"))
-S_XueKe=htmlencode(Request.form("S_XueKe"))
-S_Neirong=htmlencode(Request.form("S_Neirong"))
-S_Jiaoshi=htmlencode(Request.form("S_Jiaoshi"))
+S_ShenQingRen=htmlencode(Request.form("S_ShenQingRen"))
+S_SheBei=htmlencode(Request.form("S_SheBei"))
+S_GuiHuan=htmlencode(Request.form("S_GuiHuan"))
+S_FaFangRen=htmlencode(Request.form("S_FaFangRen"))
 
-SQL="select * from MMC where 1=1"
+SQL="select * from WaiJie where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
-If Len(S_Jieci)<>0 Then SQL = SQL & " and Jieci Like '" & S_Jieci &"'"
-If Len(S_Banji)<>0 Then SQL = SQL & " and Banji Like '" & S_Banji &"'"
-If Len(S_XueKe)<>0 Then SQL = SQL & " and XueKe Like '" & S_XueKe &"'"
-If Len(S_Neirong)<>0 Then SQL = SQL & " and Neirong Like '%" & S_Neirong &"%'"
-If Len(S_Jiaoshi)<>0 Then SQL = SQL & " and Jiaoshi = '" & S_Jiaoshi &"'"
-SQL = SQL & " order by Riqi desc, Jieci desc, XueKe desc"
+If Len(S_ShenQingRen)<>0 Then SQL = SQL & " and ShenQingRen Like '%" & S_ShenQingRen &"%'"
+If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '%" & S_SheBei &"%'"
+If Len(S_GuiHuan)<>0 Then SQL = SQL & " and GuiHuan = " & S_GuiHuan &""
+If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen = '" & S_FaFangRen &"'"
+SQL = SQL & " order by Riqi desc, SheBei desc"
 'response.write sql
 PageSize=20
 MyRs.open Sql,Conn,3,2
@@ -353,25 +251,28 @@ If ResultCount>0 then
 <tr class="odd">
 <% 'Put Headings On The Table of Field Names
 howmanyfields=MyRs.fields.count -1 
-
 for i=0 to howmanyfields
 	Select Case UCase(MyRs(i).Name)
 		Case "RIQI":
 			response.Write "<th><b>" & "日期" & "</b></th>"
-		Case "JIECI":
-			response.Write "<th><b>" & "节次" & "</b></th>"
-		Case "BANJI":
-			response.Write "<th><b>" & "班级" & "</b></th>"
-		Case "XUEKE":
-			response.Write "<th width='30px'><b>" & "学科" & "</b></th>"
-		Case "NEIRONG":
-			response.Write "<th class='NeiRong'><b>" & "内容" & "</b></th>"
-		Case "JIAOSHI":
-			response.Write "<th width='60px'><b>" & "授课教师" & "</b></th>"
-		Case "JIANCHA":
-			response.Write "<th width='60px'><b>" & "使用状况" & "</b></th>"
-		Case "JIANCHAREN":
-			response.Write "<th width='60px'><b>" & "检查人" & "</b></th>"
+		Case "SHENQINGREN":
+			response.Write "<th><b>" & "申请人" & "</b></th>"
+		Case "SHEBEI":
+			response.Write "<th><b>" & "设备" & "</b></th>"
+		Case "JIEQI":
+			response.Write "<th width='50px'><b>" & "借期/天" & "</b></th>"
+		Case "MIAOSHU":
+			response.Write "<th class='NeiRong'><b>" & "描述" & "</b></th>"
+		Case "FAFANGREN":
+			response.Write "<th width='60px'><b>" & "发放人" & "</b></th>"
+		Case "GUIHUAN":
+			response.Write "<th width='60px'><b>" & "归还与否" & "</b></th>"
+		Case "GUIHUANRIQI":
+			response.Write "<th width='60px'><b>" & "归还日期" & "</b></th>"
+		Case "ZHUANGKUANG":
+			response.Write "<th class='NeiRong'><b>" & "归还时状况" & "</b></th>"
+		Case "QIANSHOUREN":
+			response.Write "<th width='60px'><b>" & "签收人" & "</b></th>"
 		Case "BEIZHU":
 			response.Write "<th class='BeiZhu'><b>" & "备注" & "</b></th>"
 		Case Else
@@ -388,9 +289,7 @@ Else
 	ShowPage = ResultCount
 End If
 MyRs.absolutepage = Currentpage
-'If MyRs.EOF Then MyRs.MoveFirst
-'MyRs.Move MyRs.PageSize * (MyRs.AbsolutePage - 1)
-'response.write MyRs.EOF
+
 For i_s = 1 to ShowPage
 	If MyRs.EOF Then Exit For
 	if 1 = i_s mod 2 then
@@ -403,15 +302,35 @@ For i_s = 1 to ShowPage
 		If IsNull(ThisRecord) Then
 			ThisRecord = ""
 		End if
-		If Ucase(MyRs(i_c).Name)="JIANCHA" Then
+		If Ucase(MyRs(i_c).Name)="GUIHUANRIQI" Then
 			If ThisRecord = "" Then
-				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='text' name='JianCha' value='使用状况良好' id='JianCha' size='20'/><input type='submit' value='检查'/></td>")
+				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type=""text"" name=""GuiHuanRiQi"" id=""GuiHuanRiQi"" value=""" & year(now()) &"-" & month(now()) & "-" & day(now()) & """ size=""10"" readonly=""readonly"" onclick=""choose_date_czw('GuiHuanRiQi')""/><input type='submit' value='检查'/></td>")
 			Else
 				Response.write("<td>" & ThisRecord & "</td>")
 			End If
-		ElseIf Ucase(MyRs(i_c).Name)="JIANCHAREN" Then
+		ElseIf Ucase(MyRs(i_c).Name)="RIQI" Then
+			Response.write("<td width='80px'>" & ThisRecord & "</td>")
+		ElseIf Ucase(MyRs(i_c).Name)="SHENQINGREN" Then
+			Response.write("<td width='80px'>" & ThisRecord & "</td>")
+		ElseIf Ucase(MyRs(i_c).Name)="JIEQI" Then
+			Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
+		ElseIf Ucase(MyRs(i_c).Name)="JIEQI" Then
+			Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
+		ElseIf Ucase(MyRs(i_c).Name)="GUIHUAN" Then
+			If ThisRecord  Then
+				Response.write("<td>已归还</td>")
+			Else
+				Response.write("<td>未归还</td>")
+			End If
+		ElseIf Ucase(MyRs(i_c).Name)="ZHUANGKUANG" Then
 			If ThisRecord = "" Then
-				Response.write("<td><input type='text' name='JianChaRen' value='" & Session("ShowName") & "'  size='5'/></form></td>")
+				Response.write("<td><input type='text' name='ZhuangKuang' value='一切正常' size='30'/></td>")
+			Else
+				Response.write("<td>" & ThisRecord & "</td>")
+			End If
+		ElseIf Ucase(MyRs(i_c).Name)="QIANSHOUREN" Then
+			If ThisRecord = "" Then
+				Response.write("<td><input type='text' name='QianSHouRen' value='" & Session("ShowName") & "'  size='5'/></form></td>")
 			Else
 				Response.write("<td>" & ThisRecord & "</td>")
 			End If
@@ -448,11 +367,11 @@ Else
 	end if
 end if
 
-response.write "<a href=""MMC.asp?page=1"">第一页</a> "
+response.write "<a href=""waijie.asp?page=1"">第一页</a> "
 for i=StartPage to EndPage
-	response.write "<a href=""MMC.asp?page=" & i & """>" & i & "</a> "
+	response.write "<a href=""waijie.asp?page=" & i & """>" & i & "</a> "
 next 'i
-response.write "<a href=""MMC.asp?page=" & PageCount & """>最后页</a> "
+response.write "<a href=""waijie.asp?page=" & PageCount & """>最后页</a> "
 Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
