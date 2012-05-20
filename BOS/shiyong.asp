@@ -170,7 +170,7 @@ End If
 <span style="white-space: nowrap"><label for="ShiChang">时长：</label><input type="text" name="ShiChang" value="" id="ShiChang" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="YongTu">用途：</label><input type="text" name="YongTu" value="" id="YongTu" size="40" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="ShiYongRen">使用人：</label><input type="text" name="ShiYongRen" value=<%=Session("ShowName")%> id="ShiYongRen" size="10" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="30"/></span>
+<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>

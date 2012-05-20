@@ -215,7 +215,7 @@ End If
 	<option value="晚自习第二节">晚自习第二节</option>
 	<option value="晚自习第三节">晚自习第三节</option>
 </select></span>
-<span style="white-space: nowrap"><label for="Banji">班级：</label><input type="text" name="Banji" value="" id="Banji" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="Banji">班级：</label><input type="text" name="Banji" value="" id="Banji" size="3" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="Jifang">机房：</label>
 <select name="Jifang" id="Jifang">
 <%
@@ -229,10 +229,10 @@ end if
 	<option value="教室">教室</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Yingdao">应到人数：</label><input type="text" name="Yingdao" value="" id="Yingdao" size="5" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Shidao">实到人数：</label><input type="text" name="Shidao" value="" id="Shidao" size="5" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="10" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="30"/></span>
+<span style="white-space: nowrap"><label for="Yingdao">应到人数：</label><input type="text" name="Yingdao" value="" id="Yingdao" size="3" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Shidao">实到人数：</label><input type="text" name="Shidao" value="" id="Shidao" size="3" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="5" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
