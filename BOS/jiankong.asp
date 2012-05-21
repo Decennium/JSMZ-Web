@@ -340,6 +340,7 @@ End If
 Conn.Close
 set Conn=nothing
 %>
+<p align="left"><a href="download.asp?Action=jiankong">下载监控设备使用数据</a></p>
 </div>
 </div>
 <br clear=all>

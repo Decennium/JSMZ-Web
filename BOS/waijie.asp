@@ -381,6 +381,7 @@ End If
 Conn.Close
 set Conn=nothing
 %>
+<p align="left"><a href="download.asp?Action=waijie">下载设备外借数据</a></p>
 </div>
 </div>
 <br clear=all>

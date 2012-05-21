@@ -408,6 +408,7 @@ End If
 Conn.Close
 set Conn=nothing
 %>
+<p align="left"><a href="download.asp?Action=gouru">下载设备购入数据</a></p>
 </div>
 </div>
 <br clear=all>

@@ -446,6 +446,7 @@ End If
 Conn.Close
 set Conn=nothing
 %>
+<p align="left"><a href="download.asp?Action=jifang">下载机房使用数据</a></p>
 </div>
 </div>
 <br clear=all>

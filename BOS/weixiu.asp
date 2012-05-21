@@ -322,6 +322,7 @@ End If
 Conn.Close
 set Conn=nothing
 %>
+<p align="left"><a href="download.asp?Action=weixiu">下载设备维修数据</a></p>
 </div>
 </div>
 <br clear=all>
