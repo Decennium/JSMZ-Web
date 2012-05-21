@@ -301,7 +301,7 @@ Next
 <br clear="left">
 <%
 response.write "½á¹ûÒ³Âë£º"
-PageCount=Int(ResultCount/PageSize)+1
+PageCount=Int(ResultCount/(PageSize+1))+1
 if CurrentPage > 4 then
 	StartPage=CurrentPage-4
 Else

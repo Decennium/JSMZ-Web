@@ -224,7 +224,7 @@ S_PinPai=htmlencode(Request.form("S_PinPai"))
 SQL="select * from GouRu where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
-If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_SheBei &"'"
+If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '%" & S_SheBei &"%'"
 If Len(S_JingShouRen)<>0 Then SQL = SQL & " and JingShouRen = '" & S_JingShouRen &"'"
 If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_YongTu &"%'"
 If Len(S_XuLieHao)<>0 Then SQL = SQL & " and XuLieHao = '" & S_XuLieHao &"'"
@@ -328,7 +328,7 @@ Next
 <br clear="left">
 <%
 response.write "½á¹ûÒ³Âë£º"
-PageCount=Int(ResultCount/PageSize)+1
+PageCount=Int(ResultCount/(PageSize+1))+1
 if CurrentPage > 4 then
 	StartPage=CurrentPage-4
 Else

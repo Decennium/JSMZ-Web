@@ -207,6 +207,7 @@ for i=0 to howmanyfields
 		Case "FAFANGREN":
 			response.Write "<th><b>" & "发放人" & "</b></th>"
 		Case "BEIZHU":
+			response.Write "<th><b>" & "距离更换" & "</b></th>"
 			response.Write "<th class='BeiZhu'><b>" & "备注" & "</b></th>"
 		Case Else
 			
@@ -230,11 +231,18 @@ For i_s = 1 to ShowPage
 		response.write("<tr id='Data'>")
 	end if
 	for i_c = 1 to howmanyfields '不显示Id字段
-		ThisRecord = MyRs(i_c)
+		ThisRecord = MyRs(i_c).value
 		If IsNull(ThisRecord) Then
 			ThisRecord = "&nbsp;"
 		end if
 		If Ucase(MyRs(i_c).Name)="BEIZHU" Then
+			ShengYu = datediff("m",dateadd("m",36,MyRs(1).value),Now())
+			If ShengYu < 0 Then
+				ShengYu = "还有" & ABS(ShengYu) & "个月"
+			Else
+				ShengYu = "已经超过" & ShengYu & "个月"
+			End If
+			Response.write("<td>" & ShengYu & "</td>")
 			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
 		Else
 			Response.write("<td>" & ThisRecord & "</td>")
@@ -250,7 +258,7 @@ Next
 <br clear="left">
 <%
 response.write "结果页码："
-PageCount=Int(ResultCount/PageSize)+1
+PageCount=Int(ResultCount/(PageSize+1))+1
 if CurrentPage > 4 then
 	StartPage=CurrentPage-4
 Else

@@ -1,6 +1,6 @@
 <div id="navbar" align="left">
 <%
-PageCount=Int(ResultCount/PageSize)+1
+PageCount=Int(ResultCount/(PageSize+1))+1
 If PageCount > 1 Then
 	response.write "½á¹ûÒ³Âë£º"
 	if CurrentPage > 4 then
