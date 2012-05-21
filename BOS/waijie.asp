@@ -87,17 +87,9 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="Select * from WaiJie where SheBei='" & SheBei & "' and GuiHuan = 0"
-		MyRs.open Sql,Conn,3,2
-		If MyRs.recordcount>0 then
-			Response.Write "<script>document.getElementById('Tips').innerHTML = '设备" & MyRs(3).value & "已经被" & MyRs(2).Value & "借出，尚未归还。';</SCRIPT>"
-'			MyRs.close
-		Else
-			Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"',0,'" & Beizhu &"')"
-			conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
-'			Response.End
-		End If
+		Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"',0,'" & Beizhu &"')"
+		conn.execute(Sql)
+		Response.Redirect "?Action=ShowJieci"
 	End If
 
 	MyRs.Close
