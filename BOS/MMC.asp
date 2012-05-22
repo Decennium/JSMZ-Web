@@ -130,7 +130,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		Else
 			Sql="INSERT INTO [MMC] ([RiQi],[JieCi],[BanJi],[XueKe],[NeiRong],[JiaoShi],[BeiZhu]) VALUES ('"& Riqi &"','"& Jieci &"','"& Banji &"','"& XueKe &"','"& Neirong &"','" & Jiaoshi &"','" & Beizhu &"')"
 		   conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
+			Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 '			Response.End
 		End If
 	End If
@@ -156,7 +156,7 @@ JianChaRen=htmlencode(Request.form("JianChaRen"))
 		End If
 			Sql="UPDATE [MMC] SET [JianCha] = '"& JianCha &"',[JianChaRen] ='"& JianChaRen &"' WHERE [id] ='"& ID &"'"
 			conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
+			Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 	End If
 End If
 %>
@@ -197,6 +197,7 @@ End If
 	<option value="政治">政治</option>
 	<option value="生物">生物</option>
 	<option value="地理">地理</option>
+	<option value="信息技术">信息技术</option>
 	<option value="音乐">音乐</option>
 	<option value="美术">美术</option>
 	<option value="体育">体育</option>
@@ -259,6 +260,7 @@ document.getElementById("Jieci").options[i].selected = true;
 	<option value="政治">政治</option>
 	<option value="生物">生物</option>
 	<option value="地理">地理</option>
+	<option value="信息技术">信息技术</option>
 	<option value="音乐">音乐</option>
 	<option value="美术">美术</option>
 	<option value="体育">体育</option>
@@ -266,8 +268,14 @@ document.getElementById("Jieci").options[i].selected = true;
 	<option value="班会">班会</option>
 	<option value="其他">其他</option>
 </select></span>
-<span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/></span>
+<span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="20"/></span>
 <span style="white-space: nowrap"><label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/></span>
+<span style="white-space: nowrap"><label for="S_JianCha">检查状况：</label>
+<select name="S_JianCha" id="S_JianCha">
+	<option value="-1" Selected="Selected">不论</option>
+	<option value="0">未检查</option>
+	<option value="1">已检查</option>
+</select></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
 </div>
@@ -280,6 +288,7 @@ S_Banji=htmlencode(Request.form("S_Banji"))
 S_XueKe=htmlencode(Request.form("S_XueKe"))
 S_Neirong=htmlencode(Request.form("S_Neirong"))
 S_Jiaoshi=htmlencode(Request.form("S_Jiaoshi"))
+S_JianCha=htmlencode(Request.form("S_JianCha"))
 
 SQL="select * from MMC where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
@@ -289,6 +298,14 @@ If Len(S_Banji)<>0 Then SQL = SQL & " and Banji Like '" & S_Banji &"'"
 If Len(S_XueKe)<>0 Then SQL = SQL & " and XueKe Like '" & S_XueKe &"'"
 If Len(S_Neirong)<>0 Then SQL = SQL & " and Neirong Like '%" & S_Neirong &"%'"
 If Len(S_Jiaoshi)<>0 Then SQL = SQL & " and Jiaoshi = '" & S_Jiaoshi &"'"
+Select Case S_JianCha
+	Case "0"
+		SQL = SQL & " and LEN(JianCha) = " & S_JianCha &""
+	Case "1"
+		SQL = SQL & " and LEN(JianCha) > " & S_JianCha &""
+	Case Else
+		SQL = SQL & " and LEN(JianCha) > -1"
+End Select
 SQL = SQL & " order by Riqi desc, Jieci desc, XueKe desc"
 'response.write sql
 PageSize=20
@@ -354,22 +371,27 @@ For i_s = 1 to ShowPage
 		If IsNull(ThisRecord) Then
 			ThisRecord = ""
 		End if
-		If Ucase(MyRs(i_c).Name)="JIANCHA" Then
-			If ThisRecord = "" Then
-				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='text' name='JianCha' value='使用状况良好' id='JianCha' size='20'/><input type='submit' value='检查'/></td>")
-			Else
-				Response.write("<td>" & ThisRecord & "</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="JIANCHAREN" Then
-			If ThisRecord = "" Then
-				Response.write("<td><input type='text' name='JianChaRen' value='" & Session("ShowName") & "'  size='5'/></form></td>")
-			Else
-				Response.write("<td>" & ThisRecord & "</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="BEIZHU" Then
-			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
-		Else
+		If Session("Admin")="" then
+		'判断是否登陆
 			Response.write("<td>" & ThisRecord & "</td>")
+		Else
+			If Ucase(MyRs(i_c).Name)="JIANCHA" Then
+				If MyRs(7).Value = "" OR IsNull(MyRs(7).Value) Then
+					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='page' value='" & Currentpage & "'/><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='text' name='JianCha' value='使用状况良好' id='JianCha' size='20'/></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			ElseIf Ucase(MyRs(i_c).Name)="JIANCHAREN" Then
+				If MyRs(7).Value = "" OR IsNull(MyRs(7).Value) Then
+					Response.write("<td><input type='text' name='JianChaRen' value='" & Session("ShowName") & "'  size='5'/><input type='submit' value='检查'/></form></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			ElseIf Ucase(MyRs(i_c).Name)="BEIZHU" Then
+				Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
+			Else
+				Response.write("<td>" & ThisRecord & "</td>")
+			End If
 		End If
 	next
 	response.write("</tr>")

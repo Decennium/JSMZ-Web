@@ -180,7 +180,7 @@ If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & 
 If Len(S_JiaoShi)<>0 Then SQL = SQL & " and JiaoShi Like '" & S_JiaoShi &"'"
 If Len(S_XueKe)<>0 Then SQL = SQL & " and XueKe Like '" & S_XueKe &"'"
 If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen Like '" & S_FaFangRen &"'"
-SQL = SQL & " order by Riqi desc, JiaoShi desc"
+SQL = SQL & " order by Riqi asc, JiaoShi asc"
 
 PageSize=20
 MyRs.open Sql,Conn,3,2
@@ -240,7 +240,7 @@ For i_s = 1 to ShowPage
 			If ShengYu < 0 Then
 				ShengYu = "还有" & ABS(ShengYu) & "个月"
 			Else
-				ShengYu = "已经超过" & ShengYu & "个月"
+				ShengYu = "已经报废"
 			End If
 			Response.write("<td>" & ShengYu & "</td>")
 			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
