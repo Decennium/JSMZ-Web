@@ -14,7 +14,8 @@ Set MyConn=Server.CreateObject("ADODB.Connection")
 My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=Resources;uid=sa;pwd="
 MyConn.Open My_conn_STRING
 
-MySQL_Head="SELECT Author, FileName, BookName FROM eBooks WHERE "MySQL="(Author Like '%quarystring%' OR BookName Like '%quarystring%') "
+MySQL_Head="SELECT Author, FileName, BookName FROM eBooks WHERE "
+MySQL="(Author Like '%quarystring%' OR BookName Like '%quarystring%') "
 
 MySQL_Tail=""
 MySQL_Body = ""
