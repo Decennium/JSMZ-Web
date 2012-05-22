@@ -87,9 +87,16 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"',0,'" & Beizhu &"')"
-		conn.execute(Sql)
-		Response.Redirect "?Action=ShowJieci"
+'		Sql="Select * from WaiJie where Riqi='" & Riqi & "' and ShenQingRen ='" & ShenQingRen& "' And SheBei='" & SheBei & "' And GuiHuan='" & "未归还'"
+'		MyRs.open Sql,Conn,3,2
+'		If MyRs.recordcount>0 then
+'			Response.Write "<script>document.getElementById('Tips').innerHTML = '这个设备这个人已经借走，尚未归还。';</SCRIPT>"
+''			MyRs.close
+'		Else
+			Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"','未归还','" & Beizhu &"')"
+			conn.execute(Sql)
+			Response.Redirect "?Action=ShowJieci"
+'		End If
 	End If
 
 	MyRs.Close
@@ -101,18 +108,20 @@ If Action = "AddCheck" Then
 		Response.Redirect "waijie.asp"
 		Response.End
 	End If
-ID=htmlencode(Request.form("id"))
-GuiHuanRiQi=htmlencode(Request.form("GuiHuanRiQi"))
-ZhuangKuang=htmlencode(Request.form("ZhuangKuang"))
-QianShouRen=htmlencode(Request.form("QianShouRen"))
-	If (Len(ID)>0 And Len(GuiHuanRiQi)>0 And Len(QianShouRen)>0) then
+	ID=htmlencode(Request.form("id"))
+	GuiHuan=htmlencode(Request.form("GuiHuan"))
+	GuiHuanRiQi=htmlencode(Request.form("GuiHuanRiQi"))
+	GuiHuanRiQi=htmlencode(Request.form(GuiHuanRiQi))
+	ZhuangKuang=htmlencode(Request.form("ZhuangKuang"))
+	QianShouRen=htmlencode(Request.form("QianShouRen"))
+	If (Len(ID)>0 And Len(GuiHuan)>0 And GuiHuan<>"未归还" And Len(GuiHuanRiQi)>0 And Len(QianShouRen)>0) then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-			Sql="UPDATE [WaiJie] SET [GuiHuan] = 1,[GuiHuanRiQi] ='"& GuiHuanRiQi &"',[QianShouRen] ='"& QianShouRen &"',[ZhuangKuang] ='"& ZhuangKuang &"' WHERE [id] ='"& ID &"'"
+			Sql="UPDATE [WaiJie] SET [GuiHuan] = '"& GuiHuan &"',[GuiHuanRiQi] ='"& GuiHuanRiQi &"',[QianShouRen] ='"& QianShouRen &"',[ZhuangKuang] ='"& ZhuangKuang &"' WHERE [id] ='"& ID &"'"
 			conn.execute(Sql)
 			Response.Redirect "?Action=ShowJieci"
 	End If
@@ -126,11 +135,11 @@ End If
 <form name="AddNewJieci" id="AddNewJieci" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="ShenQingRen">申请人：</label><input type="text" name="ShenQingRen" value="" id="ShenQingRen" size="5" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="JieQi">借期：</label><input type="text" name="JieQi" value="" id="JieQi" size="5" onblur="return My_CheckField(this);"/><label for="JieQi">天，</label></span>
-<span style="white-space: nowrap"><label for="MiaoShu">设备描述：</label><input type="text" name="MiaoShu" value="一切正常" id="MiaoShu" size="30" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="20" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="JieQi">借期：</label><input type="text" name="JieQi" value="" id="JieQi" size="3" onblur="return My_CheckField(this);"/><label for="JieQi">天，</label></span>
+<span style="white-space: nowrap"><label for="MiaoShu">设备描述：</label><input type="text" name="MiaoShu" value="一切正常" id="MiaoShu" size="20" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="FaFangRen">发放人：</label><input type="text" name="FaFangRen" value='<%=Session("ShowName")%>' id="FaFangRen" size="5" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
+<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="10"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
@@ -156,8 +165,10 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 <span style="white-space: nowrap"><label for="S_GuiHuan">是否归还：</label>
 <select name="S_GuiHuan" id="S_GuiHuan">
 	<option value="%">不论</option>
-	<option value="0" Selected="Selected">未归还</option>
-	<option value="1">已归还</option>
+	<option value="未归还" Selected="Selected">未归还</option>
+	<option value="已归还">已归还</option>
+	<option value="遗失">遗失</option>
+	<option value="被盗">被盗</option>
 </select></span>
 <span style="white-space: nowrap"><label for="S_FaFangRen">发放人：</label><input name="S_FaFangRen" id="S_FaFangRen" type="text" value="" size="5"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
@@ -177,9 +188,9 @@ If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & 
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
 If Len(S_ShenQingRen)<>0 Then SQL = SQL & " and ShenQingRen Like '%" & S_ShenQingRen &"%'"
 If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '%" & S_SheBei &"%'"
-If Len(S_GuiHuan)<>0 Then SQL = SQL & " and GuiHuan = " & S_GuiHuan &""
+If Len(S_GuiHuan)<>0 Then SQL = SQL & " and GuiHuan Like '" & S_GuiHuan &"'"
 If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen = '" & S_FaFangRen &"'"
-SQL = SQL & " order by Riqi desc, SheBei desc"
+SQL = SQL & " order by Riqi desc"
 'response.write sql
 PageSize=20
 MyRs.open Sql,Conn,3,2
@@ -245,43 +256,51 @@ For i_s = 1 to ShowPage
 		If IsNull(ThisRecord) Then
 			ThisRecord = ""
 		End if
-		If Ucase(MyRs(i_c).Name)="GUIHUANRIQI" Then
-			If ThisRecord = "" Then
-				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type=""text"" name=""GuiHuanRiQi"" id=""GuiHuanRiQi"" value=""" & year(now()) &"-" & month(now()) & "-" & day(now()) & """ size=""10"" readonly=""readonly"" onclick=""choose_date_czw('GuiHuanRiQi')""/><input type='submit' value='检查'/></td>")
-			Else
+
+		If Session("Admin")="" then
+		'判断是否登陆
+			Select Case Ucase(MyRs(i_c).Name)
+			Case "JIEQI"
+				Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
+			Case Else
 				Response.write("<td>" & ThisRecord & "</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="RIQI" Then
-			Response.write("<td width='80px'>" & ThisRecord & "</td>")
-		ElseIf Ucase(MyRs(i_c).Name)="SHENQINGREN" Then
-			Response.write("<td width='80px'>" & ThisRecord & "</td>")
-		ElseIf Ucase(MyRs(i_c).Name)="JIEQI" Then
-			Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
-		ElseIf Ucase(MyRs(i_c).Name)="JIEQI" Then
-			Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
-		ElseIf Ucase(MyRs(i_c).Name)="GUIHUAN" Then
-			If ThisRecord  Then
-				Response.write("<td>已归还</td>")
-			Else
-				Response.write("<td>未归还</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="ZHUANGKUANG" Then
-			If ThisRecord = "" Then
-				Response.write("<td><input type='text' name='ZhuangKuang' value='一切正常' size='30'/></td>")
-			Else
-				Response.write("<td>" & ThisRecord & "</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="QIANSHOUREN" Then
-			If ThisRecord = "" Then
-				Response.write("<td><input type='text' name='QianSHouRen' value='" & Session("ShowName") & "'  size='5'/></form></td>")
-			Else
-				Response.write("<td>" & ThisRecord & "</td>")
-			End If
-		ElseIf Ucase(MyRs(i_c).Name)="BEIZHU" Then
-			Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
+			End Select
 		Else
-			Response.write("<td>" & ThisRecord & "</td>")
+			Select Case Ucase(MyRs(i_c).Name)
+			Case "GUIHUAN"
+				If ThisRecord = "未归还" Then
+					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><select name=""GuiHuan"" id=""GuiHuan""><option value=""未归还"" Selected=""Selected"">未归还</option><option value=""已归还"">已归还</option><option value=""遗失"">遗失</option><option value=""被盗"">被盗</option></select></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			Case "GUIHUANRIQI"
+				If MyRs(7).Value = "未归还" Then
+					GuiHuanRiQi = "GuiHuanQiRi" & replace(replace(replace(MyRs(0).Value,"-",""),"{",""),"}","")
+					Response.write("<td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='hidden' name='GuiHuanRiQi' value='" & GuiHuanRiQi & "'/><input type=""text"" name='" & GuiHuanRiQi & "' id='" & GuiHuanRiQi & "' value=""" & year(now()) &"-" & month(now()) & "-" & day(now()) & """ size=""10"" readonly=""readonly"" onclick=""choose_date_czw(this.id)""/></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			Case "JIEQI"
+				Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
+			Case "ZHUANGKUANG"
+				If MyRs(7).Value = "未归还" Then
+					Response.write("<td><input type='text' name='ZhuangKuang' value='一切正常' size='20'/></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			Case "QIANSHOUREN"
+				If MyRs(7).Value = "未归还" Then
+					Response.write("<td><input type='text' name='QianSHouRen' value='" & Session("ShowName") & "'  size='5'/><input type='submit' value='检查'/></form></td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
+			Case "BEIZHU"
+				Response.write("<td class='BeiZhu'>" & ThisRecord & "</td>")
+			Case Else
+				Response.write("<td>" & ThisRecord & "</td>")
+			End Select
 		End If
+
 	next
 	response.write("</tr>")
 	MyRs.movenext

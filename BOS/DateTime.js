@@ -88,12 +88,22 @@ odiv.style.border="1px #0CF solid";
 odiv.style.fontSize="12px";
 odiv.style.backgroundColor="white";
 odiv.style.zIndex=99999;
-odiv.style.top=obj.offsetTop+obj.offsetHeight+"px";
-odiv.style.left=obj.offsetLeft+"px";
+odiv.style.top=getTopY(obj)+"px";
+odiv.style.left=getTopX(obj)+"px";
 //obj.onblur="document.getElementById(\"choose_date_czw_id\").style.display=\"none\";"
 document.body.appendChild(odiv);
 }else{
     document.getElementById("choose_date_czw_id").style.display="block";
     document.getElementById("choose_date_czw_id").innerHTML=dstr;
 }
+}
+
+function getTopX(elem)
+{
+	return elem.offsetParent?(elem.offsetLeft+getTopX(elem.offsetParent)):elem.offsetLeft;
+}
+
+function getTopY(elem)
+{
+	return elem.offsetParent?(elem.offsetTop+getTopY(elem.offsetParent)):elem.offsetTop;
 }
