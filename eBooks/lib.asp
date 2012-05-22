@@ -14,10 +14,6 @@ MyConn.Open "PROVIDER=Microsoft.Jet.OLEDB.4.0;" & _
 
 q=Replace(q,"'","")
 
-'MySQL="SELECT COUNT(*) As ResultCount " & _
-'"FROM 图书登记簿 WHERE 图书登记簿.书名 LIKE '%" & q & "%' " & _
-'"OR 图书登记簿.主要内容 LIKE '%" & q & "%' " & _
-'"OR 图书登记簿.著译者 LIKE '%" & q & "%' "
 MySQL_Head="SELECT COUNT(*) As ResultCount FROM 图书登记簿 WHERE "
 MySQL="(图书登记簿.书名 LIKE '%quarystring%' " & _
 "OR 图书登记簿.主要内容 LIKE '%quarystring%' " & _
@@ -32,12 +28,6 @@ MySQL = MySQL_Head & MySQL_Body & "1=1 "
 Set MyRs=MyConn.Execute(MySQL)
 ResultCount=MyRs("ResultCount")
 
-'MySQL="SELECT * FROM [SELECT TOP "&PageSize&" * " & _
-'"FROM (SELECT TOP "&PageSize*Currentpage&" 图书登记簿.分类号, 图书登记簿.书名, 图书登记簿.主要内容, 图书登记簿.著译者, 图书登记簿.出版社 " & _
-'"FROM 图书登记簿 WHERE 图书登记簿.书名 LIKE '%" & q & "%' " & _
-'"OR 图书登记簿.主要内容 LIKE '%" & q & "%' " & _
-'"OR 图书登记簿.著译者 LIKE '%" & q & "%' " & _
-'"ORDER BY 图书登记簿.分类号 ) ORDER BY 图书登记簿.分类号 DESC ]. AS N_Result ORDER BY 图书登记簿.分类号 "
 MySQL_Head="SELECT * FROM [SELECT TOP "&PageSize&" * " & _
 "FROM (SELECT TOP "&PageSize*Currentpage&" 图书登记簿.分类号, 图书登记簿.书名, 图书登记簿.主要内容, 图书登记簿.著译者, 图书登记簿.出版社 " & _
 "FROM 图书登记簿 WHERE "

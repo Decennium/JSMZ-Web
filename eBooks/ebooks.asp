@@ -11,13 +11,11 @@ If Currentpage < 1 Then Currentpage = 1
 Set MyRs = Server.CreateObject("ADODB.RecordSet")
 Set MyConn=Server.CreateObject("ADODB.Connection")
 
-'My_conn_STRING =  "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & server.mappath("data/ebooks.mdb")
 My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=Resources;uid=sa;pwd="
 MyConn.Open My_conn_STRING
 
-MySQL_Head="SELECT Author, FileName, BookName FROM eBooks WHERE "'MySQL="(InStr(1,LCase(eBooks.FileName),LCase('quarystring'),0)<>0) "
-MySQL="(Author Like '%quarystring%' OR BookName Like '%quarystring%') "
-'MySQL_Tail="ORDER BY eBooks.FileName"
+MySQL_Head="SELECT Author, FileName, BookName FROM eBooks WHERE "MySQL="(Author Like '%quarystring%' OR BookName Like '%quarystring%') "
+
 MySQL_Tail=""
 MySQL_Body = ""
 q=Replace(q,"'","")
@@ -56,9 +54,6 @@ for i=0 to howmanyfields
 		Case Else
 			
 	End Select
-'	If MyRs(i).Name <> "FileName" Then
-'		response.Write "<th><b>" & MyRs(i).name & "</b></th>"
-'	End If
 next %>
 <tr>
 </thead>
@@ -70,20 +65,17 @@ Else
 	ShowPage = ResultCount
 End If
 MyRs.absolutepage = Currentpage
-'If MyRs.EOF Then MyRs.MoveFirst
-'MyRs.Move MyRs.PageSize * (MyRs.AbsolutePage - 1)
-'response.write MyRs.EOF
+
 For i = 1 to ShowPage
 	If MyRs.EOF Then Exit For
 	if 1 = i mod 2 then
-		response.write("<tr id='Data' class="& chr(34) & "odd"& chr(34) &">")
+		response.write("<tr id='Data' class=""odd"">")
 	else
 		response.write("<tr id='Data'>")
 	end if
 	response.Write("<td width=200>" & MyRs(0)  & "</td>")
-	response.Write("<td><a href="& chr(34) & MyRs(1) & chr(34) & _
-	" title=" & chr(34) &"点击即可阅读，或者下载后阅读。如果不能阅读请联系信息技术组" & chr(34) & ">" & _
-	MyRs(2)  & "</a></td>")
+	response.Write("<td><a href=""/eLibs/" & MyRs(1) & _
+	""" title=""点击即可阅读，或者下载后阅读。如果不能阅读请联系信息技术组"">" & MyRs(2) & "</a></td>")
 	response.write("</tr>")
 	MyRs.movenext
 Next

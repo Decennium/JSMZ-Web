@@ -9,10 +9,7 @@ PageSize=20
 Currentpage=request("page")
 
 Set MyConn=Server.CreateObject("ADODB.Connection")
-MyConn.Open "PROVIDER=Microsoft.Jet.OLEDB.4.0;" & _
-"DATA SOURCE=" & server.mappath("data/codes.mdb")
-'MyConn.Open "Driver={Microsoft Access Driver (*.mdb)};DBQ="& _
-'server.mappath("data/codes.mdb") 
+MyConn.Open "PROVIDER=Microsoft.Jet.OLEDB.4.0;DATA SOURCE=" & server.mappath("data/codes.mdb")
 
 MySQL="SELECT COUNT(*) As ResultCount FROM codes WHERE codes.code = '" & q & "' "
 Set MyRs=MyConn.Execute(MySQL)
