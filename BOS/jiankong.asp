@@ -91,7 +91,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		End If
 		Sql="INSERT INTO [JianKong]([RiQi],[ShiJianDuan],[ClassNum],[YongTu],[ShenQingRen],[CaoZuoYuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShiJianDuan &"','"& ClassNum &"','"& YongTu &"','" & ShenQingRen &"','" & CaoZuoYuan &"','" & Beizhu &"')"
 		conn.execute(Sql)
-		Response.Redirect "?Action=ShowSheBei"
+		'Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 '			Response.End
 	End If
 
@@ -115,7 +115,7 @@ XiaoGuo=htmlencode(Request.form("XiaoGuo"))
 		End If
 			Sql="UPDATE [JianKong] SET [XiaoGuo] = '"& XiaoGuo &"' WHERE [id] ='"& ID &"'"
 			conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
+			Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 	End If
 End If
 %>
@@ -136,7 +136,7 @@ End If
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
@@ -240,7 +240,7 @@ For i_s = 1 to ShowPage
 		end if
 		If Ucase(MyRs(i_c).Name)="XIAOGUO" Then
 			If ThisRecord = "" Then
-				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='text' name='XiaoGuo' value='使用状况良好' id='XiaoGuo' size='20'/><input type='submit' value='检查'/></td>")
+				Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='page' value='" & Currentpage & "'/><input type='hidden' name='id' value='" & MyRs(0).Value & "'/><input type='text' name='XiaoGuo' value='使用状况良好' id='XiaoGuo' size='20'/><input type='submit' value='检查'/></td>")
 			Else
 				Response.write("<td>" & ThisRecord & "</td>")
 			End If

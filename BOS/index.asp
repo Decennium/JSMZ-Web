@@ -7,6 +7,9 @@
 </head>
 <body dir="ltr">
 <!--#include file="../include/banner.asp"-->
+<div style="float:left;">
+<!--#include file="left_banner.asp"-->
+</div>
 <%
 Select Case Action
 '登陆后台调用
@@ -20,7 +23,7 @@ Case "logincheck"
 		Response.Redirect Url
 		'Response.End
 	Else
-		Response.Write "<script>alert('非法操作：用户名或密码错误！');this.location.href='?Action=login';</SCRIPT>"
+		Response.Write "<script>document.getElementById('Tips').innerHTML = '用户名或密码错误，请重试。';</SCRIPT>"
 		'Response.End
 	End If
 
@@ -31,11 +34,7 @@ Case "logout"
 	Response.Redirect Url
 	Response.End
 End Select
-
 %>
-<div style="float:left;">
-<!--#include file="left_banner.asp"-->
-</div>
 <div style="width="100%";float:left">
 <div class="HeadLine">科技馆日常工作管理系统</div>
 <div class="ShowTips">

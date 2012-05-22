@@ -43,9 +43,9 @@ pre {
 }
 #LoginForm{
 	width : 100%;
-	text-align : right;
 	padding-top : 0px;
 	line-height : 100%;
+	min-height : 162px;
 }
 #form-noindent {
 	width : 150px;
@@ -154,4 +154,5 @@ hr {
 border:none;
 border-top:1px solid #e5eff8;
 margin:10px 0px 10px 0px;
+clear :all;
 }

@@ -95,11 +95,11 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 '		Else
 			Sql="INSERT INTO [WaiJie] ([RiQi],[ShenQingRen],[SheBei],[JieQi],[MiaoShu],[FaFangRen],[GuiHuan],[BeiZhu]) VALUES ('"& RiQi &"','"& ShenQingRen &"','"& SheBei &"','"& JieQi &"','"& MiaoShu &"','" & FaFangRen &"','未归还','" & Beizhu &"')"
 			conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
+			'Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 '		End If
 	End If
 
-	MyRs.Close
+	'MyRs.Close
 End If
 If Action = "AddCheck" Then
 '添加检查
@@ -123,7 +123,7 @@ If Action = "AddCheck" Then
 		End If
 			Sql="UPDATE [WaiJie] SET [GuiHuan] = '"& GuiHuan &"',[GuiHuanRiQi] ='"& GuiHuanRiQi &"',[QianShouRen] ='"& QianShouRen &"',[ZhuangKuang] ='"& ZhuangKuang &"' WHERE [id] ='"& ID &"'"
 			conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci"
+			Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 	End If
 End If
 %>
@@ -143,7 +143,7 @@ End If
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
@@ -269,7 +269,7 @@ For i_s = 1 to ShowPage
 			Select Case Ucase(MyRs(i_c).Name)
 			Case "GUIHUAN"
 				If ThisRecord = "未归还" Then
-					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><select name=""GuiHuan"" id=""GuiHuan""><option value=""未归还"" Selected=""Selected"">未归还</option><option value=""已归还"">已归还</option><option value=""遗失"">遗失</option><option value=""被盗"">被盗</option></select></td>")
+					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='page' value='" & Currentpage & "'/><select name=""GuiHuan"" id=""GuiHuan""><option value=""未归还"" Selected=""Selected"">未归还</option><option value=""已归还"">已归还</option><option value=""遗失"">遗失</option><option value=""被盗"">被盗</option></select></td>")
 				Else
 					Response.write("<td>" & ThisRecord & "</td>")
 				End If

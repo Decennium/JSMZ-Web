@@ -10,7 +10,11 @@
 If instr(Request.ServerVariables("SCRIPT_NAME"),"BOS")>0 Then
 	If Len(Session("Admin")) > 0 Then
 %>
+<div id="LoginForm">
+<img src="/images/Photo.png"/>
 <p><a href="/BOS/index.asp?action=logout">登出 <%=Session("ShowName")%></a></p>
+<p><a href="manage.asp">用户管理</a></p>
+</div>
 <%Else%>
 <div id="LoginForm">
 	<form method="post" Action="/BOS/index.asp?Action=logincheck">
@@ -37,7 +41,7 @@ If instr(Request.ServerVariables("SCRIPT_NAME"),"BOS")>0 Then
 End If
 End If
 %>
-<p><a href="manage.asp">用户管理</a></p>
+<hr>
 <p><a href="jifang.asp">机房使用管理</a></p>
 <p><a href="shiyong.asp">设备使用管理</a></p>
 <p><a href="gouru.asp">设备购入管理</a></p>
@@ -48,7 +52,6 @@ End If
 <p><a href="waijie.asp">设备外借管理</a></p>
 <!-- <hr> -->
 </div>
-<br clear="all">
 <hr>
 <div id="Tips" width="100%" align="center">小提示</div>
 

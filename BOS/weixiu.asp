@@ -119,7 +119,7 @@ End If
 <input type="submit" value="Ìí¼Ó" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1

@@ -95,18 +95,17 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		If MyRs.recordcount>0 then
 			If DateDiff("m",MyRs(1).Value,Now())<35 Then
 				Response.Write "<script language='javascript'>document.getElementById(""Tips"").innerHTML = '" & MyRs(2).Value & "老师上一台录音机领取日期为" & FormatDateTime(MyRs(1).Value,1) & "，还差" & 36-DateDiff("m",MyRs(1).Value,Now()) & "个月才满三年。';</script>"
-				'Response.Write "<script language='javascript'>alert('这位老师上一台录音机还没用够三年。');</script>"
 			Else
 				Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
 					"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
 				conn.execute(Sql)
-				'Response.Redirect "?Action=ShowSheBei"
+				'Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 			End If
 		Else
 			Sql="INSERT INTO [LuYinJi]([RiQi],[JiaoShi],[XueKe],[FaFangRen],[BeiZhu]) " & _
 				"VALUES ('"& RiQi &"','"& JiaoShi &"','"& XueKe &"','"& FaFangRen &"','" & Beizhu &"')"
 			conn.execute(Sql)
-			'Response.Redirect "?Action=ShowSheBei"
+			'Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 		End If
 	End If
 
@@ -134,7 +133,7 @@ End If
 <input type="submit" value="添加"/>
 </form>
 </div>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
@@ -161,6 +160,12 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 	<option value="语文">语文</option>
 	<option value="其他学科">其他学科</option>
 </select></span>
+<span style="white-space: nowrap"><label for="S_DaoQi">是否到期：</label>
+<select name="S_DaoQi" id="S_DaoQi">
+	<option value="-1">不论</option>
+	<option value="0">到期</option>
+	<option value="1">未到期</option>
+</select></span>
 <span style="white-space: nowrap"><label for="S_FaFangRen">发放人：</label><input type="text" name="S_FaFangRen" value="" id="S_FaFangRen" size="10" onblur="return My_CheckField(this);"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
@@ -173,6 +178,7 @@ S_Riqi_2=htmlencode(Request.form("S_Riqi_2"))
 S_JiaoShi=htmlencode(Request.form("S_JiaoShi"))
 S_XueKe=htmlencode(Request.form("S_XueKe"))
 S_FaFangRen=htmlencode(Request.form("S_FaFangRen"))
+S_DaoQi=htmlencode(Request.form("S_DaoQi"))
 
 SQL="select * from LuYinJi where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
@@ -180,8 +186,14 @@ If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & 
 If Len(S_JiaoShi)<>0 Then SQL = SQL & " and JiaoShi Like '" & S_JiaoShi &"'"
 If Len(S_XueKe)<>0 Then SQL = SQL & " and XueKe Like '" & S_XueKe &"'"
 If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen Like '" & S_FaFangRen &"'"
+Select Case S_DaoQi
+	Case "0"
+		SQL = SQL & " and DATEDIFF(month,GETDATE(),DATEADD(month,36,RiQi)) <=1"
+	Case "1"
+		SQL = SQL & " and DATEDIFF(month,GETDATE(),DATEADD(month,36,RiQi)) > 1"
+End Select
 SQL = SQL & " order by Riqi asc, JiaoShi asc"
-
+'response.write sql
 PageSize=20
 MyRs.open Sql,Conn,3,2
 MyRs.PageSize=PageSize

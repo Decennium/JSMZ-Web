@@ -130,7 +130,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 		Else
 			Sql="INSERT INTO [MMC] ([RiQi],[JieCi],[BanJi],[XueKe],[NeiRong],[JiaoShi],[BeiZhu]) VALUES ('"& Riqi &"','"& Jieci &"','"& Banji &"','"& XueKe &"','"& Neirong &"','" & Jiaoshi &"','" & Beizhu &"')"
 		   conn.execute(Sql)
-			Response.Redirect "?Action=ShowJieci&page=" & Currentpage
+			'Response.Redirect "?Action=ShowJieci&page=" & Currentpage
 '			Response.End
 		End If
 	End If
@@ -211,7 +211,7 @@ End If
 <input type="submit" value="Ìí¼Ó" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
-<hr style="height:1px;border:none;border-top:1px solid #e5eff8;">
+<hr>
 <script language="javascript">
 var currentTime = new Date()
 var month = currentTime.getMonth() + 1
