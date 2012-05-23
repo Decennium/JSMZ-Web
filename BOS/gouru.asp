@@ -310,9 +310,17 @@ For i_s = 1 to ShowPage
 			iDanJia=ThisRecord
 			Response.write("<td>" & FormatCurrency(1*iShuLiang*iDanJia) & "</td>")
 		ElseIf Ucase(MyRs(i_c).Name)="XULIEHAO" And Len(Trim(MyRs(i_c).Value)) > 2 Then
-			Response.write("<td> ******** </td>")
+			If Session("Admin")="" then
+				Response.write("<td> ******** </td>")
+			Else
+				Response.write("<td>" & ThisRecord & "</td>")
+			End If
 		ElseIf Ucase(MyRs(i_c).Name)="OSXULIEHAO" And Len(Trim(MyRs(i_c).Value)) > 2 Then
-			Response.write("<td> ******** </td>")
+			If Session("Admin")="" then
+				Response.write("<td> ******** </td>")
+			Else
+				Response.write("<td>" & ThisRecord & "</td>")
+			End If
 		Else
 			Response.write("<td>" & ThisRecord & "</td>")
 		End If
