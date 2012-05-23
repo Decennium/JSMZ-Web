@@ -262,6 +262,12 @@ For i_s = 1 to ShowPage
 			Select Case Ucase(MyRs(i_c).Name)
 			Case "JIEQI"
 				Response.write("<td style='text-align:right;padding-right:10px'>" & ThisRecord & "</td>")
+			Case "GUIHUAN"
+				If ThisRecord = "δ�黹" Then
+					Response.write("<td style='color:red'>" & ThisRecord & "</td>")
+				Else
+					Response.write("<td>" & ThisRecord & "</td>")
+				End If
 			Case Else
 				Response.write("<td>" & ThisRecord & "</td>")
 			End Select
