@@ -70,7 +70,7 @@ if(self.frameElement.tagName=="IFRAME"){
 <br clear=all>
 <div id="Rnd" align="center">
 <%If ResultCount > 0 then
-	response.Write("<p>随机推荐书籍：<a href="& chr(34) & MyRs(1) & chr(34) & _
+	response.Write("<p>随机推荐书籍：<a href=""/eLibs/" & MyRs(1) & chr(34) & _
 	" title=" & chr(34) &"点击即可阅读，或者下载后阅读。如果不能阅读请联系信息技术组" & chr(34) & ">" & _
 	MyRs(2)  & "</a></p>")
 End If
