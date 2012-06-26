@@ -165,9 +165,9 @@ End If
 	<option value="米">米</option>
 	<option value="瓶">瓶</option>
 	<option value="包">包</option>
-	<option value="根">根</option>
+	<option value="片">片</option>
 	<option value="条">条</option>
-	<option value="袋">袋</option>
+	<option value="粒">粒</option>
 	<option value="个">个</option>
 </select></span>
 <span style="white-space: nowrap"><label for="ShuLiang">数量：</label><input type="text" name="ShuLiang" value="" id="ShuLiang" size="5" onblur="return My_CheckField(this);"></span>
