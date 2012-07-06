@@ -50,9 +50,29 @@ function My_CheckFields(the){
 		the.Neirong.focus();
 		return false;
 	}
-	if (the.ChuQin.value=="") {
-		document.getElementById('Tips').innerHTML = '出勤状况不能为空';
-		the.ChuQin.focus();
+	if (the.Yingdao.value=="") {
+		document.getElementById('Tips').innerHTML = '应到人数不能为空';
+		the.Yingdao.focus();
+		return false;
+	}
+	if (!My_IsInt(the.Yingdao.value)){
+		document.getElementById('Tips').innerHTML = '应到人数必须为自然数';
+		the.Yingdao.focus();
+		return false;
+	}
+	if (the.Shidao.value=="") {
+		document.getElementById('Tips').innerHTML = '实到人数不能为空';
+		the.Shidao.focus();
+		return false;
+	}
+	if (!My_IsInt(the.Shidao.value)){
+		document.getElementById('Tips').innerHTML = '实到人数必须为自然数';
+		the.Shidao.focus();
+		return false;
+	}
+	if (parseInt(the.Shidao.value) > parseInt(the.Yingdao.value)) {
+		document.getElementById('Tips').innerHTML = '实到人数不能多于应到人数';
+		the.Shidao.focus();
 		return false;
 	}
 	if (the.Jiaoshi.value=="") {
@@ -92,12 +112,13 @@ Jieci=htmlencode(Request.form("Jieci"))
 Banji=htmlencode(Request.form("Banji"))
 Jifang=htmlencode(Request.form("Jifang"))
 Neirong=htmlencode(Request.form("Neirong"))
-ChuQin=htmlencode(Request.form("ChuQin"))
+Yingdao=htmlencode(Request.form("Yingdao"))
+Shidao=htmlencode(Request.form("Shidao"))
 Jiaoshi=htmlencode(Request.form("Jiaoshi"))
 Beizhu=htmlencode(Request.form("Beizhu"))
 
 	If (Len(Riqi)>0 And Len(Jieci)>0 And Len(Banji)>0 And Len(Jifang)>0 And Len(Neirong)>0 And _
-		Len(ChuQin)>0 And Len(Jiaoshi)>0) then
+		cInt(Yingdao)>0 And Cint(Shidao)<=cInt(Yingdao) And Len(Jiaoshi)>0) then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
@@ -110,7 +131,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			Response.Write "<script>document.getElementById('Tips').innerHTML = '这个机房这堂课已经有人用了。';</SCRIPT>"
 '			MyRs.close
 		Else
-			Sql="Insert Into [Jifang] (Riqi,Jieci,Banji,Jifang,Neirong,ChuQin,Jiaoshi,Beizhu) values ('"& Riqi &"','"& Jieci &"','"& Banji &"','"& Jifang &"','"& Neirong &"','"& ChuQin &"','" & Jiaoshi &"','" & Beizhu &"')"
+			Sql="Insert Into [Jifang] (Riqi,Jieci,Banji,Jifang,Neirong,Yingdao,Shidao,Jiaoshi,Beizhu) values ('"& Riqi &"','"& Jieci &"','"& Banji &"','"& Jifang &"','"& Neirong &"','"& cint(Yingdao) &"','"& cint(Shidao) &"','" & Jiaoshi &"','" & Beizhu &"')"
 			conn.execute(Sql)
 			Response.Redirect "?Action=ShowJieci"
 '			Response.End
@@ -159,7 +180,8 @@ end if
 	<option value="教室">教室</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="ChuQin">出勤状况：</label><input type="text" name="ChuQin" value="" id="ChuQin" size="3" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Yingdao">应到人数：</label><input type="text" name="Yingdao" value="" id="Yingdao" size="3" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Shidao">实到人数：</label><input type="text" name="Shidao" value="" id="Shidao" size="3" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
@@ -212,9 +234,9 @@ document.getElementById("Jieci").options[i].selected = true;
 <span style="white-space: nowrap"><label for="S_Neirong">内容：</label><input name="S_Neirong" id="S_Neirong" type="text" value="" size="30"/></span>
 <span style="white-space: nowrap"><label for="S_Chuqin">出勤：</label>
 <select name="S_Chuqin" id="S_Chuqin">
-	<option value="-1" Selected="Selected">无所谓</option>
-	<option value="0">满勤</option>
-	<option value="1">未满勤</option>
+	<option value="" Selected="Selected">无所谓</option>
+	<option value="Yingdao = Shidao">满勤</option>
+	<option value="Yingdao > Shidao">未满勤</option>
 </select></span>
 <span style="white-space: nowrap"><label for="S_Jiaoshi">授课教师：</label><input name="S_Jiaoshi" id="S_Jiaoshi" type="text" value="" size="5"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
@@ -238,17 +260,7 @@ If Len(S_Jieci)<>0 Then SQL = SQL & " and Jieci Like '" & S_Jieci &"'"
 If Len(S_Banji)<>0 Then SQL = SQL & " and Banji Like '" & S_Banji &"'"
 If Len(S_Jifang)<>0 Then SQL = SQL & " and Jifang Like '" & S_Jifang &"'"
 If Len(S_Neirong)<>0 Then SQL = SQL & " and Neirong='" & S_Neirong &"'"
-'If Len(S_Chuqin)<>0 Then SQL = SQL & " and ChuQin='" & S_Chuqin &"'"
-If S_Chuqin="0" Then
-'满勤
-	SQL = SQL & " and ChuQin='满勤'"
-ElseIf S_ChuQin="1" Then
-'未满勤
-	SQL = SQL & " and ChuQin <>'满勤'"
-Else
-'无所谓
-	SQL = SQL
-End If
+If Len(S_Chuqin)<>0 Then SQL = SQL & " and " & S_Chuqin &""
 If Len(S_Jiaoshi)<>0 Then SQL = SQL & " and Jiaoshi='" & S_Jiaoshi &"'"
 SQL = SQL & " order by Riqi desc,Jieci desc,Jifang desc"
 
@@ -278,8 +290,10 @@ for i=0 to howmanyfields
 			response.Write "<th width='30px'><b>" & "机房" & "</b></th>"
 		Case "NEIRONG":
 			response.Write "<th class='NeiRong'><b>" & "内容" & "</b></th>"
-		Case "CHUQIN":
-			response.Write "<th width='60px'><b>" & "出勤状况" & "</b></th>"
+		Case "YINGDAO":
+			response.Write "<th width='60px'><b>" & "应到人数" & "</b></th>"
+		Case "SHIDAO":
+			response.Write "<th width='60px'><b>" & "实到人数" & "</b></th>"
 		Case "JIAOSHI":
 			response.Write "<th width='60px'><b>" & "授课教师" & "</b></th>"
 		Case "BEIZHU":
