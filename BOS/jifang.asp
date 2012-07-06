@@ -159,7 +159,7 @@ end if
 	<option value="教室">教室</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="ChuQin">出勤状况：</label><input type="text" name="ChuQin" value="" id="ChuQin" size="3" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="ChuQin">出勤状况：</label><input type="text" name="ChuQin" value="满勤" id="ChuQin" size="3" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Jiaoshi">授课教师：</label><input type="text" name="Jiaoshi" value=<%=Session("ShowName")%> id="Jiaoshi" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
