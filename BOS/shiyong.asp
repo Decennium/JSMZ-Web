@@ -112,9 +112,6 @@ End If
 	<option value="照相机">照相机</option>
 	<option value="小摄像机">小摄像机</option>
 	<option value="大摄像机">大摄像机</option>
-	<option value="音响功放">音响功放</option>
-	<option value="高音喇叭功放">高音喇叭功放</option>
-	<option value="无线话筒">无线话筒</option>
 	<option value="其他设备">其他设备</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
@@ -149,9 +146,6 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 	<option value="照相机">照相机</option>
 	<option value="小摄像机">小摄像机</option>
 	<option value="大摄像机">大摄像机</option>
-	<option value="音响功放">音响功放</option>
-	<option value="高音喇叭功放">高音喇叭功放</option>
-	<option value="无线话筒">无线话筒</option>
 	<option value="其他设备">其他设备</option>
 </select></span>
 <span style="white-space: nowrap"><label for="S_YongTu">用途：</label><input type="text" name="S_YongTu" value="" id="S_YongTu" size="40" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
