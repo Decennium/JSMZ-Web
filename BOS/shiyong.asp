@@ -174,7 +174,7 @@ If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & 
 If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '" & S_SheBei &"'"
 If Len(S_ShiYongRen)<>0 Then SQL = SQL & " and ShiYongRen Like '" & S_ShiYongRen &"'"
 If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_YongTu &"%'"
-SQL = SQL & " order by SheBei desc, Riqi desc, ShiYongRen desc"
+SQL = SQL & " order by Riqi desc, ShiYongRen desc"
 
 PageSize=20
 MyRs.open Sql,Conn,3,2

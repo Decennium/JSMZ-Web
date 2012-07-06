@@ -80,7 +80,6 @@ If Action = "AddRecord" Then
 RiQi=htmlencode(Request.form("RiQi"))
 SheBei=htmlencode(Request.form("SheBei"))
 GuZhang=htmlencode(Request.form("GuZhang"))
-ShenBaoRen=htmlencode(Request.form("ShenBaoRen"))
 FenXi=htmlencode(Request.form("FenXi"))
 PaiChu=htmlencode(Request.form("PaiChu"))
 ShiGongZhe=htmlencode(Request.form("ShiGongZhe"))
@@ -93,7 +92,7 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		Sql="INSERT INTO [WeiXiu]([RiQi],[SheBei],[GuZhang],[ShenBaoRen],[FenXi],[PaiChu],[ShiGongZhe],[BeiZhu]) VALUES ('"& RiQi &"','"& SheBei &"','"& GuZhang &"','"& ShenBaoRen &"','"& FenXi &"','"& PaiChu &"','"& ShiGongZhe &"','"& Beizhu &"')"
+		Sql="INSERT INTO [WeiXiu]([RiQi],[SheBei],[GuZhang],[FenXi],[PaiChu],[ShiGongZhe],[BeiZhu]) VALUES ('"& RiQi &"','"& SheBei &"','"& GuZhang &"','"& FenXi &"','"& PaiChu &"','"& ShiGongZhe &"','"& Beizhu &"')"
 		conn.execute(Sql)
 		Response.Redirect "?Action=ShowSheBei"
 '			Response.End
@@ -110,12 +109,11 @@ End If
 <form name="AddNewShiYong" id="AddNewShiYong" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="GuZhang">故障描述：</label><input type="text" name="GuZhang" value="" id="GuZhang" size="30" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="ShenBaoRen">申报人：</label><input type="text" name="ShenBaoRen" value="" id="ShenBaoRen" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="GuZhang">故障描述：</label><input type="text" name="GuZhang" value="" id="GuZhang" size="20" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="FenXi">故障分析：</label><input type="text" name="FenXi" value="" id="FenXi" size="20" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="PaiChu">排除情况：</label><input type="text" name="PaiChu" value="" id="PaiChu" size="20" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="ShiGongZhe">施工人：</label><input type="text" name="ShiGongZhe" value=<%=Session("ShowName")%> id="ShiYongRen" size="10" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="20"/></span>
+<span style="white-space: nowrap"><label for="PaiChu">排除情况：</label><input type="text" name="PaiChu" value="" id="PaiChu" size="10" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="ShiGongZhe">施工人：</label><input type="text" name="ShiGongZhe" value=<%=Session("ShowName")%> id="ShiYongRen" size="5" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="5"/></span>
 <input type="submit" value="添加" onClick="return My_CheckFields(this);"/>
 </form>
 </div>
@@ -136,11 +134,10 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 <div align="left" clear="all" id="Search_Area">
 <form id="SearchSheBei" name="SearchSheBei" method="post" Action="?Action=Search" onSubmit="return My_CheckSearchDates(this);">
 <span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
-<span style="white-space: nowrap"><label for="S_Shebei">设备：</label><input type="text" name="S_Shebei" value="" id="S_Shebei" size="20" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="S_GuZhang">故障描述：</label><input type="text" name="S_GuZhang" value="" id="S_GuZhang" size="30" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="S_ShenBaoRen">申报人：</label><input type="text" name="S_ShenBaoRen" value="" id="S_ShenBaoRen" size="5" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="S_FenXi">故障分析：</label><input type="text" name="S_FenXi" value="" id="S_FenXi" size="30" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="S_PaiChu">排除情况：</label><input type="text" name="S_PaiChu" value="" id="S_PaiChu" size="20" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_Shebei">设备：</label><input type="text" name="S_Shebei" value="" id="S_Shebei" size="10" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_GuZhang">故障描述：</label><input type="text" name="S_GuZhang" value="" id="S_GuZhang" size="20" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_FenXi">故障分析：</label><input type="text" name="S_FenXi" value="" id="S_FenXi" size="20" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
+<span style="white-space: nowrap"><label for="S_PaiChu">排除情况：</label><input type="text" name="S_PaiChu" value="" id="S_PaiChu" size="5" title="请输入部分关键字" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="S_ShiGongZhe">施工人：</label><input type="text" name="S_ShiGongZhe" value="" id="S_ShiGongZhe" size="5" onblur="return My_CheckField(this);"/></span>
 <input type="submit" value="搜索" name="S_Submit" id="S_Submit"/>
 </form>
@@ -155,7 +152,6 @@ S_GuZhang=htmlencode(Request.form("S_GuZhang"))
 S_PaiChu=htmlencode(Request.form("S_PaiChu"))
 S_FenXi=htmlencode(Request.form("S_FenXi"))
 S_ShiGongZhe=htmlencode(Request.form("S_ShiGongZhe"))
-S_ShenBaoRen=htmlencode(Request.form("S_ShenBaoRen"))
 
 SQL="select * from WeiXiu where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
@@ -164,7 +160,6 @@ If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '%" & S_SheBei &"%'"
 If Len(S_GuZhang)<>0 Then SQL = SQL & " and GuZhang Like '%" & S_GuZhang &"%'"
 If Len(S_FenXi)<>0 Then SQL = SQL & " and FenXi Like '%" & S_FenXi &"%'"
 If Len(S_PaiChu)<>0 Then SQL = SQL & " and PaiChu Like '%" & S_PaiChu &"%'"
-If Len(S_ShenBaoRen)<>0 Then SQL = SQL & " and ShenBaoRen Like '%" & S_ShenBaoRen &"%'"
 If Len(S_ShiGongZhe)<>0 Then SQL = SQL & " and ShiGongZhe = '" & S_ShiGongZhe &"'"
 SQL = SQL & " order by Riqi desc, ShiGongZhe desc, SheBei desc"
 
@@ -190,8 +185,6 @@ for i=0 to howmanyfields
 			response.Write "<th><b>" & "设备" & "</b></th>"
 		Case "GUZHANG":
 			response.Write "<th><b>" & "故障表述" & "</b></th>"
-		Case "SHENBAOREN":
-			response.Write "<th width='60px'><b>" & "申报人" & "</b></th>"
 		Case "FENXI":
 			response.Write "<th class='NeiRong'><b>" & "故障分析" & "</b></th>"
 		Case "PAICHU":
