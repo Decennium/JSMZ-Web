@@ -85,20 +85,21 @@ PaiChu=htmlencode(Request.form("PaiChu"))
 ShiGongZhe=htmlencode(Request.form("ShiGongZhe"))
 Beizhu=htmlencode(Request.form("Beizhu"))
 
-	If (Len(SheBei)>0 And Len(GuZhang)>0 And Len(RiQi)>0 And Len(ShenBaoRen)>0 And Len(ShiGongZhe)>0 And Len(PaiChu)>0) Then
+	If (Len(SheBei)>0 And Len(GuZhang)>0 And Len(RiQi)>0 And Len(ShiGongZhe)>0 And Len(PaiChu)>0) Then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
-			Set Conn=Server.CreateObject("ADODB.Connection")
+		Set Conn=Server.CreateObject("ADODB.Connection")
+	'		If Conn.State=adStateOpen Then Conn.Close
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
 		Sql="INSERT INTO [WeiXiu]([RiQi],[SheBei],[GuZhang],[FenXi],[PaiChu],[ShiGongZhe],[BeiZhu]) VALUES ('"& RiQi &"','"& SheBei &"','"& GuZhang &"','"& FenXi &"','"& PaiChu &"','"& ShiGongZhe &"','"& Beizhu &"')"
 		conn.execute(Sql)
 		Response.Redirect "?Action=ShowSheBei"
-'			Response.End
+'		Response.End
 	End If
-
 	MyRs.Close
+	Conn.Close
 End If
 %>
 <div id="Right_Content" style="align:left;float:left">
@@ -261,8 +262,8 @@ Else
 	Response.Write "<h1>没有找到任何结果，请更改关键词，并重新搜索。</h1>"
 End If
 'End Select
-'MyRs.close
-'Set MyRs= Nothing
+MyRs.close
+Set MyRs= Nothing
 Conn.Close
 set Conn=nothing
 %>

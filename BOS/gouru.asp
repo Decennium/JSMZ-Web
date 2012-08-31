@@ -105,6 +105,7 @@ If Action = "AddRecord" Then
 RiQi=htmlencode(Request.form("RiQi"))
 SheBei=htmlencode(Request.form("SheBei"))
 PinPai=htmlencode(Request.form("PinPai"))
+XingHao=htmlencode(Request.form("XingHao"))
 XuLieHao=htmlencode(Request.form("XuLieHao"))
 DanWei=htmlencode(Request.form("DanWei"))
 ShuLiang=htmlencode(Request.form("ShuLiang"))
@@ -130,13 +131,13 @@ Beizhu=htmlencode(Request.form("Beizhu"))
 				Response.Write "<script>document.getElementById('Tips').innerHTML = '这款设备的购买情况已经登记。';</SCRIPT>"
 	'			MyRs.close
 			Else
-				Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
+				Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XingHao],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XingHao &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
 				conn.execute(Sql)
 				Response.Redirect "?Action=ShowGouRu"
 		'		Response.End
 			End If
 		Else
-			Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
+			Sql="INSERT INTO [GouRu]([RiQi],[SheBei],[PinPai],[XingHao],[XuLieHao],[DanWei],[ShuLiang],[DanJia],[JingShouRen],[YongTu],[OS],[OSXuLieHao],[BeiZhu]) VALUES('" & RiQi &"','" & SheBei &"','"& PinPai &"','"& XingHao &"','"& XuLieHao &"','"& DanWei &"','"& cint(ShuLiang)&"','"& cCur(DanJia) &"','"& JingShouRen &"','" & YongTu &"','"& OS &"','"& OSXuLieHao &"','"& Beizhu &"')"
 			conn.execute(Sql)
 			Response.Redirect "?Action=ShowGouRu"
 		End If
@@ -153,7 +154,8 @@ End If
 <form name="AddNewGouRu" id="AddNewGouRu" method="post" Action="?Action=AddRecord" onSubmit="return My_CheckFields(this);">
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="PinPai">品牌：</label><input type="text" name="PinPai" value="" id="PinPai" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="PinPai">品牌：</label><input type="text" name="PinPai" value="无" id="PinPai" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="XingHao">型号：</label><input type="text" name="XingHao" value="无" id="XingHao" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="XuLieHao">序列号：</label><input type="text" name="XuLieHao" value="无" id="XuLieHao" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="DanWei">单位：</label>
 <select name="DanWei" id="DanWei">
@@ -170,7 +172,7 @@ End If
 	<option value="粒">粒</option>
 	<option value="个">个</option>
 </select></span>
-<span style="white-space: nowrap"><label for="ShuLiang">数量：</label><input type="text" name="ShuLiang" value="" id="ShuLiang" size="5" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="ShuLiang">数量：</label><input type="text" name="ShuLiang" value="1" id="ShuLiang" size="5" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="DanJia">单价：</label><input type="text" name="DanJia" value="" id="DanJia" size="5" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="JingShouRen">经手人：</label><input type="text" name="JingShouRen" value=<%=Session("ShowName")%> id="JingShouRen" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="YongTu">用途：</label><input type="text" name="YongTu" value="" id="YongTu" size="20" onblur="return My_CheckField(this);"></span>
@@ -199,6 +201,7 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 <span style="white-space: nowrap"><label for="S_Riqi">日期：从</label><input type="text" name="S_Riqi" id="S_Riqi" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/><label for="S_Riqi_2">到</label><input type="text" name="S_Riqi_2" id="S_Riqi_2" size="10" readonly="readonly" onclick="choose_date_czw(this.id)"/></span>
 <span style="white-space: nowrap"><label for="S_SheBei">设备：</label><input type="text" name="S_SheBei" value="" id="S_SheBei" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="S_PinPai">品牌：</label><input type="text" name="S_PinPai" value="" id="S_PinPai" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="S_XingHao">型号：</label><input type="text" name="S_XingHao" value="" id="S_XingHao" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="S_XuLieHao">序列号：</label><input type="text" name="S_XuLieHao" value="" id="S_XuLieHao" size="10" onblur="return My_CheckField(this);"></span>
 <!--  -->
 <span style="white-space: nowrap"><label for="S_JingShouRen">经手人：</label><input type="text" name="S_JingShouRen" value="" id="S_JingShouRen" size="5" onblur="return My_CheckField(this);"/></span>
@@ -216,10 +219,11 @@ S_Riqi_2=htmlencode(Request.form("S_Riqi_2"))
 S_SheBei=htmlencode(Request.form("S_SheBei"))
 S_ShiYongRen=htmlencode(Request.form("S_JingShouRen"))
 S_YongTu=htmlencode(Request.form("S_YongTu"))
+S_PinPai=htmlencode(Request.form("S_PinPai"))
+S_XingHao=htmlencode(Request.form("S_XingHao"))
 S_XuLieHao=htmlencode(Request.form("S_XuLieHao"))
 S_OS=htmlencode(Request.form("S_OS"))
 S_OSXuLieHao=htmlencode(Request.form("S_OSXuLieHao"))
-S_PinPai=htmlencode(Request.form("S_PinPai"))
 
 SQL="select * from GouRu where 1=1"
 If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi &"' and '" & S_Riqi_2 &"'"
@@ -230,6 +234,7 @@ If Len(S_YongTu)<>0 Then SQL = SQL & " and YongTu Like '%" & S_YongTu &"%'"
 If Len(S_XuLieHao)<>0 Then SQL = SQL & " and XuLieHao = '" & S_XuLieHao &"'"
 If Len(S_OS)<>0 Then SQL = SQL & " and OS Like '%" & S_OS &"%'"
 If Len(S_PinPai)<>0 Then SQL = SQL & " and PinPai Like '%" & S_PinPai &"%'"
+If Len(S_XingHao)<>0 Then SQL = SQL & " and XingHao Like '%" & S_XingHao &"%'"
 If Len(S_OSXuLieHao)<>0 Then SQL = SQL & " and OSXuLieHao = '" & S_OSXuLieHao &"'"
 SQL = SQL & " order by RiQi desc, JingShouRen desc, SheBei desc"
 
@@ -254,6 +259,8 @@ for i=0 to howmanyfields
 			response.Write "<th><b>" & "设备" & "</b></th>"
 		Case "PINPAI":
 			response.Write "<th><b>" & "品牌" & "</b></th>"
+		Case "XINGHAO":
+			response.Write "<th><b>" & "型号" & "</b></th>"
 		Case "XULIEHAO":
 			response.Write "<th><b>" & "序列号" & "</b></th>"
 		Case "DANWEI":
