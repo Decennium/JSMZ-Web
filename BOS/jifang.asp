@@ -150,10 +150,10 @@ End If
 <select name="Jifang" id="Jifang">
 <%
 if getip="192.168.4.250" then
-	response.write("	<option value=""1机房"" selected=""selected"">1机房</option>" & vbcrlf & "	<option value=""4机房"">4机房</option>")
+	response.write("	<option value=""1机房"" selected=""selected"">1机房</option>" & vbcrlf & "	<option value=""2机房"">2机房</option>" & vbcrlf & "	<option value=""3机房"">3机房</option>" & vbcrlf & "	<option value=""4机房"">4机房</option>")
 else
 'getip="192.168.4.252"
-	response.write("	<option value=""1机房"">1机房</option>" & vbcrlf & "	<option value=""4机房"" selected=""selected"">4机房</option>")
+	response.write("	<option value=""1机房"">1机房</option>" & vbcrlf & "	<option value=""2机房"">2机房</option>" & vbcrlf & "	<option value=""3机房"">3机房</option>" & vbcrlf & "	<option value=""4机房"" selected=""selected"">4机房</option>")
 end if
 %>
 	<option value="教室">教室</option>
@@ -206,6 +206,8 @@ document.getElementById("Jieci").options[i].selected = true;
 <select name="S_Jifang" id="S_Jifang">
 	<option value="%" Selected="Selected">全部</option>
 	<option value="1机房">1机房</option>
+	<option value="2机房">4机房</option>
+	<option value="3机房">4机房</option>
 	<option value="4机房">4机房</option>
 	<option value="教室">教室</option>
 </select></span>
@@ -352,7 +354,7 @@ Next
 <br clear="left">
 <%
 response.write "结果页码："
-PageCount=Int(ResultCount/(PageSize+1))+1
+PageCount=-Int(-ResultCount/(PageSize+1))
 if CurrentPage > 4 then
 	StartPage=CurrentPage-4
 Else

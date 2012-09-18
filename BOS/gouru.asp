@@ -117,15 +117,16 @@ OSXuLieHao=htmlencode(Request.form("OSXuLieHao"))
 Beizhu=htmlencode(Request.form("Beizhu"))
 
 	If (Len(RiQi)>0 And Len(SheBei)>0 And Len(PinPai)>0 And Len(DanWei)>0 And Len(JingShouRen)>0 And _
-		cCur(DanJia)>0 And Cint(ShuLiang)>0 And Len(YongTu)>0) then
+		cCur(DanJia)>=0 And Cint(ShuLiang)>0 And Len(YongTu)>0) then
 		If MyRS.State = adStateClosed Then Set MyRs = Server.CreateObject("ADODB.RecordSet")
 		If isNull(Conn) Then
 			Set Conn=Server.CreateObject("ADODB.Connection")
 			My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
 			Conn.Open My_conn_STRING
 		End If
-		If (Len(XuLieHao)>2 Or Len(OSXuLieHao)>2) Then
-			Sql="Select * from GouRu where XuLieHao='" & XuLieHao & "' Or OSXuLieHao ='" & OSXuLieHao & "'"
+'		If (Len(XuLieHao)>2 Or Len(OSXuLieHao)>2) Then
+		If (Len(XuLieHao)>2) Then
+			Sql="Select * from GouRu where XuLieHao='" & XuLieHao & "'"
 			MyRs.open Sql,Conn,3,2
 			If MyRs.recordcount>0 then
 				Response.Write "<script>document.getElementById('Tips').innerHTML = '这款设备的购买情况已经登记。';</SCRIPT>"
@@ -156,7 +157,7 @@ End If
 <span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="PinPai">品牌：</label><input type="text" name="PinPai" value="无" id="PinPai" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="XingHao">型号：</label><input type="text" name="XingHao" value="无" id="XingHao" size="10" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="XuLieHao">序列号：</label><input type="text" name="XuLieHao" value="无" id="XuLieHao" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="XuLieHao">序列号：</label><input type="text" name="XuLieHao" value="无" id="XuLieHao" size="20" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="DanWei">单位：</label>
 <select name="DanWei" id="DanWei">
 	<option value="套">套</option>
@@ -202,7 +203,7 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 <span style="white-space: nowrap"><label for="S_SheBei">设备：</label><input type="text" name="S_SheBei" value="" id="S_SheBei" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="S_PinPai">品牌：</label><input type="text" name="S_PinPai" value="" id="S_PinPai" size="10" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="S_XingHao">型号：</label><input type="text" name="S_XingHao" value="" id="S_XingHao" size="10" onblur="return My_CheckField(this);"></span>
-<span style="white-space: nowrap"><label for="S_XuLieHao">序列号：</label><input type="text" name="S_XuLieHao" value="" id="S_XuLieHao" size="10" onblur="return My_CheckField(this);"></span>
+<span style="white-space: nowrap"><label for="S_XuLieHao">序列号：</label><input type="text" name="S_XuLieHao" value="" id="S_XuLieHao" size="20" onblur="return My_CheckField(this);"></span>
 <!--  -->
 <span style="white-space: nowrap"><label for="S_JingShouRen">经手人：</label><input type="text" name="S_JingShouRen" value="" id="S_JingShouRen" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="S_YongTu">用途：</label><input type="text" name="S_YongTu" value="" id="S_YongTu" size="20" onblur="return My_CheckField(this);"></span>
@@ -237,7 +238,7 @@ If Len(S_PinPai)<>0 Then SQL = SQL & " and PinPai Like '%" & S_PinPai &"%'"
 If Len(S_XingHao)<>0 Then SQL = SQL & " and XingHao Like '%" & S_XingHao &"%'"
 If Len(S_OSXuLieHao)<>0 Then SQL = SQL & " and OSXuLieHao = '" & S_OSXuLieHao &"'"
 SQL = SQL & " order by RiQi desc, JingShouRen desc, SheBei desc"
-
+'response.write sql
 PageSize=20
 MyRs.open Sql,Conn,3,2
 MyRs.PageSize=PageSize
@@ -296,7 +297,7 @@ End If
 MyRs.absolutepage = Currentpage
 
 For i_s = 1 to ShowPage
-	If MyRs.EOF Then Exit For
+'	If MyRs.EOF Then Exit For
 	if 1 = i_s mod 2 then
 		response.write("<tr id='Data' class='odd'>")
 	else
@@ -334,6 +335,7 @@ For i_s = 1 to ShowPage
 	next
 	response.write("</tr>")
 	MyRs.movenext
+	If MyRs.EOF Then Exit For
 Next
 %>
 </tbody>
@@ -342,13 +344,15 @@ Next
 <br clear="left">
 <%
 response.write "结果页码："
-PageCount=Int(ResultCount/(PageSize+1))+1
+PageCount=-Int(-ResultCount/(PageSize+1))
+'Function Ceil(x) Ceil = -Int(-x) End Function
+'response.write ResultCount &"-" & PageSize & "-" & PageCount
+
 if CurrentPage > 4 then
 	StartPage=CurrentPage-4
 Else
 	StartPage=1
 end if
-
 if PageCount <= 1 then
 	EndPage=1
 Else
@@ -358,6 +362,8 @@ Else
 		EndPage = pageCount
 	end if
 end if
+'StartPage=1
+'EndPage = PageCount
 
 response.write "<a href=""gouru.asp?page=1"">第一页</a> "
 for i=StartPage to EndPage

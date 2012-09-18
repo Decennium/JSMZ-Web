@@ -24,6 +24,8 @@ Select Case Action
 		Sql="Select * from weixiu order by RiQi DESC"
 	Case "waijie"
 		Sql="Select * from waijie order by RiQi DESC"
+	Case "ereading"
+		Sql="Select * from eread order by RiQi DESC"
 	Case Else
 		Response.Redirect "index.asp"
 		Response.End
