@@ -51,7 +51,8 @@ End If
 <p><a href="shiyong.asp">设备使用管理</a></p>
 <p><a href="waijie.asp">设备外借管理</a></p>
 <p><a href="weixiu.asp">设备维修管理</a></p>
-<!-- <hr> -->
+<hr>
+<p><a href="tushushi.asp">图书室开放登记</a></p>
 </div>
 <hr>
 <div id="Tips" width="100%" align="center">小提示</div>
