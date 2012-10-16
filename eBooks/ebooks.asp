@@ -74,7 +74,7 @@ For i = 1 to ShowPage
 	else
 		response.write("<tr id='Data'>")
 	end if
-	response.Write("<td width=200>" & MyRs(0)  & "</td>")
+	response.Write("<td>" & MyRs(0)  & "</td>")
 	response.Write("<td><a href=""/eLibs/" & MyRs(1) & _
 	""" title=""点击即可阅读，或者下载后阅读。如果不能阅读请联系信息技术组"">" & MyRs(2) & "</a></td>")
 	response.write("</tr>")

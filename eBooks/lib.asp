@@ -72,19 +72,7 @@ for i = 0 to howmanyfields
 	If IsNull(ThisRecord) Then
 		ThisRecord = "&nbsp;"
 	end if
-	select case MyRs(I).name
-		case "主要内容":
-			CellWidth=""
-		case "书名":
-			CellWidth="200px"
-		case "著译者","出版社":
-			CellWidth="125px"
-		case "分类号":
-			CellWidth="100px"
-		case else
-			CellWidth=""
-	end select
-	%><td width="<%=CellWidth%>"><%=ThisRecord%></td><%
+	%><td><%=ThisRecord%></td><%
 next %>
 </tr>
 <% MyRs.movenext

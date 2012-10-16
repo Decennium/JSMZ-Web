@@ -55,15 +55,15 @@ if(self.frameElement.tagName=="IFRAME"){
 <br clear=all>
 <form action="result.asp" name="f" method="post">
 <div nowrap>
-<input type="radio" id="ebooks" name="stype" value="ebooks" checked="true" onclick="ShowElement('elib')"><label for="ebooks">电子图书</label>
-<input type="radio" id="slib" name="stype" value="slib" onclick="HideElement('elib')"><label for="slib">学校图书室</label>
-<input type="radio" id="res" name="stype" value="res" onclick="HideElement('elib')"><label for="res">学校资源库</label>
-<input type="radio" id="scodes" name="stype" value="codes" onclick="HideElement('elib')"><label for="scodes">诊断卡代码</label>
+<span style="white-space: nowrap"><input type="radio" id="ebooks" name="stype" value="ebooks" checked="true" onclick="ShowElement('elib')"><label for="ebooks">电子图书</label></span>
+<span style="white-space: nowrap"><input type="radio" id="slib" name="stype" value="slib" onclick="HideElement('elib')"><label for="slib">学校图书室</label></span>
+<span style="white-space: nowrap"><input type="radio" id="res" name="stype" value="res" onclick="HideElement('elib')"><label for="res">学校资源库</label></span>
+<span style="white-space: nowrap"><input type="radio" id="scodes" name="stype" value="codes" onclick="HideElement('elib')"><label for="scodes">诊断卡代码</label></span>
 </div>
 <br clear=all>
 <div nowrap>
 <input type="hidden" name="page" value="1">
-<input maxlength="250" id="q" name="q" size="55" title="你可以输入多个关键词，用空格隔开" value="" onfocus="this.select()" onmouseover="this.select()">
+<input maxlength="50%" id="q" name="q" size="30%" title="你可以输入多个关键词，用空格隔开" value="" onfocus="this.select()" onmouseover="this.select()">
 <input name="btnS" type="submit" value="开始搜索">
 </div>
 </form>

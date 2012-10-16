@@ -33,14 +33,14 @@ document.getElementById("q").focus();
 </div>
 <div align="left" style="clear:right; float:left; ">
 <div>
-<input type="radio" id="ebooks" name="stype" value="ebooks" <%if request("stype")="ebooks" then response.write "checked=true"%>><label for="ebooks">电子图书</label>
-<input type="radio" id="slib" name="stype" value="slib" <%if request("stype")="slib" then response.write "checked=true"%>><label for="slib">学校图书室</label>
-<input type="radio" id="res" name="stype" value="res" <%if request("stype")="res" then response.write "checked=true"%>><label for="res">学校资源库</label>
-<input type="radio" id="scodes" name="stype" value="codes" <%if request("stype")="codes" then response.write "checked=true"%>><label for="scodes">诊断卡代码</label>
+<span style="white-space: nowrap"><input type="radio" id="ebooks" name="stype" value="ebooks" <%if request("stype")="ebooks" then response.write "checked=true"%>><label for="ebooks">电子图书</label></span>
+<span style="white-space: nowrap"><input type="radio" id="slib" name="stype" value="slib" <%if request("stype")="slib" then response.write "checked=true"%>><label for="slib">学校图书室</label></span>
+<span style="white-space: nowrap"><input type="radio" id="res" name="stype" value="res" <%if request("stype")="res" then response.write "checked=true"%>><label for="res">学校资源库</label></span>
+<span style="white-space: nowrap"><input type="radio" id="scodes" name="stype" value="codes" <%if request("stype")="codes" then response.write "checked=true"%>><label for="scodes">诊断卡代码</label></span>
 </div>
 <div>
 <input type="hidden" name="page" value="1">
-<input maxlength="250" id="q" name="q" size="55" title="你可以输入多个关键词，用空格隔开" value="<%=request("q")%>" onfocus="this.select()" onmouseover="this.select()">
+<input  maxlength="50%" id="q" name="q" size="30%" title="你可以输入多个关键词，用空格隔开" value="<%=request("q")%>" onfocus="this.select()" onmouseover="this.select()">
 <input name="btnS" type="submit" value="搜索">
 </div>
 </div>
