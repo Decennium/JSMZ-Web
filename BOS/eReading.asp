@@ -1,6 +1,7 @@
 <!--#include file="top.asp"-->
 <html>
 <head>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=2.0"/>
 <meta http-equiv="content-type" content="text/html; charset=gb2312">
 <title>电子阅读管理系统</title>
 <link href="../css/css.css" rel="stylesheet">

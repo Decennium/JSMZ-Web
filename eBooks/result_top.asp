@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=2.0"/>
 <meta http-equiv="content-type" content="text/html; charset=gb2312">
 <!--<meta http-equiv="content-type" content="text/html; charset=UTF-8"> -->
 <link href="../css/css.css" rel="stylesheet">
