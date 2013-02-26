@@ -21,6 +21,7 @@ Case "logincheck"
 	If not mRs.eof then
 		Session("Admin")=mRs("Name")
 		Session("ShowName")=mRs("ShowName")
+		Session("ComputerLab")=mRs("ComputerLab")
 		Response.Redirect Url
 		'Response.End
 	Else

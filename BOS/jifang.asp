@@ -149,15 +149,11 @@ End If
 <span style="white-space: nowrap"><label for="Banji">班级：</label><input type="text" name="Banji" value="" id="Banji" size="3" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="Jifang">机房：</label>
 <select name="Jifang" id="Jifang">
-<%
-if getip="192.168.4.250" then
-	response.write("	<option value=""1机房"" selected=""selected"">1机房</option>" & vbcrlf & "	<option value=""2机房"">2机房</option>" & vbcrlf & "	<option value=""3机房"">3机房</option>" & vbcrlf & "	<option value=""4机房"">4机房</option>")
-else
-'getip="192.168.4.252"
-	response.write("	<option value=""1机房"">1机房</option>" & vbcrlf & "	<option value=""2机房"">2机房</option>" & vbcrlf & "	<option value=""3机房"">3机房</option>" & vbcrlf & "	<option value=""4机房"" selected=""selected"">4机房</option>")
-end if
-%>
-	<option value="教室">教室</option>
+	<option value="1机房"<%If Session("ComputerLab")="1机房" Then Response.write " Selected"%>>1机房</option>
+	<option value="2机房"<%If Session("ComputerLab")="2机房" Then Response.write " Selected"%>>2机房</option>
+	<option value="3机房"<%If Session("ComputerLab")="3机房" Then Response.write " Selected"%>>3机房</option>
+	<option value="4机房"<%If Session("ComputerLab")="4机房" Then Response.write " Selected"%>>4机房</option>
+	<option value="教室"<%If Session("ComputerLab")="教室" Then Response.write " Selected"%>>教室</option>
 </select></span>
 <span style="white-space: nowrap"><label for="Neirong">内容：</label><input type="text" name="Neirong" value="" id="Neirong" size="40" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="ChuQin">出勤状况：</label><input type="text" name="ChuQin" value="满勤" id="ChuQin" size="3" onblur="return My_CheckField(this);"/></span>
@@ -207,8 +203,8 @@ document.getElementById("Jieci").options[i].selected = true;
 <select name="S_Jifang" id="S_Jifang">
 	<option value="%" Selected="Selected">全部</option>
 	<option value="1机房">1机房</option>
-	<option value="2机房">4机房</option>
-	<option value="3机房">4机房</option>
+	<option value="2机房">2机房</option>
+	<option value="3机房">3机房</option>
 	<option value="4机房">4机房</option>
 	<option value="教室">教室</option>
 </select></span>
