@@ -168,6 +168,7 @@ document.getElementById('Riqi').value = year + "-" + month + "-" + day;
 	<option value="%">不论</option>
 	<option value="未归还" Selected="Selected">未归还</option>
 	<option value="已归还">已归还</option>
+	<option value="不需归还">不需归还</option>
 	<option value="遗失">遗失</option>
 	<option value="被盗">被盗</option>
 </select></span>
@@ -189,7 +190,11 @@ If Len(S_Riqi)<>0 AND Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & 
 If Len(S_Riqi)<>0 XOR Len(S_Riqi_2)<>0 Then SQL = SQL & " and Riqi between '" & S_Riqi & S_Riqi_2 &"' and '" & S_Riqi & S_Riqi_2 &"'"
 If Len(S_ShenQingRen)<>0 Then SQL = SQL & " and ShenQingRen Like '%" & S_ShenQingRen &"%'"
 If Len(S_SheBei)<>0 Then SQL = SQL & " and SheBei Like '%" & S_SheBei &"%'"
-If Len(S_GuiHuan)<>0 Then SQL = SQL & " and GuiHuan Like '" & S_GuiHuan &"'"
+If Len(S_GuiHuan)<>0 Then
+	SQL = SQL & " and GuiHuan Like '" & S_GuiHuan &"'"
+Else
+	SQL = SQL & " and GuiHuan Like '未归还'"
+End If
 If Len(S_FaFangRen)<>0 Then SQL = SQL & " and FaFangRen = '" & S_FaFangRen &"'"
 SQL = SQL & " order by Riqi desc"
 'response.write sql
@@ -276,7 +281,7 @@ For i_s = 1 to ShowPage
 			Select Case Ucase(MyRs(i_c).Name)
 			Case "GUIHUAN"
 				If ThisRecord = "未归还" Then
-					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='page' value='" & Currentpage & "'/><select name=""GuiHuan"" id=""GuiHuan""><option value=""未归还"" Selected=""Selected"">未归还</option><option value=""已归还"">已归还</option><option value=""遗失"">遗失</option><option value=""被盗"">被盗</option></select></td>")
+					Response.write("<form name='AddCheck' id='AddCheck' method='post' Action='?Action=AddCheck'><td><input type='hidden' name='page' value='" & Currentpage & "'/><select name=""GuiHuan"" id=""GuiHuan""><option value=""未归还"" Selected=""Selected"">未归还</option><option value=""已归还"">已归还</option><option value=""不需归还"">不需归还</option><option value=""遗失"">遗失</option><option value=""被盗"">被盗</option></select></td>")
 				Else
 					Response.write("<td>" & ThisRecord & "</td>")
 				End If
