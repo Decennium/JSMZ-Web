@@ -39,19 +39,17 @@ end if
 For m=month(now()) to 1 step -1
 	response.write " | <a href=""?year=" & year(Now()) & "&month=" & m & """>" & year(Now()) & "年" & m & "月" & "</a>"
 Next
-	response.write " | <a href=""?year=&month="">全部</a>"
-
+response.write " | <a href=""?year=&month="">全部</a>"
 %>
 
 <hr>
 </div>
 <div style="text-align:left;">
 <%do while not rs.eof%>
-<p>发布者：<%=rs("ZuoZhe")%></p>
 <p>标　题：<strong><%=rs("BiaoTi")%></strong></p>
 <p>关键词：<%=rs("GuanJianCi")%></p>
 <p>内　容：</p><div style="line-height:150%; text-align:justify; text-indent:2em; "><%=rs("NeiRong")%></div>
-<p>通知时间：<%=rs("ShiJian")%></p>
+<p>发布者：<%=rs("ZuoZhe")%>，通知时间：<%=rs("ShiJian")%></p>
 <%if session("Admin")<>"" then%>
 <p><a href="del.asp?id=<%=rs("id")%>">[删除]</a></p>
 <%end if%>

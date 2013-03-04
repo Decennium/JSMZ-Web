@@ -69,7 +69,7 @@ if(self.frameElement.tagName=="IFRAME"){
 </div>
 </form>
 <br clear=all>
-<div id="Rnd" align="center">
+<div id="Rnd"align="center">
 <%If ResultCount > 0 then
 	response.Write("<p>随机推荐书籍：<a href=""/eLibs/" & MyRs(1) & chr(34) & _
 	" title=" & chr(34) &"点击即可阅读，或者下载后阅读。如果不能阅读请联系信息技术组" & chr(34) & ">" & _
@@ -77,10 +77,49 @@ if(self.frameElement.tagName=="IFRAME"){
 End If
 
 MyRs.close
+'Set MyRs= Nothing
+MyConn.Close
+'set MyConn=nothing
+%>
+<div style="width:600px;text-align:left;" align="center">
+<hr>
+<%
+'接下来显示当月通知
+'Set MyRs = Server.CreateObject("ADODB.RecordSet")
+'Set MyConn=Server.CreateObject("ADODB.Connection")
+
+My_conn_STRING = "Provider=SQLOLEDB;server=S21;database=BOS;uid=sa;pwd="
+MyConn.Open My_conn_STRING
+
+MySQL="select top 1 * from [tongzhi] order by ShiJian desc"
+MyRs.cursorlocation=3 
+MyRs.open MySQL,MyConn,3,2
+
+if not MyRs.eof then
+%>
+<h2 align="center">最新通知</h2>
+<hr>
+<p>标　题：<strong><%=MyRs("BiaoTi")%></strong></p>
+<p>关键词：<%=MyRs("GuanJianCi")%></p>
+<p>内　容：</p><div style="line-height:150%; text-align:justify; text-indent:2em; "><%=MyRs("NeiRong")%></div>
+<p>发布者：<%=MyRs("ZuoZhe")%>，通知时间：<%=MyRs("ShiJian")%></p>
+<%
+else
+	response.write "<h2 align=""center"">没有任何通知</h2>"
+end if
+MyRs.close
+
 Set MyRs= Nothing
 MyConn.Close
 set MyConn=nothing
+
+Function IIf( expr, truepart, falsepart )
+   IIf = falsepart
+   If expr Then IIf = truepart
+End Function
 %>
+<hr>
+</div>
 </div>
 <!--#include file="../include/bottom.asp"-->
 </body>

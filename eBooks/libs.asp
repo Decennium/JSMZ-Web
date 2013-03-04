@@ -21,7 +21,7 @@
 <p><a href="/elibs/WenShiZhiShi/" target="Neirong">文史知识（1-234）</a></p>
 </div>
 </div>
-<iframe src="/elib/classic/menu/index.htm"name="Neirong" id="Neirong" style="border:10px" width="90%" height="90%">
+<iframe src="/elib/classic/menu/index.htm"name="Neirong" id="Neirong" style="border:10px" width="85%" height="90%">
 </iframe>
 <!--#include file="../include/bottom.asp"-->
 <script language="javascript">
