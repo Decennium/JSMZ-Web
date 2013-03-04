@@ -2,7 +2,8 @@
 <html>
 <head>
 <title>发布通知</title>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=2.0"/>
+<meta http-equiv="content-type" content="text/html; charset=gb2312">
 <link href="../css/css.css" rel="stylesheet">
 </head>
 
