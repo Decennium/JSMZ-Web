@@ -107,7 +107,7 @@ mRs.open Sql,conn,1,1
 <table border="0" width="100%" style="margin-top:0px">
 <thead>
 	<tr>
-		<th colspan="6">管理员列表</th>
+		<th colspan="7">管理员列表</th>
 	</tr>
 </thead>
 <tbody>
@@ -161,10 +161,16 @@ Pass=Request.form("Pass")
 	ElseIf len(Pass)>0 And (len(Pass)<6 or len(Pass)>16) then
 		Response.Write "<script>document.getElementById('Tips').innerHTML = '密码长度太短或太长';</SCRIPT>"
 	Else
-	Sql="Insert Into [Admin] (Name,Pass,ShowName,ComputerLab) values ('"& Name &"','"& md5(Pass) &"','" & ShowName & "','" & ComputerLab & "')"
-	conn.execute(Sql)
-		Response.Redirect "?Action="
-		Response.End
+		Set mRs=conn.execute("select * from [Admin] where Name='"& Name & "'")
+		If not mRs.eof then
+			Response.Write "<script>document.getElementById('Tips').innerHTML = '用户名重复';</SCRIPT>"
+			Response.End
+		Else
+			Sql="Insert Into [Admin] (Name,Pass,ShowName,ComputerLab) values ('"& Name &"','"& md5(Pass) &"','" & ShowName & "','" & ComputerLab & "')"
+			conn.execute(Sql)
+			Response.Redirect "?Action="
+			Response.End
+		End If
 	End If
 
 '修改管理员密码调用
@@ -185,9 +191,9 @@ Case "AdminModpass"
 		Response.End
 	End If
 	If Len(Request.form("Pass")) >= 6 Then
-		Sql="update [Admin] Set Name='"& Name & "',ShowName='" & ShowName & "',Pass='"& Pass &"' ,ComputerLab='" & ComputerLab & "' where Id="& Id &""
+		Sql="update [Admin] Set ShowName='" & ShowName & "',Pass='"& Pass &"' ,ComputerLab='" & ComputerLab & "' where Id="& Id &""
 	Else
-		Sql="update [Admin] Set Name='"& Name & "',ShowName='" & ShowName & "',ComputerLab='" & ComputerLab & "' where Id="& Id &""
+		Sql="update [Admin] Set ShowName='" & ShowName & "',ComputerLab='" & ComputerLab & "' where Id="& Id &""
 	End If
 	'Response.write sql
 	conn.execute(Sql)
@@ -212,7 +218,7 @@ Case "Admin_Modpass"
 	<form method="post" Action="?Action=AdminModpass" onSubmit="return AdminModpass(this);">
 		<input type="hidden" name="Id" value="<% =id %>" />
 		<label for="Name">登录名：</label>
-		<input name="Name" type="text" value="<% =Request.Querystring("Name") %>" size="10"/>
+		<input name="Name" type="text" value="<% =Request.Querystring("Name") %>" readonly size="10"/>
 		<label for="ShowName">显示名：</label>
 		<input name="ShowName" type="text" value="<% =Request.Querystring("ShowName") %>" size="10"/>
 		<label for="ComputerLab">机房：</label>
