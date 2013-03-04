@@ -9,7 +9,7 @@
 </head>
 <body>
 <!--#include file="../include/banner.asp"-->
-<!--#include file="left_banner.asp"-->
+<!--#include file="../include/left_banner.asp"-->
 <script language="javascript">
 //**********添加管理员调用**********
 function Addadmin(the){

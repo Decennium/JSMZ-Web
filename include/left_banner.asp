@@ -1,4 +1,4 @@
-<div name="Left_Banner" id="Left_Banner" style="height:100%;width:150px;max-width:150px;clear:left;float:left;margin-right:10px">
+<div name="Left_Banner" id="Left_Banner">
 <div style="width:150px;max-width:150px;clear:left;float:left">
 	<a href="http://192.168.2.1/">
 	<img src="/images/jsmz_logo_mini.png" alt="JSMZ Logo" border="0" align="left">
@@ -53,7 +53,7 @@ End If
 <p><a href="/BOS/weixiu.asp">设备维修管理</a></p>
 <hr>
 <p><a href="/BOS/tushushi.asp">图书室开放登记</a></p>
-<p><a href="/tz/index.asp">发布通知</a></p>
+<p><a href="/tz/index.asp">学校通知管理</a></p>
 </div>
 <hr>
 <div id="Tips" width="100%" align="center">小提示</div>

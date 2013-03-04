@@ -9,7 +9,7 @@
 <body dir="ltr">
 <!--#include file="../include/banner.asp"-->
 <div style="float:left;">
-<!--#include file="left_banner.asp"-->
+<!--#include file="../include/left_banner.asp"-->
 </div>
 <%
 Select Case Action
@@ -37,7 +37,7 @@ Case "logout"
 	Response.End
 End Select
 %>
-<div style="width="100%";float:left">
+<div id="Right_Content">
 <div class="HeadLine">科技馆日常工作管理系统</div>
 <div class="ShowTips">
 	<p>您可以随时浏览科技馆特别是信息技术组的工作情况。</p>

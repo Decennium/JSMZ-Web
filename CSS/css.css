@@ -111,8 +111,16 @@ DIV.underline {
 	padding-bottom : 5px;
 }
 Div#Right_Content {
-width:100%;
-width:expression(document.body.offsetWidth > 800? document.body.offsetWidth - 190: "auto" );
+margin:0 0 0 150px;
+width:auto;
+}
+Div#Left_Banner {
+height:100%;
+margin-right:-150px;
+width:150px;
+max-width:150px;
+clear:left;
+float:left;
 }
 table {
 border:1px solid #e5eff8;

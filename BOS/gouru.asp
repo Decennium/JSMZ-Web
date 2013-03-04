@@ -92,7 +92,7 @@ function My_CheckField(the){
 </head>
 <body>
 <!--#include file="../include/banner.asp"-->
-<!--#include file="left_banner.asp"-->
+<!--#include file="../include/left_banner.asp"-->
 <%
 Action=Request.Querystring("Action")
 If Action = "AddRecord" Then
