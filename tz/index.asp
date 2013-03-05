@@ -51,6 +51,7 @@ response.write " | <a href=""?year=&month="">全部</a>"
 <p>内　容：</p><div style="line-height:150%; text-align:justify; text-indent:2em; "><%=rs("NeiRong")%></div>
 <p>发布者：<%=rs("ZuoZhe")%>，通知时间：<%=rs("ShiJian")%></p>
 <%if session("Admin")<>"" then%>
+<p>附　件：<a href="<%="upload/"&rs("FuJian")%>"><%=rs("FuJian")%></a></p>
 <p><a href="del.asp?id=<%=rs("id")%>">[删除]</a></p>
 <%end if%>
 <hr>

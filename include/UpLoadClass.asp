@@ -1,91 +1,10 @@
-﻿<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
-<!--#include file="../global.asp"-->
 <%
-If loginStat=0 Then
-Response.Write "{""error"":1,""message"":""无权限操作""}"
-Response.End()
-End If
-Dim Fso,message
-
-Sub FolderNameCheck(FolderNameNew)
-	Set Fso=Server.CreateObject("Scripting.FileSystemObject")
-	If Fso.FolderExists(server.MapPath(FolderNameNew))=False Then
-		Fso.CreateFolder(server.MapPath(FolderNameNew))
-	End If
-	Set Fso=Nothing
-End Sub
-Dim sSavePath : sSavePath = "../upload/" & Year(Now) & Right("0"&Month(Now),2) & "/" : Call FolderNameCheck(sSavePath)
-Dim UpFile
-set UpFile = New UpLoadClass
-UpFile.AutoSave = 2
-UpFile.MaxSize = 1024 * 1024 * 20  '# (1024*1024=1M) SESSION里的单位为KB
-UpFile.FileType =  "doc/xls/ppt/pps/docx/xlsx/pptx/wps/rar/zip/7z/jpg/jpeg/png" '允许上传文件类型
-UpFile.Charset="UTF-8"
-UpFile.SavePath = sSavePath
-UpFile.Open() '# 打开对象
-If UpFile.Save("imgFile",0) Then
-	'If IsJpeg="1" Then Call CreateView(sSavePath & UpFile.Form("imgFile"))	
-	Response.Write "{""error"":0,""url"":"""&Replace(sSavePath,"../","") & UpFile.Form("imgFile")&"""}"
-Else
-	Select Case UpFile.Form("imgFile_Err")
-	Case -1 : message= "没有文件上传，请重新上传"
-	Case 1 : message=  "文件大小超出限制，请重新上传"
-	Case 2 : message=  "不允许上传的文件类型，请重新上传"
-	Case 3 : message=  "文件大小超出限制并且是不允许上传的文件类型，请重新上传"
-	Case Else : message= "未知错误，请重新上传"
-	End Select		
-	Response.Write "{""error"":1,""message"":"""&message&"""}"
-End If
-Set UpFile = Nothing	
-'设置缩略图
-Sub CreateView(filename)
-	Dim Jpeg,iWidth,iHeight,iiwidth,iiheight,L,S,MyJpeg,TempA
-	Set Jpeg = Server.CreateObject("Persits.Jpeg")
-	Jpeg.Open Server.MapPath(filename) 
-	iWidth=Jpeg.OriginalWidth          
-	iHeight=Jpeg.OriginalHeight 
-	iiwidth=88                         
-	iiheight=31     
-	L=500
-	S=230
-	If iHeight>L or iWidth>L Then
-		If iWidth > iHeight Then
-			Jpeg.Width = L
-			Jpeg.Height = iHeight * L / iWidth
-		Else
-			Jpeg.Height = L
-			Jpeg.Width = iWidth * L / iHeight
-		End If  
-	End If
-	'水印开始
-	TempA=Jpeg.Binary
-	Set MyJpeg = Server.CreateObject("Persits.Jpeg") 
-	MyJpeg.OpenBinary TempA                              
-	MyJpeg.Canvas.DrawPNG MyJpeg.OriginalWidth-iiWidth-5, MyJpeg.OriginalHeight-iiHeight-2,Server.MapPath("../images/mark.png")
-	MyJpeg.Save Server.MapPath(filename)   
-	Set TempA = Nothing  
-	MyJpeg.Close
-	Set MyJpeg = Nothing
-	'水印结束
-	If iHeight>S or iWidth>S Then
-		If iWidth > iHeight Then
-			Jpeg.Width = S
-			Jpeg.Height = iHeight * S / iWidth
-		Else
-			Jpeg.Height = S
-			Jpeg.Width = iWidth * S / iHeight
-		End If  
-	End If
-	Jpeg.Save Server.MapPath(Replace(filename,"b_","s_"))
-	Jpeg.Close
-	Set Jpeg = Nothing
-End Sub
 '----------------------------------------------------------
-'**************  风声 ASP 无组件上传类 V2.11  *************
-'作者：风声
-'网站：http://www.fonshen.com
-'邮件：webmaster@fonshen.com
-'版权：版权全体,源代码公开,各种用途均可免费使用
+'**************  ���� ASP ������ϴ��� V2.11  *************
+'���ߣ�����
+'��վ��http://www.fonshen.com
+'�ʼ���webmaster@fonshen.com
+'��Ȩ����Ȩȫ��,Դ���빫��,������;�������ʹ��
 '**********************************************************
 '----------------------------------------------------------
 Class UpLoadClass
@@ -152,10 +71,10 @@ Class UpLoadClass
 		m_TotalSize= 0
 		m_MaxSize  = 153600
 		m_FileType = "jpg/gif"
-		m_SavePath = "/UploadFiles/"
+		m_SavePath = ""
 		m_AutoSave = 0
 		Dim dtmNow : dtmNow = Date()
-		m_strDate  = "b_"&Year(dtmNow)&Right("0"&Month(dtmNow),2)&Right("0"&Day(dtmNow),2)
+		m_strDate  = Year(dtmNow)&Right("0"&Month(dtmNow),2)&Right("0"&Day(dtmNow),2)
 		m_lngTime  = Clng(Timer()*1000)
 		Set m_binForm = Server.CreateObject("ADODB.Stream")
 		Set m_binItem = Server.CreateObject("ADODB.Stream")
