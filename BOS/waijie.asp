@@ -137,7 +137,7 @@ End If
 <span style="white-space: nowrap"><label for="Riqi">日期：</label><input type="text" name="Riqi" id="Riqi" size="10" readonly="readonly" onclick="choose_date_czw('Riqi')"/></span>
 <span style="white-space: nowrap"><label for="ShenQingRen">申请人：</label><input type="text" name="ShenQingRen" value="" id="ShenQingRen" size="5" onblur="return My_CheckField(this);"></span>
 <span style="white-space: nowrap"><label for="SheBei">设备：</label><input type="text" name="SheBei" value="" id="SheBei" size="20" onblur="return My_CheckField(this);"/></span>
-<span style="white-space: nowrap"><label for="JieQi">借期：</label><input type="text" name="JieQi" value="" id="JieQi" size="3" onblur="return My_CheckField(this);"/><label for="JieQi">天，</label></span>
+<span style="white-space: nowrap"><label for="JieQi">借期：</label><input type="text" name="JieQi" value="150" id="JieQi" size="3" onblur="return My_CheckField(this);"/><label for="JieQi">天，</label></span>
 <span style="white-space: nowrap"><label for="MiaoShu">设备描述：</label><input type="text" name="MiaoShu" value="一切正常" id="MiaoShu" size="20" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="FaFangRen">发放人：</label><input type="text" name="FaFangRen" value='<%=Session("ShowName")%>' id="FaFangRen" size="5" onblur="return My_CheckField(this);"/></span>
 <span style="white-space: nowrap"><label for="Beizhu">备注：</label><input type="text" name="Beizhu" value="" id="Beizhu" size="10"/></span>

@@ -5,13 +5,15 @@ If not isnull(fString) then
 	fString = trim(fString)
 	fString = Replace(fString, ">", "&gt;")
 	fString = Replace(fString, "<", "&lt;")
+	fString = Replace(fString, chr(0), "&nbsp;")
 	fString = Replace(fString, CHR(32), "&nbsp;")
 	fString = Replace(fString, CHR(9), "&nbsp;")
 	fString = Replace(fString, CHR(34), "&quot;")
 	fString = Replace(fString, CHR(39), "&#39;")
 	fString = Replace(fString, CHR(13) & CHR(10), "</p><p>")
 	fString = Replace(fString, CHR(10) & CHR(10), "</p><p>")
-	fString = Replace(fString, CHR(10), "<br>")
+	fString = Replace(fString, CHR(10), "</p><p>")
+	fString = Replace(fString, CHR(13), "</p><p>")
 	htmlencode = fString
 End If
 End Function

@@ -22,6 +22,7 @@ Case "logincheck"
 		Session("Admin")=mRs("Name")
 		Session("ShowName")=mRs("ShowName")
 		Session("ComputerLab")=mRs("ComputerLab")
+		Session("Rights")=mRs("Rights")
 		Response.Redirect Url
 		'Response.End
 	Else
