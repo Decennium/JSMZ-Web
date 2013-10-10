@@ -33,11 +33,17 @@ function My_CheckFields(the){
 		the.Riqi.focus();
 		return false;
 	}
-	if (!My_IsClassNum(the.ClassNum.value)){
+/*	if (!My_IsClassNum(the.ClassNum.value)){
+		document.getElementById('Tips').innerHTML = '请保证输入的教室编号格式如H101-H412形式!';
+		the.ClassNum.focus();
+		return false;
+	}*/
+	if (the.ClassNum.value==""){
 		document.getElementById('Tips').innerHTML = '请保证输入的教室编号格式如H101-H412形式!';
 		the.ClassNum.focus();
 		return false;
 	}
+
 	if (the.YongTu.value=="") {
 		document.getElementById('Tips').innerHTML = '用途不能为空';
 		the.YongTu.focus();

@@ -14,7 +14,7 @@
 	</a>
 </div>
 
-<div style="clear:left;float:left" width="150px">
+<div style="clear:left;float:left;word-break:keep-all;" width="150px">
 	<p><a href="/Resources/ClassWare/" target='Neirong' onclick="javascript:document.getElementById('area').value='Classware';">校内课件资源</a></p>
 	<p><%Response.Write "<a href=" & Chr(34) & "http://" & Request.ServerVariables("Local_Addr") & ":8080/" & Chr(34) & " target='Neirong' onclick='javascript:document.getElementById(" & Chr(34) & "area" & Chr(34) & ").value=" & Chr(34) & "Intranet" & Chr(34) & ";'>内部共享资源</a>"%></p>
 	<p><a href="http://192.168.2.6/" target='Neirong' onclick="javascript:document.getElementById('area').value='Video';">校内视频资源</a></p>

@@ -117,6 +117,7 @@ width:auto;
 Div#Left_Banner {
 height:100%;
 margin-right:-150px;
+margin-right:0px\9;
 width:150px;
 max-width:150px;
 clear:left;
