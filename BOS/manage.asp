@@ -9,7 +9,7 @@
 </head>
 <body>
 <!--#include file="../include/banner.asp"-->
-<!--#include file="../include/left_banner.asp"-->
+<!--#include file="../include/second_banner.asp"-->
 <script language="javascript">
 //**********添加管理员调用**********
 function Addadmin(the){
@@ -103,7 +103,7 @@ Set mRs=Server.CreateObject("adodb.recordSet")
 Sql="Select Id,Name,ShowName,ComputerLab from Admin"
 mRs.open Sql,conn,1,1
 %>
-<div id="Right_Content" width='100%' style="float:left">
+<div id="Content" width='100%' style="float:left">
 <table border="0" width="100%" style="margin-top:0px">
 <thead>
 	<tr>

@@ -12,7 +12,7 @@ startime=timer()
 
 '网站设置
 dim Url,Title,Keywords,Description,Notice,liuyan
-Url="Index.asp"													'网页执行操作后返回地址
+Url="Index.asp" '网页执行操作后返回地址
 
 '防SQL注入
 squery=lcase(Request.ServerVariables("QUERY_STRING"))

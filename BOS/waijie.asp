@@ -62,7 +62,7 @@ function My_CheckField(the){
 </head>
 <body>
 <!--#include file="../include/banner.asp"-->
-<!--#include file="../include/left_banner.asp"-->
+<!--#include file="../include/second_banner.asp"-->
 <%
 Action=Request.Querystring("Action")
 If Action = "AddRecord" Then
@@ -128,7 +128,7 @@ If Action = "AddCheck" Then
 	End If
 End If
 %>
-<div id="Right_Content" style="align:left;float:left">
+<div id="Content" style="align:left;float:left">
 <%If Session("Admin")<>"" then%>
 <div align="left" style="clear:left;float:left;nowrap;width:200px;margin:5px 100px 5px 100px"><strong>添加设备外借记录</strong></div>
 <br clear="all"/>
